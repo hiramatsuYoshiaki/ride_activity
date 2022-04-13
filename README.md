@@ -1,16 +1,13 @@
 # ride_activity
+    仲間と自転車ライフを楽しくする！
+    Ride Activity
 
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## create a new repository on the command line
+1. 新しいリポジトリを作る（read meは作らない）
+    https://github.com/hiramatsuYoshiaki/ride_activity.git
+2. git init
+3. git add -A
+4. git commit -m "first commit"
+5. git branch -M main
+6. git remote add origin https://hiramatsuYoshiaki:ghp_xxxxx@github.com/hiramatsuYoshiaki/ride_activity.git
+7. git push -u origin main
