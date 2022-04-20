@@ -1,10 +1,9 @@
 enum ApplicationLoginState {
   loggedOut,
   emailAdress,
-  registar,
+  register,
   password,
   loggedIn,
-  loginUser,
 }
 
 enum AuthState {
