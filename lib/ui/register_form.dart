@@ -8,12 +8,17 @@ class RegisterForm extends StatefulWidget {
       {required this.email,
       required this.displayName,
       required this.password,
+      required this.registerAccount,
       required this.setLoginState,
-      Key? key});
+      Key? key})
+      : super(key: key);
   final String email;
   final String displayName;
   final String password;
+  final void Function(String email, String displayName, String password)
+      registerAccount;
   final void Function(ApplicationLoginState status) setLoginState;
+
   @override
   _RegisterFormState createState() => _RegisterFormState();
 }
@@ -23,15 +28,6 @@ class _RegisterFormState extends State<RegisterForm> {
   final _emailController = TextEditingController();
   final _displayNameController = TextEditingController();
   final _passwordController = TextEditingController();
-
-  // get child => null;
-
-  // void initState() {
-  // super.initState();
-  // _emailController.text = widget.email;
-  // _displayNameController.text = widget.email;
-  // _passwordController.text = widget.email;
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -97,7 +93,7 @@ class _RegisterFormState extends State<RegisterForm> {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 32),
+                  padding: const EdgeInsets.symmetric(horizontal: 32),
                   child: TextFormField(
                     controller: _passwordController,
                     decoration: const InputDecoration(
@@ -108,26 +104,20 @@ class _RegisterFormState extends State<RegisterForm> {
                       if (value!.isEmpty) {
                         return 'パスワードは必須です';
                       }
-                      if (value != null) {
-                        String pattern = r'^[a-zA-Z0-9.?/-]{8,}$';
-                        RegExp regExp = RegExp(pattern);
-                        if (!regExp.hasMatch(value)) {
-                          return '8文字以上の英数字を入力してください';
-                        }
+                      String pattern1 = r'^[a-zA-Z0-9.?/-]{8,}$';
+                      RegExp regExp1 = RegExp(pattern1);
+                      if (!regExp1.hasMatch(value)) {
+                        return '8文字以上の英数字を入力してください';
                       }
-                      if (value != null) {
-                        String pattern = r'(?=.*[A-Z])';
-                        RegExp regExp = RegExp(pattern);
-                        if (!regExp.hasMatch(value)) {
-                          return '少なくとも大文字を1つ以上使ってください';
-                        }
+                      String pattern2 = r'(?=.*[A-Z])';
+                      RegExp regExp2 = RegExp(pattern2);
+                      if (!regExp2.hasMatch(value)) {
+                        return '少なくとも大文字を1つ以上使ってください';
                       }
-                      if (value != null) {
-                        String pattern = r'(?=.*[0-9])';
-                        RegExp regExp = RegExp(pattern);
-                        if (!regExp.hasMatch(value)) {
-                          return '少なくとも数字を1つ以上使ってください';
-                        }
+                      String pattern3 = r'(?=.*[0-9])';
+                      RegExp regExp3 = RegExp(pattern3);
+                      if (!regExp3.hasMatch(value)) {
+                        return '少なくとも数字を1つ以上使ってください';
                       }
                     },
                   ),
@@ -148,8 +138,11 @@ class _RegisterFormState extends State<RegisterForm> {
                       ElevatedButton(
                           onPressed: () {
                             if (_formKey.currentState!.validate()) {
-                              widget.setLoginState(
-                                  ApplicationLoginState.loggedOut);
+                              widget.registerAccount(
+                                _emailController.text,
+                                _displayNameController.text,
+                                _passwordController.text,
+                              );
                             }
                           },
                           child: const Text('アカウント作成')),

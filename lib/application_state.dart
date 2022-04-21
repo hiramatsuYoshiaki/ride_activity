@@ -7,67 +7,91 @@ class ApplicationState extends ChangeNotifier {
     init();
   }
   ApplicationLoginState _loginState = ApplicationLoginState.loggedOut;
-  // ApplicationLoginState _loginState = ApplicationLoginState.loggedIn;
   ApplicationLoginState get loginState => _loginState;
-  // void setLoginState({required ApplicationLoginState loginState}) {
-  //   _loginState = loginState as ApplicationLoginState;
-  //   notifyListeners();
-  // }
-  // void startLoginFlow() {
-  //   _loginState = ApplicationLoginState.emailAdress;
-  //   notifyListeners();
-  // }
 
-  // void verifyEmail() {
-  //   _loginState = ApplicationLoginState.password;
-  //   notifyListeners();
+  // Future<void> verifyEmail(
+  //   String email,
+  //   void Function(FirebaseAuthException e) errorCallback,
+  // ) async {
+  //   try {
+  //     var methods =
+  //         await FirebaseAuth.instance.fetchSignInMethodsForEmail(email);
+  //     if (methods.contains('password')) {
+  //       _loginState = ApplicationLoginState.password; //メアドあり
+  //     } else {
+  //       _loginState = ApplicationLoginState.register; //メアドなし
+  //     }
+  //     _email = email; //入力されたメアドを保存
+  //     notifyListeners(); //_loginStateの変更をリッスンし再レンダリング
+  //   } on FirebaseAuthException catch (e) {
+  //     errorCallback(e);
+  //   }
   // }
-
-  // void signInWithEmailAndPassword() {
-  //   _loginState = ApplicationLoginState.emailAdress;
-  //   notifyListeners();
-  // }
-  // void cancelRegistration() {
-  //   _loginState = ApplicationLoginState.emailAdress;
-  //   notifyListeners();
-  // }
-
-  // void registerAccount() {
-  //   _loginState = ApplicationLoginState.loggedIn;
-  //   notifyListeners();
-  // }
-
-  // void signOut() {
-  //   _loginState = ApplicationLoginState.loggedOut;
-  //   notifyListeners();
-  // }
-
-  void login() {
-    _loginState = ApplicationLoginState.emailAdress;
-    notifyListeners();
-  }
-
-  void password() {
+  void verifyEmail(
+    String email,
+  ) {
+    _email = email;
     _loginState = ApplicationLoginState.password;
     notifyListeners();
   }
 
-  // void register() {
-  //   _loginState = ApplicationLoginState.emailAdress;
+  // void signInWithEmailAndPassword(
+  //   String? email,
+  //   String? password,
+  //   // void Function(FirebaseAuthException e) errorCallback,
+  // ) {
+  //   _user != "signin_user";
+  //   _loginState = ApplicationLoginState.loggedOut;
   //   notifyListeners();
+  //   print('signInWithEmailAndPassword');
+  //   print(email);
+  //   print(password);
   // }
 
-  void account() {
-    _loginState = ApplicationLoginState.loggedIn;
+  void signInWithEmailAndPassword(
+    String email,
+    String password,
+    // void Function(FirebaseAuthException e) errorCallback,
+  ) {
+    print('signInWithEmailAndPassword');
+    print(email);
+    print(password);
+    _user = "signin_user";
+    _loginState = ApplicationLoginState.welcom;
     notifyListeners();
   }
 
-  void cansel() {
-    _loginState = ApplicationLoginState.loggedOut;
+  // Future<void> registerAccount(
+  //     String email,
+  //     String displayName,
+  //     String password,
+  //     void Function(FirebaseAuthException e) errorCallback) async {
+  //   try {
+  //     var credential = await FirebaseAuth.instance
+  //         .createUserWithEmailAndPassword(email: email, password: password);
+  //     await credential.user!.updateDisplayName(displayName);
+  //   } on FirebaseAuthException catch (e) {
+  //     errorCallback(e);
+  //   }
+  // }
+  void registerAccount(
+    String email,
+    String displayName,
+    String password,
+    // void Function(FirebaseAuthException e) errorCallback
+  ) {
+    // print('registerAccount');
+    // print(email);
+    // print(displayName);
+    // print(password);
+    _user = displayName;
+    _loginState = ApplicationLoginState.welcom;
     notifyListeners();
   }
 
-  void signout() {
+  void signOut() {
+    // FirebaseAuth.instance.signOut();
+    _user = "";
     _loginState = ApplicationLoginState.loggedOut;
     notifyListeners();
   }
@@ -75,21 +99,6 @@ class ApplicationState extends ChangeNotifier {
   void setLoginState(ApplicationLoginState status) {
     _loginState = status;
     notifyListeners();
-  }
-
-  void verifyEmail(
-    String email,
-  ) {
-    //firebase fetchSignInMethodsForEmail
-    _email = email;
-  }
-
-  void signInWithEmailAndPassword(
-    String email,
-    String password,
-    // void Function(FirebaseAuthException e) errorCallback,
-  ) {
-    _user != "login user";
   }
 
   String? _email;

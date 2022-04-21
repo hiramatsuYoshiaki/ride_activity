@@ -21,9 +21,9 @@ class AppBarAuth extends StatelessWidget implements PreferredSizeWidget {
             );
             // Navigator.of(context).pushNamed('/auth');
           },
-          child: appState.loginState == ApplicationLoginState.loggedOut
-              ? Text('LOGIN')
-              : Text('LOGOUT'),
+          child: appState.loginState == ApplicationLoginState.loggedIn
+              ? Text('LOGOUT')
+              : Text('LOGIN'),
           style: TextButton.styleFrom(
             padding: const EdgeInsets.all(16.0),
             primary: Colors.white,

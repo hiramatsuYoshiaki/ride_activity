@@ -3,6 +3,7 @@ enum ApplicationLoginState {
   emailAdress,
   register,
   password,
+  welcom,
   loggedIn,
 }
 

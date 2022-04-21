@@ -5,16 +5,18 @@ import 'header_widget.dart';
 
 class EmailForm extends StatefulWidget {
   const EmailForm(
-      {required this.email,
-      required this.password,
+      {
+      // required this.email,
+      // required this.password,
       required this.setLoginState,
       required this.verifyEmail,
       Key? key});
 
-  final String email;
-  final String password;
-  final void Function(ApplicationLoginState status) setLoginState;
+  // final String email;
+  // final String password;
+
   final void Function(String email) verifyEmail;
+  final void Function(ApplicationLoginState status) setLoginState;
 
   @override
   _EmailFormState createState() => _EmailFormState();
@@ -23,7 +25,7 @@ class EmailForm extends StatefulWidget {
 class _EmailFormState extends State<EmailForm> {
   final _formKey = GlobalKey<FormState>(debugLabel: '_EmailFromState');
   final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
+  // final _passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -99,8 +101,6 @@ class _EmailFormState extends State<EmailForm> {
                           onPressed: () {
                             if (_formKey.currentState!.validate()) {
                               widget.verifyEmail(_emailController.text);
-                              widget.setLoginState(
-                                  ApplicationLoginState.password);
                             }
                           },
                           child: const Text('次へ')),

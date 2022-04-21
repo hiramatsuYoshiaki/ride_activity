@@ -18,13 +18,14 @@ class AuthPage extends StatelessWidget {
           Consumer<ApplicationState>(
               builder: (context, appState, _) => Authentication(
                     loginState: appState.loginState,
-                    password: appState.password,
-                    account: appState.account,
-                    signout: appState.signout,
-                    setLoginState: appState.setLoginState,
-                    verifyEmail: appState.verifyEmail,
                     email: appState.email,
-                    login: appState.login,
+                    verifyEmail: appState.verifyEmail,
+                    signInWithEmailAndPassword:
+                        appState.signInWithEmailAndPassword,
+                    registerAccount: appState.registerAccount,
+                    signOut: appState.signOut,
+                    setLoginState: appState.setLoginState,
+                    user: appState.getUser,
                   )),
           // Consumer<ApplicationState>(builder: (context, appState, _) {
           //   return appState.getUser == ""
