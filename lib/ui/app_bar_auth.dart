@@ -11,26 +11,40 @@ class AppBarAuth extends StatelessWidget implements PreferredSizeWidget {
   @override
   final Size preferredSize; // default is 56.0
   Widget build(BuildContext context) {
-    return AppBar(title: Text('Ride Activity'), actions: <Widget>[
-      Consumer<ApplicationState>(builder: (context, appState, _) {
-        return TextButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => AuthPage()),
+    return AppBar(
+        title: Text('Ride Activity',
+            style: Theme.of(context)
+                .textTheme
+                .headline5
+                ?.copyWith(color: Colors.white)),
+        actions: <Widget>[
+          Consumer<ApplicationState>(builder: (context, appState, _) {
+            return TextButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => AuthPage()),
+                );
+                // Navigator.of(context).pushNamed('/auth');
+              },
+              child: appState.loginState == ApplicationLoginState.loggedIn
+                  ? Text('LOGOUT',
+                      style: Theme.of(context)
+                          .textTheme
+                          .button
+                          ?.copyWith(color: Colors.white))
+                  : Text('LOGIN',
+                      style: Theme.of(context)
+                          .textTheme
+                          .button
+                          ?.copyWith(color: Colors.white)),
+              style: TextButton.styleFrom(
+                padding: const EdgeInsets.all(16.0),
+                primary: Colors.white,
+                textStyle: const TextStyle(fontSize: 16),
+              ),
             );
-            // Navigator.of(context).pushNamed('/auth');
-          },
-          child: appState.loginState == ApplicationLoginState.loggedIn
-              ? Text('LOGOUT')
-              : Text('LOGIN'),
-          style: TextButton.styleFrom(
-            padding: const EdgeInsets.all(16.0),
-            primary: Colors.white,
-            textStyle: const TextStyle(fontSize: 16),
-          ),
-        );
-      })
-    ]);
+          })
+        ]);
   }
 }

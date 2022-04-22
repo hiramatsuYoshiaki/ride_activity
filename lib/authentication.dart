@@ -23,9 +23,20 @@ class Authentication extends StatelessWidget {
   final ApplicationLoginState loginState;
 
   final String? email;
-  final void Function(String email, String password) signInWithEmailAndPassword;
-  final void Function(String emai, String displayName, String password)
-      registerAccount;
+  // final void Function(String email, String password) signInWithEmailAndPassword;
+  final void Function(
+    String email,
+    String password,
+    void Function(Exception e) error,
+  ) signInWithEmailAndPassword;
+  // final void Function(String emai, String displayName, String password)
+  //     registerAccount;
+  final void Function(
+    String emai,
+    String displayName,
+    String password,
+    void Function(Exception e) error,
+  ) registerAccount;
   final void Function() signOut;
   final void Function(ApplicationLoginState status) setLoginState;
   final String? user;
@@ -54,7 +65,15 @@ class Authentication extends StatelessWidget {
               email: "",
               displayName: "",
               password: "",
-              registerAccount: registerAccount,
+              // registerAccount: registerAccount,
+              registerAccount: (email, displayName, password) {
+                registerAccount(
+                    email,
+                    displayName,
+                    password,
+                    (e) => _showErrorDialog(
+                        context, 'Failed to create account', e));
+              },
               setLoginState: setLoginState,
             ),
           ],
@@ -64,10 +83,11 @@ class Authentication extends StatelessWidget {
           children: [
             PasswordForm(
               email: email!,
-              // login: (email, password) {
-              //   signInWithEmailAndPassword(email, password);
-              // }),
-              login: signInWithEmailAndPassword,
+              login: (email, password) {
+                signInWithEmailAndPassword(email, password,
+                    (e) => _showErrorDialog(context, 'Failed to sign in', e));
+              },
+              // login: signInWithEmailAndPassword,
               setLoginState: setLoginState,
             ),
           ],
@@ -103,4 +123,35 @@ class Authentication extends StatelessWidget {
         );
     }
   }
+}
+
+void _showErrorDialog(BuildContext context, String title, Exception e) {
+  showDialog<void>(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(
+            title,
+            style: const TextStyle(fontSize: 24),
+          ),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text(
+                  '${(e as dynamic).message}',
+                  style: const TextStyle(fontSize: 18),
+                )
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('OK'),
+            ),
+          ],
+        );
+      });
 }

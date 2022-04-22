@@ -65,3 +65,81 @@ https://firebase.google.com/codelabs/firebase-get-to-know-flutter?hl=en#0
 
 
     ```
+#firebase hosthin 
+https://www.flutter-study.dev/host-web-app/hosting
+1. ウェブアプリのルート ディレクトリでGoogle へのログインする.
+    `$ firebase login`
+2. プロジェクトの開始
+    `$ firebase init`
+3. 選択する。　
+    「Use an existing project」を選択しEnter　
+    使用するプロジェクトを選択しEnter　
+    「? What do you want to use as your public directory?」に 「build/web」 を入力　
+    「? Configure as a single-page app (rewrite all urls to /index.html)?」に 「N」 を入力　
+
+```
+        ? Are you ready to proceed? Yes
+        ? Which Firebase features do you want to set up for this directory? Press Space to select features, then Enter to confirm your choices. Firestore: Configure security rules and indexes files for Firestore, Hosting: Configure files for Firebase Hosting and (optionally) set up GitHub Action deploys, Storage: Configure a security rules file for Cloud Storage
+
+        === Project Setup
+
+        First, let's associate this project directory with a Firebase project.
+        You can create multiple project aliases by running firebase use --add, 
+        but for now we'll just set up a default project.
+
+        ? Please select an option: Use an existing project
+        ? Select a default Firebase project for this directory: ride-activity (ride-activity)
+        i  Using project ride-activity (ride-activity)
+
+        === Firestore Setup
+
+        Firestore Security Rules allow you to define how and when to allow
+        requests. You can keep these rules in your project directory      
+        and publish them with firebase deploy.
+
+        ? What file should be used for Firestore Rules? firestore.rules
+
+        Firestore indexes allow you to perform complex queries while
+        maintaining performance that scales with the size of the result
+        set. You can keep index definitions in your project directory
+        and publish them with firebase deploy.
+
+        ? What file should be used for Firestore indexes? firestore.indexes.json
+
+        === Hosting Setup
+
+        Your public directory is the folder (relative to your project directory) that
+        will contain Hosting assets to be uploaded with firebase deploy. If you
+        have a build process for your assets, use your build's output directory.
+
+        ? What do you want to use as your public directory? build/web
+        ? Configure as a single-page app (rewrite all urls to /index.html)? No
+        ? Set up automatic builds and deploys with GitHub? No
+        +  Wrote build/web/404.html
+        +  Wrote build/web/index.html
+
+        === Storage Setup
+
+        Firebase Storage Security Rules allow you to define how and when to allow
+        uploads and downloads. You can keep these rules in your project directory
+        and publish them with firebase deploy.
+
+        ? What file should be used for Storage Rules? storage.rules
+        +  Wrote storage.rules
+
+        i  Writing configuration info to firebase.json...
+        i  Writing project information to .firebaserc...
+
+        +  Firebase initialization complete!
+```
+
+4. Webアプリをビルドする 
+    `$ flutter build web` 
+5. Webアプリをアップロードする 
+    `$ firebase deploy` 
+    Project Console: https://console.firebase.google.com/project/ride-activity/overview  
+    Hosting URL: https://ride-activity.web.app  
+
+
+
+

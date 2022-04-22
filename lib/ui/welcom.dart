@@ -24,11 +24,38 @@ class _WelcomState extends State<Welcom> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               HeaderAuthWidget(
-                  title: 'WELCOM',
-                  img: 'undraw_in_real_life_v8fk.png',
+                  title: 'EMAIL VERIFY',
+                  img: 'undraw_Personal_email_re_4lx7.png',
                   subTitle: '${widget.user}',
-                  discription: 'ログインしています。'),
+                  discription: 'メールの認証をしてください。'),
               const SizedBox(height: 16),
+              // Padding(
+              //   padding: const EdgeInsets.symmetric(horizontal: 32),
+              //   child: Row(
+              //     mainAxisAlignment: MainAxisAlignment.end,
+              //     children: [
+              //       ElevatedButton(
+              //           onPressed: () {
+              //             widget.setLoginState(ApplicationLoginState.loggedOut);
+              //           },
+              //           child: const Text('キャンセル')),
+              //       const SizedBox(width: 16),
+              //       ElevatedButton(
+              //           onPressed: () {
+              //             if (_formKey.currentState!.validate()) {
+              //               widget.registerAccount(
+              //                 _emailController.text,
+              //                 _displayNameController.text,
+              //                 _passwordController.text,
+              //               );
+              //             }
+              //           },
+              //           child: const Text('アカウント作成')),
+              //       const SizedBox(width: 30),
+              //     ],
+              //   ),
+              // ),
+
               ElevatedButton(
                   onPressed: () {
                     // widget
