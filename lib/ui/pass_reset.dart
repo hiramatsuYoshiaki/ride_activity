@@ -4,24 +4,17 @@ import 'header_widget.dart';
 import '../model/status.dart';
 import '../pages/home.dart';
 
-class Welcom extends StatefulWidget {
-  const Welcom(
-      {Key? key,
-      // required this.user,
-      required this.sendEmailVerification,
-      required this.currentUser,
-      required this.setLoginState})
+class PassReset extends StatefulWidget {
+  const PassReset({Key? key, required this.email, required this.passReset})
       : super(key: key);
-  // final String? user;
-  final User? currentUser;
-  final void Function(ApplicationLoginState status) setLoginState;
-  final void Function() sendEmailVerification;
+  final String email;
+  final void Function(String email) passReset;
 
   @override
-  _WelcomState createState() => _WelcomState();
+  _PassResetState createState() => _PassResetState();
 }
 
-class _WelcomState extends State<Welcom> {
+class _PassResetState extends State<PassReset> {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -32,10 +25,11 @@ class _WelcomState extends State<Welcom> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               HeaderAuthWidget(
-                  title: 'EMAIL VERIFY',
-                  img: 'undraw_Personal_email_re_4lx7.png',
-                  subTitle: '${widget.currentUser?.email}',
-                  discription: 'メールアドレスの認証をします。'),
+                  title: 'PASSWORD RESET',
+                  img: 'undraw_Forgot_password_re_hxwm.png',
+                  subTitle: '${widget.email}',
+                  discription: 'パスワードリセット'),
+              // const SizedBox(height: 16),
               Padding(
                 padding: EdgeInsets.symmetric(vertical: 16),
                 child: Column(
@@ -51,7 +45,7 @@ class _WelcomState extends State<Welcom> {
                     Padding(
                       padding: EdgeInsets.only(left: 36),
                       child: Text(
-                        'メールアドレス認証用のメールを送信します。',
+                        'パスワードリセットメールを送信します。',
                         style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w400,
@@ -76,7 +70,7 @@ class _WelcomState extends State<Welcom> {
                     Padding(
                       padding: EdgeInsets.only(left: 36),
                       child: Text(
-                        'Verify your email for project....',
+                        'Reset your password for project....',
                         style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w400,
@@ -111,7 +105,7 @@ class _WelcomState extends State<Welcom> {
                     Padding(
                       padding: EdgeInsets.only(left: 36),
                       child: Text(
-                        'https://ride-activity.firebaseapp.com/__/auth/action?mode=verifyEmail.........',
+                        'https://ride-activity.firebaseapp.com/__/auth/action?.........',
                         style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w400,
@@ -121,42 +115,7 @@ class _WelcomState extends State<Welcom> {
                     Padding(
                       padding: EdgeInsets.only(left: 36),
                       child: Text(
-                        'メールアドレス認証するためにリンクアドレスをクリックしてください',
-                        style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.grey[500]),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(vertical: 16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      '４．完了ダイナログを確認',
-                      style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.grey[800]),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(left: 36),
-                      child: Text(
-                        'Your email has been verified You can now sign in with your new account',
-                        style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.grey[500]),
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(left: 36),
-                      child: Text(
-                        'メールアドレス認証の完了メッセージを確認します。',
+                        'メールのパスワードリセットするためのリンクアドレスをクリックしてください',
                         style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w400,
@@ -172,7 +131,7 @@ class _WelcomState extends State<Welcom> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      '５．ログインする',
+                      '４．パスワードを入力してください',
                       style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.w600,
@@ -181,7 +140,77 @@ class _WelcomState extends State<Welcom> {
                     Padding(
                       padding: EdgeInsets.only(left: 36),
                       child: Text(
-                        'アプリケーションに戻って、新しいアカウントでログインします。',
+                        'Reset your password',
+                        style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.grey[500]),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(left: 36),
+                      child: Text(
+                        '表示されたダイナログの、新しいパスワードを入力して、ボタン［ＳＡＶＥ］を押してください',
+                        style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.grey[500]),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      '５．完了ダイナログを確認',
+                      style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.grey[800]),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(left: 36),
+                      child: Text(
+                        'Password changed You can now sign in with your new password',
+                        style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.grey[500]),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(left: 36),
+                      child: Text(
+                        'パスワード変更の完了メッセージを確認します。',
+                        style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.grey[500]),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      '６．ログインする',
+                      style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.grey[800]),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(left: 36),
+                      child: Text(
+                        'アプリケーションに戻って、新しいパスワードで、再度ログインします。',
                         style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w400,
@@ -194,38 +223,11 @@ class _WelcomState extends State<Welcom> {
 
               const SizedBox(height: 32),
               ElevatedButton(
-                onPressed: widget.currentUser?.emailVerified == false
-                    ? () {
-                        widget.sendEmailVerification();
-                      }
-                    : () {
-                        Navigator.of(context)
-                            .push(MaterialPageRoute(builder: (context) {
-                          return HomePage();
-                        }));
-                      },
-                child: widget.currentUser?.emailVerified == false
-                    ? const Text('送信')
-                    : const Text('START'),
-              ),
-              const SizedBox(height: 32),
-
-              // ElevatedButton(
-              //     onPressed: () {
-              //       widget.setLoginState(ApplicationLoginState.loggedIn);
-              //       Navigator.of(context)
-              //           .push(MaterialPageRoute(builder: (context) {
-              //         return HomePage();
-              //       }));
-              //     },
-              //     child: const Text('START')),
-              // const SizedBox(height: 32),
-
-              TextButton(
                   onPressed: () {
-                    widget.setLoginState(ApplicationLoginState.loggedIn);
+                    widget.passReset(widget.email);
                   },
-                  child: const Text('メール認証しない')),
+                  child: const Text('送信')),
+              const SizedBox(height: 32),
             ],
           ),
         ),

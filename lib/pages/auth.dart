@@ -25,7 +25,11 @@ class AuthPage extends StatelessWidget {
                     registerAccount: appState.registerAccount,
                     signOut: appState.signOut,
                     setLoginState: appState.setLoginState,
-                    user: appState.getUser,
+                    // user: appState.getUser,
+                    currentUser: appState.getCurrentUser,
+                    // sendEmailVerification:appState.sendEmailVerification(currentUser, (e) { })
+                    sendEmailVerification: appState.sendEmailVerification,
+                    passReset: appState.passReset,
                   )),
           // Consumer<ApplicationState>(builder: (context, appState, _) {
           //   return appState.getUser == ""

@@ -4,7 +4,9 @@ enum ApplicationLoginState {
   register,
   password,
   welcom,
+  sendEmail,
   loggedIn,
+  passReset
 }
 
 enum AuthState {

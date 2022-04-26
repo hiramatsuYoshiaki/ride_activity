@@ -136,6 +136,28 @@ class _PasswordFormState extends State<PasswordForm> {
                         ],
                       ),
                     ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          TextButton(
+                            onPressed: () {
+                              // if (_formKey.currentState!.validate()) {
+                              //   widget.login(
+                              //     _emailController.text,
+                              //     _passwordController.text,
+                              //   );
+                              // }
+                              widget.setLoginState(
+                                  ApplicationLoginState.passReset);
+                            },
+                            child: const Text('パスワードリセット'),
+                          ),
+                          const SizedBox(width: 30),
+                        ],
+                      ),
+                    ),
                   ])),
         ),
       ],

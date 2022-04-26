@@ -38,7 +38,7 @@ class _EmailFormState extends State<EmailForm> {
               HeaderAuthWidget(
                   title: 'LOGIN',
                   img: 'undraw_Access_account_re_8spm.png',
-                  subTitle: 'メールアドレスの確認をします。',
+                  subTitle: 'メールアドレスでログインします。',
                   discription: 'メールアドレスを入力してください。')
               // HeaderTitleWidget(title: 'LOGIN'),
               // const SizedBox(height: 8),

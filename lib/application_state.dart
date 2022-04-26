@@ -18,6 +18,7 @@ class ApplicationState extends ChangeNotifier {
 
     FirebaseAuth.instance.userChanges().listen((user) {
       if (user != null) {
+        _currentUser = user;
         if (user.emailVerified == false) {
           _loginState = ApplicationLoginState.welcom;
         } else {
@@ -25,6 +26,7 @@ class ApplicationState extends ChangeNotifier {
         }
 
         // print('userChanges logged in');
+        print('Firebase.initializeApp');
         print(user.uid);
         print(user.email);
         print(user.displayName);
@@ -71,14 +73,17 @@ class ApplicationState extends ChangeNotifier {
   String? _email;
   String? get email => _email;
 
-  String _user = "";
-  String get getUser => _user;
+  // String _user = "";
+  // String get getUser => _user;
 
-  void setUser({required String user}) {
-    _user = user;
-    init();
-    notifyListeners();
-  }
+  User? _currentUser;
+  User? get getCurrentUser => _currentUser;
+
+  // void setUser({required String user}) {
+  //   _user = user;
+  //   init();
+  //   notifyListeners();
+  // }
 
   // set setUser({required String user}) {
   //   _user = user;
@@ -166,6 +171,75 @@ class ApplicationState extends ChangeNotifier {
   //   _loginState = ApplicationLoginState.welcom;
   //   notifyListeners();
   // }
+
+  Future<void> sendEmailVerification(
+      void Function(FirebaseAuthException e) errorCallback) async {
+    try {
+      print('sendEmailVerification');
+      User? user = FirebaseAuth.instance.currentUser;
+      print(user?.displayName);
+      print(user?.email);
+      print(user?.emailVerified);
+
+      if (user != null && !user.emailVerified) {
+        // var actionCodeSettings = ActionCodeSettings(
+        //   url: 'https ://www.example.com/?email=${user.email}',
+        //   dynamicLinkDomain: 'example.page.link',
+        //   androidPackageName: 'com.example.android',
+        //   androidInstallApp: true,
+        //   androidMinimumVersion: '12',
+        //   iOSBundleId: 'com.example.ios',
+        //   handleCodeInApp: true,
+        // );
+        // await user.sendEmailVerification(actionCodeSettings);
+        await user.sendEmailVerification();
+      }
+      _loginState = ApplicationLoginState.loggedOut;
+      notifyListeners();
+    } on FirebaseAuthException catch (e) {
+      errorCallback(e);
+      print('firebase auhentication error!');
+      print('createUserWithEmailPassword Error:$e');
+      _loginState = ApplicationLoginState.loggedOut;
+      notifyListeners();
+    }
+  }
+
+  Future<void> passReset(String email,
+      void Function(FirebaseAuthException e) errorCallback) async {
+    try {
+      print('passReset');
+      FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+      _loginState = ApplicationLoginState.loggedOut;
+      notifyListeners();
+    } on FirebaseAuthException catch (e) {
+      errorCallback(e);
+      print('firebase auhentication error!');
+      print('passReset Error:$e');
+      _loginState = ApplicationLoginState.loggedOut;
+      notifyListeners();
+    }
+  }
+// User? user = FirebaseAuth.instance.currentUser;
+
+// if (user!= null && !user.emailVerified) {
+//   await user.sendEmailVerification();
+// }
+
+// User? user = FirebaseAuth.instance.currentUser;
+// if (user != null && !user.emailVerified) {
+//   var actionCodeSettings = ActionCodeSettings(
+//       url: 'https://www.example.com/?email=${user.email}',
+//       dynamicLinkDomain: 'example.page.link',
+//       androidPackageName: 'com.example.android',
+//       androidInstallApp: true,
+//       androidMinimumVersion: '12',
+//       iOSBundleId: 'com.example.ios',
+//       handleCodeInApp: true,
+//   );
+
+//   await user.sendEmailVerification(actionCodeSettings);
+// }
 
   void signOut() {
     FirebaseAuth.instance.signOut();

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 // import 'package:ride_activity/application_state.dart';
 import 'package:ride_activity/model/status.dart';
 import 'package:ride_activity/ui/logged_in.dart';
@@ -7,6 +8,7 @@ import 'ui/register_form.dart';
 import 'ui/email_form.dart';
 import 'ui/password_form.dart';
 import 'ui/welcom.dart';
+import 'ui/pass_reset.dart';
 
 class Authentication extends StatelessWidget {
   const Authentication(
@@ -17,13 +19,17 @@ class Authentication extends StatelessWidget {
       required this.registerAccount,
       required this.signOut,
       required this.setLoginState,
-      required this.user,
+      // required this.user,
+      required this.currentUser,
+      required this.sendEmailVerification,
+      required this.passReset,
       Key? key})
       : super(key: key);
   final ApplicationLoginState loginState;
 
   final String? email;
   // final void Function(String email, String password) signInWithEmailAndPassword;
+  final User? currentUser;
   final void Function(
     String email,
     String password,
@@ -32,17 +38,21 @@ class Authentication extends StatelessWidget {
   // final void Function(String emai, String displayName, String password)
   //     registerAccount;
   final void Function(
-    String emai,
+    String email,
     String displayName,
     String password,
     void Function(Exception e) error,
   ) registerAccount;
   final void Function() signOut;
   final void Function(ApplicationLoginState status) setLoginState;
-  final String? user;
+  // final String? user;
 
   //firebase
   final void Function(String email) verifyEmail;
+  //sendEmailVerification
+  final void Function(void Function(Exception e) error) sendEmailVerification;
+  //passReset
+  final void Function(String email, void Function(Exception e) error) passReset;
   @override
   Widget build(BuildContext context) {
     switch (loginState) {
@@ -96,18 +106,47 @@ class Authentication extends StatelessWidget {
         return Column(
           children: [
             Welcom(
-              user: user,
+              // user: user,
+              sendEmailVerification: () {
+                sendEmailVerification(
+                    (e) => _showErrorDialog(context, 'Failed Send Email', e));
+              },
+              currentUser: currentUser,
               setLoginState: setLoginState,
             ),
           ],
         );
+      // case ApplicationLoginState.sendEmail:
+      //   return Column(
+      //     children: [
+      //       sendEmail(
+      //         sendEmailVerification: () {
+      //           sendEmailVerification(
+      //               (e) => _showErrorDialog(context, 'Failed Send Email', e));
+      //         },
+      //       ),
+      //     ],
+      //   );
       case ApplicationLoginState.loggedIn:
         return Column(
           children: [
             LoggedIn(
-              user: user,
+              user: currentUser,
               signOut: signOut,
             ),
+          ],
+        );
+      case ApplicationLoginState.passReset:
+        return Column(
+          children: [
+            PassReset(
+                email: email!,
+                passReset: (email) {
+                  passReset(
+                      email,
+                      (e) => _showErrorDialog(
+                          context, 'Failed ResetPassword Send Email', e));
+                }),
           ],
         );
       default:

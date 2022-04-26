@@ -44,7 +44,9 @@ class AppBarBottom extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                     builder: (context) {
-                      return appState.getUser == "" ? AuthPage() : RiderPage();
+                      return appState.getCurrentUser == null
+                          ? AuthPage()
+                          : RiderPage();
                     },
                   ),
                   // Navigator.of(context).pushNamed('/home');
