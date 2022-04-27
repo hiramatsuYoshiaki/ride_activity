@@ -5,10 +5,15 @@ import '../model/status.dart';
 import '../pages/home.dart';
 
 class PassReset extends StatefulWidget {
-  const PassReset({Key? key, required this.email, required this.passReset})
+  const PassReset(
+      {Key? key,
+      required this.email,
+      required this.passReset,
+      required this.setLoginState})
       : super(key: key);
   final String email;
   final void Function(String email) passReset;
+  final void Function(ApplicationLoginState status) setLoginState;
 
   @override
   _PassResetState createState() => _PassResetState();
@@ -222,11 +227,25 @@ class _PassResetState extends State<PassReset> {
               ),
 
               const SizedBox(height: 32),
-              ElevatedButton(
-                  onPressed: () {
-                    widget.passReset(widget.email);
-                  },
-                  child: const Text('送信')),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  ElevatedButton(
+                      onPressed: () {
+                        widget.setLoginState(ApplicationLoginState.loggedOut);
+                      },
+                      child: const Text('キャンセル')),
+                  SizedBox(
+                    width: 16,
+                  ),
+                  ElevatedButton(
+                      onPressed: () {
+                        widget.passReset(widget.email);
+                      },
+                      child: const Text('送信')),
+                ],
+              ),
+
               const SizedBox(height: 32),
             ],
           ),

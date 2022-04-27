@@ -90,7 +90,7 @@ class _WelcomState extends State<Welcom> {
                         style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w400,
-                            color: Colors.grey[500]),
+                            color: Color.fromARGB(255, 91, 81, 81)),
                       ),
                     ),
                   ],

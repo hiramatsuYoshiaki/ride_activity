@@ -130,13 +130,15 @@ class Authentication extends StatelessWidget {
         return Column(
           children: [
             PassReset(
-                email: email!,
-                passReset: (email) {
-                  passReset(
-                      email,
-                      (e) => _showErrorDialog(
-                          context, 'Failed ResetPassword Send Email', e));
-                }),
+              email: email!,
+              passReset: (email) {
+                passReset(
+                    email,
+                    (e) => _showErrorDialog(
+                        context, 'Failed ResetPassword Send Email', e));
+              },
+              setLoginState: setLoginState,
+            ),
           ],
         );
       default:
