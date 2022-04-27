@@ -12,14 +12,82 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBarAuth(),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text('HomePage'),
-          ],
-        ),
-      ),
+      body:
+          // Flexible(
+          //   child:
+          GridView.extent(
+              maxCrossAxisExtent: 300,
+              padding: const EdgeInsets.all(4),
+              mainAxisSpacing: 4,
+              crossAxisSpacing: 4,
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              children: <Widget>[
+            Container(
+              padding: const EdgeInsets.all(8),
+              child: const Text("He'd have you all unravel at the"),
+              color: Colors.teal[100],
+            ),
+            Container(
+              padding: const EdgeInsets.all(8),
+              child: const Text('Heed not the rabble'),
+              color: Colors.teal[200],
+            ),
+            Container(
+              padding: const EdgeInsets.all(8),
+              child: const Text('Sound of screams but the'),
+              color: Colors.teal[300],
+            ),
+            Container(
+              padding: const EdgeInsets.all(8),
+              child: const Text('Who scream'),
+              color: Colors.teal[400],
+            ),
+            Container(
+              padding: const EdgeInsets.all(8),
+              child: const Text('Revolution is coming...'),
+              color: Colors.teal[500],
+            ),
+            Container(
+              padding: const EdgeInsets.all(8),
+              child: const Text('Revolution, they...'),
+              color: Colors.teal[600],
+            ),
+          ]),
+      // ),
+
+      // body: Center(
+      //   child: Column(
+      //     mainAxisAlignment: MainAxisAlignment.center,
+      //     children: [
+      //       const Text('HomePage'),
+      //       const SizedBox(height: 16),
+      //       GridView.extent(
+      //           maxCrossAxisExtent: 150,
+      //           padding: const EdgeInsets.all(4),
+      //           mainAxisSpacing: 4,
+      //           crossAxisSpacing: 4,
+      //           children: <Widget>[
+      //             Text(
+      //               'aaa',
+      //               style: TextStyle(color: Colors.grey, fontSize: 32),
+      //             ),
+      //             Text(
+      //               'bbb',
+      //               style: TextStyle(color: Colors.grey, fontSize: 32),
+      //             ),
+      //             Text(
+      //               'ccc',
+      //               style: TextStyle(color: Colors.grey, fontSize: 32),
+      //             ),
+      //             Text(
+      //               'ddd',
+      //               style: TextStyle(color: Colors.grey, fontSize: 32),
+      //             ),
+      //           ])
+      //     ],
+      //   ),
+      // ),
       bottomNavigationBar: AppBarBottom(),
     );
   }

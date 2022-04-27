@@ -7,6 +7,7 @@ import 'application_state.dart';
 import 'pages/auth.dart';
 import 'pages/home.dart';
 import 'pages/activity.dart';
+import 'pages/account.dart';
 import 'pages/notfound.dart';
 // import 'model/status.dart';
 import 'auth_guard.dart';
@@ -40,6 +41,13 @@ void main() {
           //               ? HomePage()
           //               : AuthPage(),
           //     ),
+          '/account': (context) => Consumer<ApplicationState>(
+                builder: (context, appState, _) => AuthGuard(
+                  loginState: appState.loginState,
+                  guard: AuthPage(),
+                  child: AccountPage(),
+                ),
+              ),
           '/activity': (context) => Consumer<ApplicationState>(
                 builder: (context, appState, _) => AuthGuard(
                   loginState: appState.loginState,
@@ -48,7 +56,7 @@ void main() {
                 ),
               ),
           '/login': (context) => AuthPage(),
-          '/logout': (context) => AuthPage(),
+          // '/logout': (context) => LogoutPage(),
         },
         onUnknownRoute: (RouteSettings settings) {
           return MaterialPageRoute<void>(

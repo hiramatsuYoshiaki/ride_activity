@@ -17,6 +17,7 @@ class ApplicationState extends ChangeNotifier {
     );
 
     FirebaseAuth.instance.userChanges().listen((user) {
+      print('Firebase.initializeApp------');
       if (user != null) {
         _currentUser = user;
         if (user.emailVerified == false) {
@@ -25,8 +26,8 @@ class ApplicationState extends ChangeNotifier {
           _loginState = ApplicationLoginState.loggedIn;
         }
 
-        // print('userChanges logged in');
-        print('Firebase.initializeApp');
+        print('userChanges logged in');
+
         print(user.uid);
         print(user.email);
         print(user.displayName);
@@ -50,8 +51,9 @@ class ApplicationState extends ChangeNotifier {
         notifyListeners();
       } else {
         _loginState = ApplicationLoginState.loggedOut;
+        _currentUser = null;
 
-        // print('userChanges logged out');
+        print('userChanges logged out');
         // print(user);
         notifyListeners();
       }
@@ -243,6 +245,9 @@ class ApplicationState extends ChangeNotifier {
 
   void signOut() {
     FirebaseAuth.instance.signOut();
+    print('sign out-------');
+    _loginState = ApplicationLoginState.loggedOut;
+    notifyListeners();
   }
   // void signOut() {
   //   _user = "";

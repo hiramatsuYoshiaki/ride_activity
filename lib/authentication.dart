@@ -116,17 +116,7 @@ class Authentication extends StatelessWidget {
             ),
           ],
         );
-      // case ApplicationLoginState.sendEmail:
-      //   return Column(
-      //     children: [
-      //       sendEmail(
-      //         sendEmailVerification: () {
-      //           sendEmailVerification(
-      //               (e) => _showErrorDialog(context, 'Failed Send Email', e));
-      //         },
-      //       ),
-      //     ],
-      //   );
+
       case ApplicationLoginState.loggedIn:
         return Column(
           children: [
