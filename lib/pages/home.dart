@@ -11,7 +11,9 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBarAuth(),
+      appBar: AppBarAuth(
+        titleText: 'Feed',
+      ),
       body:
           // Flexible(
           //   child:
@@ -20,9 +22,39 @@ class HomePage extends StatelessWidget {
               padding: const EdgeInsets.all(4),
               mainAxisSpacing: 4,
               crossAxisSpacing: 4,
-              shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
+              // shrinkWrap: true,
+              // physics: NeverScrollableScrollPhysics(),
               children: <Widget>[
+            Container(
+              padding: const EdgeInsets.all(8),
+              child: const Text("He'd have you all unravel at the"),
+              color: Colors.teal[100],
+            ),
+            Container(
+              padding: const EdgeInsets.all(8),
+              child: const Text('Heed not the rabble'),
+              color: Colors.teal[200],
+            ),
+            Container(
+              padding: const EdgeInsets.all(8),
+              child: const Text('Sound of screams but the'),
+              color: Colors.teal[300],
+            ),
+            Container(
+              padding: const EdgeInsets.all(8),
+              child: const Text('Who scream'),
+              color: Colors.teal[400],
+            ),
+            Container(
+              padding: const EdgeInsets.all(8),
+              child: const Text('Revolution is coming...'),
+              color: Colors.teal[500],
+            ),
+            Container(
+              padding: const EdgeInsets.all(8),
+              child: const Text('Revolution, they...'),
+              color: Colors.teal[600],
+            ),
             Container(
               padding: const EdgeInsets.all(8),
               child: const Text("He'd have you all unravel at the"),

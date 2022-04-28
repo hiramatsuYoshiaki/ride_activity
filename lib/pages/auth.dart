@@ -12,7 +12,9 @@ class AuthPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBarAuth(),
+      appBar: AppBarAuth(
+        titleText: 'Login',
+      ),
       body: ListView(
         children: [
           Consumer<ApplicationState>(

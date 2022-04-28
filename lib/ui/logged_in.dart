@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'header_widget.dart';
-// import '../model/status.dart';
 import '../pages/home.dart';
 import '../pages/activity.dart';
 import '../pages/account.dart';
@@ -32,11 +31,13 @@ class _LoggedInState extends State<LoggedIn> {
                   subTitle: '${widget.user?.displayName}さん',
                   discription: 'ようこそ！'),
               const SizedBox(height: 16),
-
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  GridView.extent(
+              ConstrainedBox(
+                constraints: BoxConstraints(minWidth: 300, maxWidth: 1200),
+                child: Container(
+                  alignment: Alignment.center,
+                  padding: const EdgeInsets.all(8),
+                  child: GridView.extent(
+                      primary: false,
                       maxCrossAxisExtent: 300,
                       padding: const EdgeInsets.all(4),
                       mainAxisSpacing: 4,
@@ -46,118 +47,131 @@ class _LoggedInState extends State<LoggedIn> {
                       children: <Widget>[
                         Container(
                           padding: const EdgeInsets.all(8),
-                          color: Colors.teal[100],
                           child: Center(
-                              child: TextButton(
-                                  onPressed: () {
-                                    Navigator.push(context, MaterialPageRoute(
-                                      builder: (context) {
-                                        return HomePage();
-                                      },
-                                    ));
+                            child: TextButton(
+                              onPressed: () {
+                                Navigator.push(context, MaterialPageRoute(
+                                  builder: (context) {
+                                    return AccountPage();
                                   },
-                                  child: const Text("Home Feed",
-                                      style: TextStyle(fontSize: 24)))
-                              //     child: const Text(
-                              //   "Account",
-                              //   style: TextStyle(fontSize: 24),
-                              // )
-
+                                ));
+                              },
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const Text("Account",
+                                      style: TextStyle(
+                                          fontSize: 24,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.black45)),
+                                  const Text("アカウント管理",
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.normal,
+                                          color: Colors.black87)),
+                                ],
                               ),
+                            ),
+                          ),
+                          color: Colors.teal[100],
                         ),
                         Container(
                           padding: const EdgeInsets.all(8),
                           child: Center(
-                              child: TextButton(
-                                  onPressed: () {
-                                    Navigator.push(context, MaterialPageRoute(
-                                      builder: (context) {
-                                        return AccountPage();
-                                      },
-                                    ));
+                            child: TextButton(
+                              onPressed: () {
+                                Navigator.push(context, MaterialPageRoute(
+                                  builder: (context) {
+                                    return HomePage();
                                   },
-                                  child: const Text("Account",
-                                      style: TextStyle(fontSize: 24)))),
+                                ));
+                              },
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const Text("Feed",
+                                      style: TextStyle(
+                                          fontSize: 24,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.black45)),
+                                  const Text("ライド予定",
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.normal,
+                                          color: Colors.black87)),
+                                ],
+                              ),
+                            ),
+                          ),
                           color: Colors.teal[200],
                         ),
                         Container(
                           padding: const EdgeInsets.all(8),
                           child: Center(
-                              child: TextButton(
-                                  onPressed: () {
-                                    Navigator.push(context, MaterialPageRoute(
-                                      builder: (context) {
-                                        return ActivityPage();
-                                      },
-                                    ));
+                            child: TextButton(
+                              onPressed: () {
+                                Navigator.push(context, MaterialPageRoute(
+                                  builder: (context) {
+                                    return ActivityPage();
                                   },
-                                  child: const Text("Activity",
-                                      style: TextStyle(fontSize: 24)))),
+                                ));
+                              },
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const Text("Activity",
+                                      style: TextStyle(
+                                          fontSize: 24,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.black45)),
+                                  const Text("ライド一覧",
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.normal,
+                                          color: Colors.black87)),
+                                ],
+                              ),
+                            ),
+                          ),
                           color: Colors.teal[300],
                         ),
                         Container(
                           padding: const EdgeInsets.all(8),
                           child: Center(
-                              child: TextButton(
-                                  onPressed: () {
-                                    Navigator.push(context, MaterialPageRoute(
-                                      builder: (context) {
-                                        return RiderPage();
-                                      },
-                                    ));
+                            child: TextButton(
+                              onPressed: () {
+                                Navigator.push(context, MaterialPageRoute(
+                                  builder: (context) {
+                                    return RiderPage();
                                   },
-                                  child: const Text("Rider",
-                                      style: TextStyle(fontSize: 24)))),
+                                ));
+                              },
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const Text("Rider",
+                                      style: TextStyle(
+                                          fontSize: 24,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.black45)),
+                                  const Text("ライダー情報",
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.normal,
+                                          color: Colors.black87)),
+                                ],
+                              ),
+                            ),
+                          ),
                           color: Colors.teal[400],
                         ),
                       ]),
-                ],
+                ),
               )
-
-              // ElevatedButton(
-              //     onPressed: () {
-              //       // widget
-              //       //     .setLoginState(ApplicationLoginState.loggedOut);
-              //       // Navigator.pop(context);
-              //       // Navigator.of(context).pushNamed("/home");
-              //       Navigator.of(context)
-              //           .push(MaterialPageRoute(builder: (context) {
-              //         return AccountPage();
-              //       }));
-              //     },
-              //     child: const Text('ACCOUNT')),
-              // const SizedBox(height: 32),
-              // ElevatedButton(
-              //     onPressed: () {
-              //       // widget
-              //       //     .setLoginState(ApplicationLoginState.loggedOut);
-              //       // Navigator.pop(context);
-              //       // Navigator.of(context).pushNamed("/home");
-              //       Navigator.of(context)
-              //           .push(MaterialPageRoute(builder: (context) {
-              //         return HomePage();
-              //       }));
-              //     },
-              //     child: const Text('HOME')),
-              // const SizedBox(height: 32),
-              // ElevatedButton(
-              //     onPressed: () {
-              //       // widget
-              //       //     .setLoginState(ApplicationLoginState.loggedOut);
-              //       // Navigator.pop(context);
-              //       // Navigator.of(context).pushNamed("/home");
-              //       Navigator.of(context)
-              //           .push(MaterialPageRoute(builder: (context) {
-              //         return ActivityPage();
-              //       }));
-              //     },
-              //     child: const Text('ACTIVITY')),
-              // const SizedBox(height: 32),
-              // ElevatedButton(
-              //     onPressed: () {
-              //       widget.signOut();
-              //     },
-              //     child: const Text('LOGOUT'))
             ],
           ),
         ),

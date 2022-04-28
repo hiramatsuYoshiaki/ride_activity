@@ -6,28 +6,22 @@ import '../pages/logout.dart';
 import '../application_state.dart';
 
 class AppBarAuth extends StatelessWidget implements PreferredSizeWidget {
-  const AppBarAuth({Key? key})
+  const AppBarAuth({Key? key, required this.titleText})
       : preferredSize = const Size.fromHeight(kToolbarHeight),
         super(key: key);
+  final String titleText;
   @override
   final Size preferredSize; // default is 56.0
   Widget build(BuildContext context) {
     return AppBar(
-        title: Text('Ride Activity',
+        // title: Text('Ride Activity',
+        title: Text(titleText,
             style: Theme.of(context)
                 .textTheme
                 .headline5
                 ?.copyWith(color: Colors.white)),
         actions: <Widget>[
           Consumer<ApplicationState>(builder: (context, appState, _) {
-            // loggedOut,
-            // emailAdress,
-            // register,
-            // password,
-            // welcom,
-            // sendEmail,
-            // loggedIn,
-            // passReset
             return (appState.getCurrentUser != null)
                 ? TextButton(
                     onPressed: () {
@@ -50,31 +44,6 @@ class AppBarAuth extends StatelessWidget implements PreferredSizeWidget {
                     },
                     child:
                         Text('LOGIN', style: TextStyle(color: Colors.white)));
-            // return TextButton(
-            //   onPressed: () {
-            //     Navigator.push(
-            //       context,
-            //       MaterialPageRoute(builder: (context) => AuthPage()),
-            //     );
-            //     // Navigator.of(context).pushNamed('/auth');
-            //   },
-            //   child: appState.loginState == ApplicationLoginState.loggedOut
-            //       ? Text('LOGIN',
-            //           style: Theme.of(context)
-            //               .textTheme
-            //               .button
-            //               ?.copyWith(color: Colors.white))
-            //       : Text('LOGOUT',
-            //           style: Theme.of(context)
-            //               .textTheme
-            //               .button
-            //               ?.copyWith(color: Colors.white)),
-            //   style: TextButton.styleFrom(
-            //     padding: const EdgeInsets.all(16.0),
-            //     primary: Colors.white,
-            //     textStyle: const TextStyle(fontSize: 16),
-            //   ),
-            // );
           })
         ]);
   }

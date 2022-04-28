@@ -11,7 +11,9 @@ class LogoutPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBarAuth(),
+      appBar: AppBarAuth(
+        titleText: 'Logout',
+      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
