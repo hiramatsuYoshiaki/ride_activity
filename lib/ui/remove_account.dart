@@ -1,26 +1,25 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:ride_activity/model/status.dart';
 
-class PhotourlUpdate extends StatefulWidget {
-  const PhotourlUpdate({
+class RemoveAccount extends StatefulWidget {
+  const RemoveAccount({
     Key? key,
     required this.user,
     required this.setProfileState,
   }) : super(key: key);
   final User? user;
   final void Function(ProfileState status) setProfileState;
-
   @override
-  _PhotourlUpdateState createState() => _PhotourlUpdateState();
+  _RemoveAccountState createState() => _RemoveAccountState();
 }
 
-class _PhotourlUpdateState extends State<PhotourlUpdate> {
+class _RemoveAccountState extends State<RemoveAccount> {
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Text('PhotourlUpdate'),
+        Text('RemoveAccount'),
         ElevatedButton(
             onPressed: () {
               widget.setProfileState(ProfileState.display);

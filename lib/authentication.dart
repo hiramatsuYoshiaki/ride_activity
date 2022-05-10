@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 // import 'package:ride_activity/application_state.dart';
 import 'package:ride_activity/model/status.dart';
+import 'package:ride_activity/pages/home.dart';
 import 'package:ride_activity/ui/logged_in.dart';
 import 'model/status.dart';
 import 'ui/register_form.dart';
@@ -147,6 +148,10 @@ class Authentication extends StatelessWidget {
             TextButton(
               onPressed: () {
                 // signOut();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => HomePage()),
+                );
               },
               child: const Text('Error go home'),
             ),

@@ -14,6 +14,7 @@ enum ProfileState {
   dispalyNameUpdate,
   emailUpdate,
   display,
+  removeAccount
 }
 
 enum AuthState {

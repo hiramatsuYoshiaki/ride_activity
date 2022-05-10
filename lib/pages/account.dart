@@ -30,7 +30,8 @@ class AccountPage extends StatelessWidget {
                       builder: (context, appState, _) => UserProfile(
                             profileState: appState.profileState,
                             currentUser: appState.getCurrentUser,
-                            // setProfileState: appState.setProfileState,
+                            setProfileState: appState.setProfileState,
+                            updateDisplayName: appState.updateDisplayName,
                             // updateDisplayName: appState.updateDisplayName,
 
                             // loginState: appState.loginState,
