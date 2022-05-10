@@ -9,6 +9,13 @@ enum ApplicationLoginState {
   passReset
 }
 
+enum ProfileState {
+  photoUpdate,
+  dispalyNameUpdate,
+  emailUpdate,
+  display,
+}
+
 enum AuthState {
   loggedIn,
   loggedOut,

@@ -81,6 +81,16 @@ class ApplicationState extends ChangeNotifier {
   User? _currentUser;
   User? get getCurrentUser => _currentUser;
 
+  ProfileState _profileState = ProfileState.display;
+  ProfileState get profileState => _profileState;
+
+  // bool _isEditProfilr = false;
+  // bool get getIsEditProfile => _isEditProfilr;
+  // void editProfile() {
+  //   _isEditProfilr = !_isEditProfilr;
+  //   notifyListeners();
+  // }
+
   // void setUser({required String user}) {
   //   _user = user;
   //   init();
@@ -222,6 +232,17 @@ class ApplicationState extends ChangeNotifier {
       notifyListeners();
     }
   }
+
+  Future<void> updateDisplayName(String dispalyName,
+      void Function(FirebaseAuthException e) errorCallback) async {
+    try {} on FirebaseAuthException catch (e) {
+      errorCallback(e);
+      print('firebase auhentication error!');
+      print('passReset Error:$e');
+      // _loginState = ApplicationLoginState.loggedOut;
+      // notifyListeners();
+    }
+  }
 // User? user = FirebaseAuth.instance.currentUser;
 
 // if (user!= null && !user.emailVerified) {
@@ -242,6 +263,35 @@ class ApplicationState extends ChangeNotifier {
 
 //   await user.sendEmailVerification(actionCodeSettings);
 // }
+//   import { getAuth, updateProfile } from "firebase/auth";
+// const auth = getAuth();
+// updateProfile(auth.currentUser, {
+//   displayName: "Jane Q. User", photoURL: "https://example.com/jane-q-user/profile.jpg"
+// }).then(() => {
+//   // Profile updated!
+//   // ...
+// }).catch((error) => {
+//   // An error occurred
+//   // ...
+// });
+// Future<void> updatePhotoURL(String? photoURL) {
+//     return _delegate.updateProfile(<String, String?>{'photoURL': photoURL});
+//   }
+// Future<void> updateDisplayName(String? displayName) {
+//     return _delegate
+//         .updateProfile(<String, String?>{'displayName': displayName});
+//   }
+  // Future<void> updateDisplayName(String displayName,
+  //     void Function(FirebaseAuthException e) errorCallback) async {
+  //   try {
+  //     FirebaseUser currentUser = await FirebaseAuth.instance.currentUser();
+  //     await FirebaseAuth.instance.updateProfile;
+  //   } on FirebaseAuthException catch (e) {
+  //     errorCallback(e);
+  //     print('firebase auhentication error!');
+  //     print('createUserWithEmailPassword Error:$e');
+  //   }
+  // }
 
   void signOut() {
     FirebaseAuth.instance.signOut();
@@ -257,6 +307,11 @@ class ApplicationState extends ChangeNotifier {
 
   void setLoginState(ApplicationLoginState status) {
     _loginState = status;
+    notifyListeners();
+  }
+
+  void setProfileState(ProfileState status) {
+    _profileState = status;
     notifyListeners();
   }
 }
