@@ -22,7 +22,7 @@ class _DisplayProfileState extends State<DisplayProfile> {
       children: <Widget>[
         const SizedBox(height: 16),
         widget.user!.photoURL == null
-            ? CircleAvatar(
+            ? const CircleAvatar(
                 backgroundImage:
                     NetworkImage('assets/images/undraw_profile_pic_ic5t.png'),
                 minRadius: 50,
@@ -33,35 +33,62 @@ class _DisplayProfileState extends State<DisplayProfile> {
                 minRadius: 50,
                 maxRadius: 100,
               ),
-        const SizedBox(height: 16),
-        ElevatedButton(
-            onPressed: () {
-              widget.setProfileState(ProfileState.photoUpdate);
-            },
-            child: Text('変更')),
-        const SizedBox(height: 32),
-        Text(
-          '${widget.user!.displayName}',
-          style: const TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+        const SizedBox(height: 8),
+        TextButton.icon(
+          onPressed: () {
+            widget.setProfileState(ProfileState.emailUpdate);
+          },
+          icon: const Icon(
+            Icons.edit,
+            color: Colors.black45,
+          ),
+          label: const Text('アバター変更', style: TextStyle(color: Colors.black45)),
         ),
-        const SizedBox(height: 16),
-        ElevatedButton(
-            onPressed: () {
-              widget.setProfileState(ProfileState.dispalyNameUpdate);
-            },
-            child: Text('変更')),
         const SizedBox(height: 32),
-        Text(
-          '${widget.user!.email}',
-          style: const TextStyle(fontSize: 20, fontWeight: FontWeight.normal),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              '${widget.user!.displayName}',
+              style: const TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+            ),
+            IconButton(
+              onPressed: () {
+                widget.setProfileState(ProfileState.dispalyNameUpdate);
+              },
+              icon: const Icon(
+                Icons.edit,
+                color: Colors.black45,
+                size: 24.0,
+                semanticLabel: 'Email Update',
+              ),
+              tooltip: '変更',
+            ),
+          ],
         ),
-        // IconButton(onPressed: () {}, icon: Icon(Icons.navigate_next)),
-        const SizedBox(height: 16),
-        ElevatedButton(
-            onPressed: () {
-              widget.setProfileState(ProfileState.emailUpdate);
-            },
-            child: Text('変更')),
+        const SizedBox(height: 32),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              '${widget.user!.email}',
+              style:
+                  const TextStyle(fontSize: 20, fontWeight: FontWeight.normal),
+            ),
+            IconButton(
+              onPressed: () {
+                widget.setProfileState(ProfileState.emailUpdate);
+              },
+              icon: const Icon(
+                Icons.edit,
+                color: Colors.black45,
+                size: 24.0,
+                semanticLabel: 'Email Update',
+              ),
+              tooltip: '変更',
+            ),
+          ],
+        ),
         const SizedBox(height: 32),
         ElevatedButton(
             onPressed: () {

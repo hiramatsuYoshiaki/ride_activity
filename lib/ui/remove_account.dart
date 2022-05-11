@@ -8,9 +8,11 @@ class RemoveAccount extends StatefulWidget {
     Key? key,
     required this.user,
     required this.setProfileState,
+    required this.accountDelete,
   }) : super(key: key);
   final User? user;
   final void Function(ProfileState status) setProfileState;
+  final void Function() accountDelete;
   @override
   _RemoveAccountState createState() => _RemoveAccountState();
 }
@@ -34,11 +36,27 @@ class _RemoveAccountState extends State<RemoveAccount> {
             ],
           ),
         ),
-        ElevatedButton(
-            onPressed: () {
-              widget.setProfileState(ProfileState.display);
-            },
-            child: Text('削除')),
+        const SizedBox(height: 32),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 32),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ElevatedButton(
+                  onPressed: () {
+                    widget.setProfileState(ProfileState.display);
+                  },
+                  child: Text('キャンセル')),
+              const SizedBox(width: 16),
+              ElevatedButton(
+                  onPressed: () {
+                    print('push button account delete');
+                    widget.accountDelete();
+                  },
+                  child: Text('アカウント削除'))
+            ],
+          ),
+        )
       ],
     );
   }

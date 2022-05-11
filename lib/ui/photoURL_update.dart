@@ -36,11 +36,24 @@ class _PhotourlUpdateState extends State<PhotourlUpdate> {
             ],
           ),
         ),
-        ElevatedButton(
-            onPressed: () {
-              widget.setProfileState(ProfileState.display);
-            },
-            child: Text('変更')),
+        Padding(
+            padding: EdgeInsets.symmetric(horizontal: 32),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                ElevatedButton(
+                    onPressed: () {
+                      widget.setProfileState(ProfileState.display);
+                    },
+                    child: Text('キャンセル')),
+                const SizedBox(width: 16),
+                ElevatedButton(
+                    onPressed: () {
+                      widget.setProfileState(ProfileState.display);
+                    },
+                    child: const Text('アバター変更')),
+              ],
+            )),
       ],
     );
   }

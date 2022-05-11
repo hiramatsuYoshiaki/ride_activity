@@ -122,7 +122,7 @@ class _RegisterFormState extends State<RegisterForm> {
                     },
                   ),
                 ),
-                const SizedBox(height: 30),
+                const SizedBox(height: 32),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 32),
                   child: Row(

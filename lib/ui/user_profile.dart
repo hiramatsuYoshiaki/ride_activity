@@ -17,6 +17,8 @@ class UserProfile extends StatelessWidget {
     required this.currentUser,
     required this.setProfileState,
     required this.updateDisplayName,
+    required this.updateEmail,
+    required this.accountDelete,
   }) : super(key: key);
   final ProfileState profileState;
   final User? currentUser;
@@ -25,6 +27,13 @@ class UserProfile extends StatelessWidget {
     String displayname,
     void Function(Exception e) error,
   ) updateDisplayName;
+  final void Function(
+    String emailAddress,
+    void Function(Exception e) error,
+  ) updateEmail;
+  final void Function(
+    void Function(Exception e) error,
+  ) accountDelete;
   @override
   Widget build(BuildContext context) {
     // return Text('aaaa');
@@ -73,9 +82,14 @@ class UserProfile extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             EmailUpdate(
-              user: currentUser,
-              setProfileState: setProfileState,
-            )
+                user: currentUser,
+                setProfileState: setProfileState,
+                updateEmail: (emailAddress) {
+                  updateEmail(
+                      emailAddress,
+                      (e) => _showErrorDialog(
+                          context, 'Failed Update DisplayName', e));
+                }),
           ],
         );
       case ProfileState.removeAccount:
@@ -83,9 +97,12 @@ class UserProfile extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             RemoveAccount(
-              user: currentUser,
-              setProfileState: setProfileState,
-            )
+                user: currentUser,
+                setProfileState: setProfileState,
+                accountDelete: () {
+                  accountDelete((e) => _showErrorDialog(
+                      context, 'Failed Update DisplayName', e));
+                }),
           ],
         );
       default:

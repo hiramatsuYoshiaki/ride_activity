@@ -17,7 +17,7 @@ class ApplicationState extends ChangeNotifier {
     );
 
     FirebaseAuth.instance.userChanges().listen((user) {
-      print('Firebase.initializeApp------');
+      print('ApplicationState init userChanges------ start ');
       if (user != null) {
         _currentUser = user;
         if (user.emailVerified == false) {
@@ -27,7 +27,6 @@ class ApplicationState extends ChangeNotifier {
         }
 
         print('userChanges logged in');
-
         print(user.uid);
         print(user.email);
         print(user.displayName);
@@ -115,8 +114,8 @@ class ApplicationState extends ChangeNotifier {
     // void Function(FirebaseAuthException e) errorCallback,
   ) async {
     try {
-      print('verifyEmail');
-      print('email:$email');
+      // print('verifyEmail');
+      // print('email:$email');
       var methods =
           await FirebaseAuth.instance.fetchSignInMethodsForEmail(email);
       if (methods.contains('password')) {
@@ -195,11 +194,11 @@ class ApplicationState extends ChangeNotifier {
   Future<void> sendEmailVerification(
       void Function(FirebaseAuthException e) errorCallback) async {
     try {
-      print('sendEmailVerification');
+      // print('sendEmailVerification');
       User? user = FirebaseAuth.instance.currentUser;
-      print(user?.displayName);
-      print(user?.email);
-      print(user?.emailVerified);
+      // print(user?.displayName);
+      // print(user?.email);
+      // print(user?.emailVerified);
 
       if (user != null && !user.emailVerified) {
         // var actionCodeSettings = ActionCodeSettings(
@@ -254,36 +253,62 @@ class ApplicationState extends ChangeNotifier {
     } on FirebaseAuthException catch (e) {
       errorCallback(e);
       print('firebase auhentication error!');
-      print('passReset Error:$e');
+      print('updateDisplayName Error:$e');
     }
   }
-  // Future<void> updateDisplayName(String? displayName) {
-  //   return _delegate
-  //       .updateProfile(<String, String?>{'displayName': displayName});
-  // }
 
-  // Future<void> updateDisplayName(String displayName,
-  //     void Function(FirebaseAuthException e) errorCallback) async {
-  //   try {
-  //     FirebaseUser currentUser = await FirebaseAuth.instance.currentUser();
-  //     await FirebaseAuth.instance.updateProfile;
-  //   } on FirebaseAuthException catch (e) {
-  //     errorCallback(e);
-  //     print('firebase auhentication error!');
-  //     print('createUserWithEmailPassword Error:$e');
-  //   }
-  // }
+  Future<void> updateEmail(String emailAddres,
+      void Function(FirebaseAuthException e) errorCallback) async {
+    try {
+      print('updateEmail state');
+      print(emailAddres);
+      await _currentUser?.updateEmail(emailAddres);
+      // await FirebaseAuth.instance.setLanguageCode("jp");
+      // await _currentUser?.sendEmailVerification();
+      _profileState = ProfileState.display;
+      notifyListeners();
+    } on FirebaseAuthException catch (e) {
+      errorCallback(e);
+      print('firebase auhentication error!');
+      print('updateEmail Error:$e');
+    }
+  }
+
+  Future<void> updatePhotoURL(String photoURL,
+      void Function(FirebaseAuthException e) errorCallback) async {
+    try {
+      print('updatePhotoURL state');
+      print(photoURL);
+      // await _currentUser
+      //     ?.updatePhotoURL("https://example.com/jane-q-user/profile.jpg");
+      await _currentUser?.updatePhotoURL(photoURL);
+      _profileState = ProfileState.display;
+      notifyListeners();
+    } on FirebaseAuthException catch (e) {
+      errorCallback(e);
+      print('firebase auhentication error!');
+      print('updatePhotoURL Error:$e');
+    }
+  }
+
+  Future<void> accountDelete(
+      void Function(FirebaseAuthException e) errorCallback) async {
+    try {
+      print('accountDelete state');
+      await _currentUser?.delete();
+      _profileState = ProfileState.display;
+      notifyListeners();
+    } on FirebaseAuthException catch (e) {
+      errorCallback(e);
+      print('firebase auhentication error!');
+      print('accountDelete Error:$e');
+    }
+  }
 
   void signOut() {
     FirebaseAuth.instance.signOut();
-    print('sign out-------');
+    // print('sign out-------');
     _loginState = ApplicationLoginState.loggedOut;
     notifyListeners();
   }
-  // void signOut() {
-  //   _user = "";
-  //   _loginState = ApplicationLoginState.loggedOut;
-  //   notifyListeners();
-  // }
-
 }

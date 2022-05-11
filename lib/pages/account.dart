@@ -32,7 +32,8 @@ class AccountPage extends StatelessWidget {
                             currentUser: appState.getCurrentUser,
                             setProfileState: appState.setProfileState,
                             updateDisplayName: appState.updateDisplayName,
-                            // updateDisplayName: appState.updateDisplayName,
+                            updateEmail: appState.updateEmail,
+                            accountDelete: appState.accountDelete,
 
                             // loginState: appState.loginState,
                             // email: appState.email,

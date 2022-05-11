@@ -9,9 +9,11 @@ class EmailUpdate extends StatefulWidget {
     Key? key,
     required this.user,
     required this.setProfileState,
+    required this.updateEmail,
   }) : super(key: key);
   final User? user;
   final void Function(ProfileState status) setProfileState;
+  final void Function(String emailAddress) updateEmail;
   @override
   _EmailUpdateState createState() => _EmailUpdateState();
 }
@@ -75,12 +77,10 @@ class _EmailUpdateState extends State<EmailUpdate> {
                         ElevatedButton(
                             onPressed: () {
                               if (_formKey.currentState!.validate()) {
-                                // widget.registerAccount(
-                                //   _emailController.text,
-                                //   _displayNameController.text,
-                                //   _passwordController.text,
-                                // );
-                                widget.setProfileState(ProfileState.display);
+                                widget.updateEmail(
+                                  _emailController.text,
+                                );
+                                // widget.setProfileState(ProfileState.display);
                               }
                             },
                             child: Text('変更'))
@@ -90,12 +90,6 @@ class _EmailUpdateState extends State<EmailUpdate> {
                 ],
               )),
         )
-
-        // ElevatedButton(
-        //     onPressed: () {
-        //       widget.setProfileState(ProfileState.display);
-        //     },
-        //     child: Text('変更')),
       ],
     );
   }
