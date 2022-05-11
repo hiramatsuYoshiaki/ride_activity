@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:ride_activity/model/status.dart';
 import 'header_widget.dart';
-import 'package:email_validator/email_validator.dart';
 
 class DisplayNameUpdate extends StatefulWidget {
   const DisplayNameUpdate({
@@ -31,7 +30,7 @@ class _DisplayNameUpdateState extends State<DisplayNameUpdate> {
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
+            children: const [
               HeaderAuthWidget(
                   title: 'Update Name',
                   img: 'undraw_Add_user_re_5oib.png',
@@ -41,7 +40,7 @@ class _DisplayNameUpdateState extends State<DisplayNameUpdate> {
           ),
         ),
         Padding(
-          padding: EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(8.0),
           child: Form(
             key: _formKey,
             child: Column(

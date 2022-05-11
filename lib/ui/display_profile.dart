@@ -24,7 +24,7 @@ class _DisplayProfileState extends State<DisplayProfile> {
         widget.user!.photoURL == null
             ? CircleAvatar(
                 backgroundImage:
-                    NetworkImage('images/undraw_profile_pic_ic5t.png'),
+                    NetworkImage('assets/images/undraw_profile_pic_ic5t.png'),
                 minRadius: 50,
                 maxRadius: 100,
               )

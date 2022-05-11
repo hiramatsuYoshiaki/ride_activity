@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:ride_activity/model/status.dart';
+import 'header_widget.dart';
 
 class PhotourlUpdate extends StatefulWidget {
   const PhotourlUpdate({
@@ -20,7 +21,21 @@ class _PhotourlUpdateState extends State<PhotourlUpdate> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Text('PhotourlUpdate'),
+        // Text('PhotourlUpdate'),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              HeaderAuthWidget(
+                  title: 'Aveter Update',
+                  img: 'undraw_female_avatar_w3jk.png',
+                  // img: 'undraw_male_avatar_323b.png',
+                  subTitle: 'アバター変更',
+                  discription: '新しいアバターを選択してください')
+            ],
+          ),
+        ),
         ElevatedButton(
             onPressed: () {
               widget.setProfileState(ProfileState.display);
