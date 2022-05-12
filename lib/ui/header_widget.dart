@@ -44,8 +44,12 @@ class HeaderAuthWidget extends StatelessWidget {
                   color: Colors.blue[600]),
             ),
             const SizedBox(height: 8),
-            Image.asset('images/$img'),
-            // Image.network('assets/images/$img'),
+            const CircleAvatar(
+              backgroundImage:
+                  NetworkImage('assets/images/undraw_profile_pic_ic5t.png'),
+              minRadius: 50,
+              maxRadius: 100,
+            ),
             const SizedBox(height: 8),
             Text(subTitle!,
                 style: TextStyle(

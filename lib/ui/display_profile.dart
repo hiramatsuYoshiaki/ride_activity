@@ -36,7 +36,7 @@ class _DisplayProfileState extends State<DisplayProfile> {
         const SizedBox(height: 8),
         TextButton.icon(
           onPressed: () {
-            widget.setProfileState(ProfileState.emailUpdate);
+            widget.setProfileState(ProfileState.photoUpdate);
           },
           icon: const Icon(
             Icons.edit,
