@@ -156,31 +156,31 @@ class _PhotourlUpdateState extends State<PhotourlUpdate> {
                             )),
                 ),
                 // Padding(
-                //     padding: const EdgeInsets.all(8.0),
-                //     child: _imageFileList == null
-                //         ? Text('画像が選択されてません')
-                //         : Column(
-                //             children: [
-                //               Flexible(
-                //                 child: ListView.builder(
-                //                   key: UniqueKey(),
-                //                   itemBuilder:
-                //                       (BuildContext context, int index) {
-                //                     // Why network for web?
-                //                     // See https://pub.dev/packages/image_picker#getting-ready-for-the-web-platform
-                //                     // return kIsWeb
-                //                     //     ? Image.network(
-                //                     //         _imageFileList![index].path)
-                //                     //     : Image.file(
-                //                     //         File(_imageFileList![index].path));
-                //                     // return Text('${index}');
-                //                     return Text('aaaaaa');
-                //                   },
-                //                   itemCount: _imageFileList!.length,
-                //                 ),
-                //               ),
-                //             ],
-                // )),
+                //   padding: const EdgeInsets.all(8.0),
+                //   child:
+                // _imageFileList == null
+                //     ? Text('画像が選択されてません')
+                //     :
+                // Expanded(
+                //     child:
+                // ListView.builder(
+                // shrinkWrap: true,
+                // key: UniqueKey(),
+                // itemBuilder: (BuildContext context, int index) {
+                // Why network for web?
+                // See https://pub.dev/packages/image_picker#getting-ready-for-the-web-platform
+                // return kIsWeb
+                //     ? Image.network(
+                //         _imageFileList![index].path)
+                //     : Image.file(
+                //         File(_imageFileList![index].path));
+                // return Text('${index}');
+                //     return Text('aaaaaa');
+                //   },
+                //   itemCount: _imageFileList!.length,
+                // ),
+                // ),
+                // ),
               ],
             )),
         Padding(
@@ -203,6 +203,12 @@ class _PhotourlUpdateState extends State<PhotourlUpdate> {
                     child: const Text('アバター変更')),
               ],
             )),
+        Padding(
+            padding: EdgeInsets.symmetric(horizontal: 8),
+            child: Column(children: [
+              SizedBox(height: 32),
+              Text(' multi image area'),
+            ]))
       ],
     );
   }
