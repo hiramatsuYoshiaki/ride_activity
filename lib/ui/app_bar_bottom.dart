@@ -55,7 +55,7 @@ class AppBarBottom extends StatelessWidget {
           IconButton(
             tooltip: 'Account',
             icon: const Icon(
-              Icons.account_circle,
+              Icons.settings,
               color: Colors.white,
             ),
             onPressed: () {
@@ -70,73 +70,6 @@ class AppBarBottom extends StatelessWidget {
               Navigator.of(context).pushNamed('/account');
             },
           ),
-
-          // Consumer<ApplicationState>(builder: (context, appState, _) {
-          //   return appState.getCurrentUser != null
-          //       ? IconButton(
-          //           tooltip: 'Account',
-          //           icon: const Icon(
-          //             Icons.account_circle,
-          //             color: Colors.white,
-          //           ),
-          //           onPressed: () {
-          //             Navigator.push(
-          //               context,
-          //               MaterialPageRoute(
-          //                 builder: (context) {
-          //                   return AccountPage();
-          //                 },
-          //               ),
-          //               // Navigator.of(context).pushNamed('/home');
-          //             );
-          //           },
-          //         )
-          //       : Text('');
-          // }),
-          // Consumer<ApplicationState>(builder: (context, appState, _) {
-          //   return appState.getCurrentUser != null
-          //       ? IconButton(
-          //           tooltip: 'Account',
-          //           icon: const Icon(
-          //             Icons.directions_bike,
-          //             color: Colors.white,
-          //           ),
-          //           onPressed: () {
-          //             Navigator.push(
-          //               context,
-          //               MaterialPageRoute(
-          //                 builder: (context) {
-          //                   return ActivityPage();
-          //                 },
-          //               ),
-          //               // Navigator.of(context).pushNamed('/home');
-          //             );
-          //           },
-          //         )
-          //       : Text('');
-          // }),
-          // Consumer<ApplicationState>(builder: (context, appState, _) {
-          //   return IconButton(
-          //     tooltip: 'Account',
-          //     icon: const Icon(
-          //       Icons.account_circle,
-          //       color: Colors.white,
-          //     ),
-          //     onPressed: () {
-          //       Navigator.push(
-          //         context,
-          //         MaterialPageRoute(
-          //           builder: (context) {
-          //             return appState.getCurrentUser == null
-          //                 ? AuthPage()
-          //                 : AccountPage();
-          //           },
-          //         ),
-          //         // Navigator.of(context).pushNamed('/home');
-          //       );
-          //     },
-          //   );
-          // }),
         ],
       ),
     );

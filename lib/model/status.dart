@@ -17,6 +17,22 @@ enum ProfileState {
   removeAccount
 }
 
+enum ActivityState {
+  display,
+  activityDetail,
+  activityAdd,
+  activityRemove,
+  activityEdit,
+}
+
+enum RiderState {
+  display,
+  riderDetail,
+  riderAdd,
+  riderRemove,
+  riderEdit,
+}
+
 enum AuthState {
   loggedIn,
   loggedOut,

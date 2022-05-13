@@ -34,21 +34,6 @@ class AccountPage extends StatelessWidget {
                             updateDisplayName: appState.updateDisplayName,
                             updateEmail: appState.updateEmail,
                             accountDelete: appState.accountDelete,
-
-                            // loginState: appState.loginState,
-                            // email: appState.email,
-                            // verifyEmail: appState.verifyEmail,
-                            // signInWithEmailAndPassword:
-                            //     appState.signInWithEmailAndPassword,
-                            // registerAccount: appState.registerAccount,
-                            // signOut: appState.signOut,
-                            // setLoginState: appState.setLoginState,
-                            // // user: appState.getUser,
-                            // currentUser: appState.getCurrentUser,
-                            // // sendEmailVerification:appState.sendEmailVerification(currentUser, (e) { })
-                            // sendEmailVerification:
-                            //     appState.sendEmailVerification,
-                            // passReset: appState.passReset,
                           )),
                 ],
               ),

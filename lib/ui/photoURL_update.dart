@@ -133,11 +133,11 @@ class _PhotourlUpdateState extends State<PhotourlUpdate> {
                       tooltip: 'ファイルから画像を選択',
                       child: const Icon(Icons.photo_library),
                     ),
-                    FloatingActionButton(
-                      onPressed: getImageMultiFromGallery,
-                      tooltip: 'ファイルから複数画像を選択',
-                      child: const Icon(Icons.library_add),
-                    ),
+                    // FloatingActionButton(
+                    //   onPressed: getImageMultiFromGallery,
+                    //   tooltip: 'ファイルから複数画像を選択',
+                    //   child: const Icon(Icons.library_add),
+                    // ),
                   ],
                 ),
                 Padding(
@@ -203,12 +203,6 @@ class _PhotourlUpdateState extends State<PhotourlUpdate> {
                     child: const Text('アバター変更')),
               ],
             )),
-        Padding(
-            padding: EdgeInsets.symmetric(horizontal: 8),
-            child: Column(children: [
-              SizedBox(height: 32),
-              Text(' multi image area'),
-            ]))
       ],
     );
   }

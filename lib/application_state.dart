@@ -72,7 +72,10 @@ class ApplicationState extends ChangeNotifier {
   ApplicationLoginState get loginState => _loginState;
   ProfileState _profileState = ProfileState.display;
   ProfileState get profileState => _profileState;
-
+  ActivityState _activityState = ActivityState.display;
+  ActivityState get activityState => _activityState;
+  RiderState _riderState = RiderState.display;
+  RiderState get riderState => _riderState;
   String? _email;
   String? get email => _email;
 
