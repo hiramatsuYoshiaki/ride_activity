@@ -40,7 +40,7 @@ class _DisplayProfileState extends State<DisplayProfile> {
           },
           icon: const Icon(
             Icons.edit,
-            color: Colors.black45,
+            color: Color.fromARGB(115, 69, 37, 37),
           ),
           label: const Text('アバター変更', style: TextStyle(color: Colors.black45)),
         ),

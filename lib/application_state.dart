@@ -32,7 +32,6 @@ class ApplicationState extends ChangeNotifier {
         print(user.displayName);
         print(user.emailVerified);
         // setUser(user);
-
         // User(
         //   displayName: aaa,
         //   email: aaa@gmail.com,
@@ -47,11 +46,48 @@ class ApplicationState extends ChangeNotifier {
         //   tenantId: null,
         //   uid: ltLWWdJvQ7RDVUvUMnDmloFnwwa2
         // )
+
+        //Rider情報----------------------------------------------------
+        // _riderInfo = RiderInfo(
+        //     uid: user.uid, riderName: user.displayName, email: user.email);
+        // _riderInfo = RiderInfo(
+        //     uid: user.uid.toString(),
+        //     riderName: user.displayName.toString(),
+        //     email: user.email.toString());
+
+        //Activity情報-------------------------------------------------
+        // _guestBookSubscription = FirebaseFirestore.instance
+        //     .collection('guestbook')
+        //     .orderBy('timestamp', descending: true)
+        //     .snapshots()
+        //     .listen((snapshot) {
+        //   _guestBookMessages = [];
+        //   for (final document in snapshot.docs) {
+        //     // print(document.data()['message'] as String);
+        //     _guestBookMessages.add(
+        //       GuestBookMessage(
+        //           name: document.data()['name'] as String,
+        //           message: document.data()['text'] as String),
+        //     );
+        //   }
+        _riderActivities = [
+          RiderActivities(
+              id: '001',
+              uid: 'jmUx5BeigyYVWQ1ysaWjq02oKao2',
+              activityTitle: 'aaaa',
+              email: 'hworksdev@gmail.com'),
+          RiderActivities(
+              id: '002',
+              uid: 'ltLWWdJvQ7RDVUvUMnDmloFnwwa2',
+              activityTitle: 'bbbb',
+              email: 'aaa.com'),
+        ];
+
         notifyListeners();
       } else {
         _loginState = ApplicationLoginState.loggedOut;
         _currentUser = null;
-
+        _riderActivities = [];
         print('userChanges logged out');
         // print(user);
         notifyListeners();
@@ -79,6 +115,27 @@ class ApplicationState extends ChangeNotifier {
   String? _email;
   String? get email => _email;
 
+  // final List<RiderActivities> _RiderActivities = [
+  //   RiderActivities(
+  //       id: '001',
+  //       uid: 'jmUx5BeigyYVWQ1ysaWjq02oKao2',
+  //       activityTitle: 'aaaa',
+  //       email: 'hworksdev@gmail.com'),
+  //   RiderActivities(
+  //       id: '002',
+  //       uid: 'ltLWWdJvQ7RDVUvUMnDmloFnwwa2',
+  //       activityTitle: 'bbbb',
+  //       email: 'aaa.com'),
+  // ];
+  List<RiderActivities> _riderActivities = [];
+  List<RiderActivities> get riderActivities => _riderActivities;
+  // List<RiderActivities> getRideActivitise() {
+  //   return riderActivities;
+  // }
+
+  // RiderInfo _riderInfo;
+  // RiderInfo get riderInfo => _riderInfo;
+
   // String _user = "";
   // String get getUser => _user;
 
@@ -90,10 +147,16 @@ class ApplicationState extends ChangeNotifier {
     notifyListeners();
   }
 
+  void setActivityState(ActivityState status) {
+    _activityState = status;
+    notifyListeners();
+  }
+
   void setLoginState(ApplicationLoginState status) {
     _loginState = status;
     notifyListeners();
   }
+
   // bool _isEditProfilr = false;
   // bool get getIsEditProfile => _isEditProfilr;
   // void editProfile() {
@@ -315,3 +378,45 @@ class ApplicationState extends ChangeNotifier {
     notifyListeners();
   }
 }
+
+class RiderActivities {
+  RiderActivities({
+    required this.id,
+    required this.uid,
+    required this.activityTitle,
+    required this.email,
+  });
+  final String id;
+  final String uid;
+  final String activityTitle;
+  final String email;
+}
+
+class RiderInfo {
+  RiderInfo({
+    required this.uid,
+    required this.riderName,
+    required this.email,
+  });
+  final String uid;
+  final String riderName;
+  final String email;
+}
+// RiderActivities getRiderActivities(){
+//   return 
+// }
+// Future<DocumentReference> addMessageToGuestBook(String message) {
+//   if (_loginState != ApplicationLoginState.loggedIn) {
+//     throw Exception('Must be logged in');
+//   }
+//   // print('addMessageToGuestBook');
+//   // print('message:$message');
+//   return FirebaseFirestore.instance
+//       .collection('guestbook')
+//       .add(<String, dynamic>{
+//     'text': message,
+//     'timestamp': DateTime.now().millisecondsSinceEpoch,
+//     'name': FirebaseAuth.instance.currentUser!.displayName,
+//     'uesrId': FirebaseAuth.instance.currentUser!.uid,
+//   });
+// }

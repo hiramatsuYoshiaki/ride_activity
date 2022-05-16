@@ -28,6 +28,9 @@ class ActivityPage extends StatelessWidget {
                   builder: (BuildContext context, appState, _) =>
                       ActivitySwitch(
                         activityState: appState.activityState,
+                        setActivityState: appState.setActivityState,
+                        riderActivities: appState.riderActivities,
+                        // riderInfo: appState.riderInfo,
                       ))
               // Consumer<ApplicationState>(
               //   builder: (context, appState, _) => UserProfile(
