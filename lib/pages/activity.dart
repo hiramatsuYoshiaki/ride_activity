@@ -24,14 +24,16 @@ class ActivityPage extends StatelessWidget {
           alignment: Alignment.center,
           child: Column(
             children: [
-              Consumer<ApplicationState>(
-                  builder: (BuildContext context, appState, _) =>
-                      ActivitySwitch(
-                        activityState: appState.activityState,
-                        setActivityState: appState.setActivityState,
-                        riderActivities: appState.riderActivities,
-                        // riderInfo: appState.riderInfo,
-                      ))
+              Expanded(
+                  child: Consumer<ApplicationState>(
+                      builder: (BuildContext context, appState, _) =>
+                          ActivitySwitch(
+                            activityState: appState.activityState,
+                            setActivityState: appState.setActivityState,
+                            riderActivities: appState.riderActivities,
+                            riderInfo: appState.riderInfo,
+                            addRiderActivity: appState.addRiderActivity,
+                          )))
               // Consumer<ApplicationState>(
               //   builder: (context, appState, _) => UserProfile(
               //         profileState: appState.profileState,

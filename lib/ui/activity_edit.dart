@@ -43,6 +43,12 @@ class _ActivityEditState extends State<ActivityEdit> {
               widget.setActivityState(ActivityState.activityRemove);
             },
             child: Text('Remove')),
+        SizedBox(height: 8),
+        ElevatedButton(
+            onPressed: () {
+              widget.setActivityState(ActivityState.display);
+            },
+            child: Text('List')),
       ],
     );
   }

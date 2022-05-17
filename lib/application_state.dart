@@ -4,6 +4,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
+import 'model/rider_activity.dart';
+import 'model/rider_info.dart';
 import 'model/status.dart';
 
 class ApplicationState extends ChangeNotifier {
@@ -50,10 +52,11 @@ class ApplicationState extends ChangeNotifier {
         //Rider情報----------------------------------------------------
         // _riderInfo = RiderInfo(
         //     uid: user.uid, riderName: user.displayName, email: user.email);
-        // _riderInfo = RiderInfo(
-        //     uid: user.uid.toString(),
-        //     riderName: user.displayName.toString(),
-        //     email: user.email.toString());
+        _riderInfo = RiderInfo(
+            uid: user.uid.toString(),
+            riderName: user.displayName.toString(),
+            email: user.email.toString(),
+            photoURL: user.photoURL.toString());
 
         //Activity情報-------------------------------------------------
         // _guestBookSubscription = FirebaseFirestore.instance
@@ -81,6 +84,96 @@ class ApplicationState extends ChangeNotifier {
               uid: 'ltLWWdJvQ7RDVUvUMnDmloFnwwa2',
               activityTitle: 'bbbb',
               email: 'aaa.com'),
+          RiderActivities(
+              id: '003',
+              uid: 'ltLWWdJvQ7RDVUvUMnDmloFnwwa3',
+              activityTitle: 'title3',
+              email: '333.com'),
+          RiderActivities(
+              id: '004',
+              uid: 'ltLWWdJvQ7RDVUvUMnDmloFnwwa004',
+              activityTitle: 'title004',
+              email: '004.com'),
+          RiderActivities(
+              id: '005',
+              uid: 'ltLWWdJvQ7RDVUvUMnDmloFnwwa005',
+              activityTitle: 'title005',
+              email: '005.com'),
+          RiderActivities(
+              id: '006',
+              uid: 'ltLWWdJvQ7RDVUvUMnDmloFnwwa006',
+              activityTitle: 'title006',
+              email: '006.com'),
+          RiderActivities(
+              id: '007',
+              uid: 'ltLWWdJvQ7RDVUvUMnDmloFnwwa007',
+              activityTitle: 'title007',
+              email: '007.com'),
+          RiderActivities(
+              id: '008',
+              uid: 'ltLWWdJvQ7RDVUvUMnDmloFnwwa008',
+              activityTitle: 'title008',
+              email: '008.com'),
+          RiderActivities(
+              id: '009',
+              uid: 'ltLWWdJvQ7RDVUvUMnDmloFnwwa009',
+              activityTitle: 'title009',
+              email: '009.com'),
+          RiderActivities(
+              id: '010',
+              uid: 'ltLWWdJvQ7RDVUvUMnDmloFnwwa010',
+              activityTitle: 'title010',
+              email: '010.com'),
+          RiderActivities(
+              id: '011',
+              uid: 'ltLWWdJvQ7RDVUvUMnDmloFnwwa011',
+              activityTitle: 'title011',
+              email: '011.com'),
+          RiderActivities(
+              id: '012',
+              uid: 'ltLWWdJvQ7RDVUvUMnDmloFnwwa012',
+              activityTitle: 'title012',
+              email: '012.com'),
+          RiderActivities(
+              id: '013',
+              uid: 'ltLWWdJvQ7RDVUvUMnDmloFnwwa013',
+              activityTitle: 'title013',
+              email: '013.com'),
+          RiderActivities(
+              id: '014',
+              uid: 'ltLWWdJvQ7RDVUvUMnDmloFnwwa014',
+              activityTitle: 'title014',
+              email: '014.com'),
+          RiderActivities(
+              id: '015',
+              uid: 'ltLWWdJvQ7RDVUvUMnDmloFnwwa015',
+              activityTitle: 'title015',
+              email: '015.com'),
+          RiderActivities(
+              id: '016',
+              uid: 'ltLWWdJvQ7RDVUvUMnDmloFnwwa016',
+              activityTitle: 'title016',
+              email: '016.com'),
+          RiderActivities(
+              id: '017',
+              uid: 'ltLWWdJvQ7RDVUvUMnDmloFnwwa017',
+              activityTitle: 'title017',
+              email: '017.com'),
+          RiderActivities(
+              id: '018',
+              uid: 'ltLWWdJvQ7RDVUvUMnDmloFnwwa018',
+              activityTitle: 'title018',
+              email: '018.com'),
+          RiderActivities(
+              id: '019',
+              uid: 'ltLWWdJvQ7RDVUvUMnDmloFnwwa019',
+              activityTitle: 'title019',
+              email: '019.com'),
+          RiderActivities(
+              id: '020',
+              uid: 'ltLWWdJvQ7RDVUvUMnDmloFnwwa020',
+              activityTitle: 'title020',
+              email: '020.com'),
         ];
 
         notifyListeners();
@@ -129,12 +222,10 @@ class ApplicationState extends ChangeNotifier {
   // ];
   List<RiderActivities> _riderActivities = [];
   List<RiderActivities> get riderActivities => _riderActivities;
-  // List<RiderActivities> getRideActivitise() {
-  //   return riderActivities;
-  // }
 
-  // RiderInfo _riderInfo;
-  // RiderInfo get riderInfo => _riderInfo;
+  RiderInfo _riderInfo =
+      RiderInfo(uid: '', riderName: '', email: '', photoURL: '');
+  RiderInfo get riderInfo => _riderInfo;
 
   // String _user = "";
   // String get getUser => _user;
@@ -377,34 +468,12 @@ class ApplicationState extends ChangeNotifier {
     _loginState = ApplicationLoginState.loggedOut;
     notifyListeners();
   }
+
+  void addRiderActivity(RiderActivities activities) {
+    _riderActivities.add(activities);
+  }
 }
 
-class RiderActivities {
-  RiderActivities({
-    required this.id,
-    required this.uid,
-    required this.activityTitle,
-    required this.email,
-  });
-  final String id;
-  final String uid;
-  final String activityTitle;
-  final String email;
-}
-
-class RiderInfo {
-  RiderInfo({
-    required this.uid,
-    required this.riderName,
-    required this.email,
-  });
-  final String uid;
-  final String riderName;
-  final String email;
-}
-// RiderActivities getRiderActivities(){
-//   return 
-// }
 // Future<DocumentReference> addMessageToGuestBook(String message) {
 //   if (_loginState != ApplicationLoginState.loggedIn) {
 //     throw Exception('Must be logged in');
@@ -420,3 +489,5 @@ class RiderInfo {
 //     'uesrId': FirebaseAuth.instance.currentUser!.uid,
 //   });
 // }
+
+
