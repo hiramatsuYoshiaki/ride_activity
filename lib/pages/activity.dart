@@ -30,9 +30,17 @@ class ActivityPage extends StatelessWidget {
                           ActivitySwitch(
                             activityState: appState.activityState,
                             setActivityState: appState.setActivityState,
-                            riderActivities: appState.riderActivities,
+                            //rideActivities--->activities
+                            // riderActivities: appState.riderActivities,
+                            activities: appState.activities,
+
+                            //
                             riderInfo: appState.riderInfo,
-                            addRiderActivity: appState.addRiderActivity,
+                            //addRiderActivity-->addActivity
+                            // addRiderActivity: appState.addRiderActivity,
+                            addActivity: appState.addActivity,
+                            setSelectedActivity: appState.setSelectedActivity,
+                            selectedActivity: appState.selectActivity,
                           )))
               // Consumer<ApplicationState>(
               //   builder: (context, appState, _) => UserProfile(

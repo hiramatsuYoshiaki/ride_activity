@@ -7,6 +7,7 @@ import 'firebase_options.dart';
 import 'model/rider_activity.dart';
 import 'model/rider_info.dart';
 import 'model/status.dart';
+// import 'package:intl/intl_browser.dart';
 
 class ApplicationState extends ChangeNotifier {
   ApplicationState() {
@@ -73,114 +74,107 @@ class ApplicationState extends ChangeNotifier {
         //           message: document.data()['text'] as String),
         //     );
         //   }
-        _riderActivities = [
-          RiderActivities(
-              id: '001',
-              uid: 'jmUx5BeigyYVWQ1ysaWjq02oKao2',
-              activityTitle: 'aaaa',
-              email: 'hworksdev@gmail.com'),
-          RiderActivities(
-              id: '002',
-              uid: 'ltLWWdJvQ7RDVUvUMnDmloFnwwa2',
-              activityTitle: 'bbbb',
-              email: 'aaa.com'),
-          RiderActivities(
-              id: '003',
-              uid: 'ltLWWdJvQ7RDVUvUMnDmloFnwwa3',
-              activityTitle: 'title3',
-              email: '333.com'),
-          RiderActivities(
-              id: '004',
-              uid: 'ltLWWdJvQ7RDVUvUMnDmloFnwwa004',
-              activityTitle: 'title004',
-              email: '004.com'),
-          RiderActivities(
-              id: '005',
-              uid: 'ltLWWdJvQ7RDVUvUMnDmloFnwwa005',
-              activityTitle: 'title005',
-              email: '005.com'),
-          RiderActivities(
-              id: '006',
-              uid: 'ltLWWdJvQ7RDVUvUMnDmloFnwwa006',
-              activityTitle: 'title006',
-              email: '006.com'),
-          RiderActivities(
-              id: '007',
-              uid: 'ltLWWdJvQ7RDVUvUMnDmloFnwwa007',
-              activityTitle: 'title007',
-              email: '007.com'),
-          RiderActivities(
-              id: '008',
-              uid: 'ltLWWdJvQ7RDVUvUMnDmloFnwwa008',
-              activityTitle: 'title008',
-              email: '008.com'),
-          RiderActivities(
-              id: '009',
-              uid: 'ltLWWdJvQ7RDVUvUMnDmloFnwwa009',
-              activityTitle: 'title009',
-              email: '009.com'),
-          RiderActivities(
-              id: '010',
-              uid: 'ltLWWdJvQ7RDVUvUMnDmloFnwwa010',
-              activityTitle: 'title010',
-              email: '010.com'),
-          RiderActivities(
-              id: '011',
-              uid: 'ltLWWdJvQ7RDVUvUMnDmloFnwwa011',
-              activityTitle: 'title011',
-              email: '011.com'),
-          RiderActivities(
-              id: '012',
-              uid: 'ltLWWdJvQ7RDVUvUMnDmloFnwwa012',
-              activityTitle: 'title012',
-              email: '012.com'),
-          RiderActivities(
-              id: '013',
-              uid: 'ltLWWdJvQ7RDVUvUMnDmloFnwwa013',
-              activityTitle: 'title013',
-              email: '013.com'),
-          RiderActivities(
-              id: '014',
-              uid: 'ltLWWdJvQ7RDVUvUMnDmloFnwwa014',
-              activityTitle: 'title014',
-              email: '014.com'),
-          RiderActivities(
-              id: '015',
-              uid: 'ltLWWdJvQ7RDVUvUMnDmloFnwwa015',
-              activityTitle: 'title015',
-              email: '015.com'),
-          RiderActivities(
-              id: '016',
-              uid: 'ltLWWdJvQ7RDVUvUMnDmloFnwwa016',
-              activityTitle: 'title016',
-              email: '016.com'),
-          RiderActivities(
-              id: '017',
-              uid: 'ltLWWdJvQ7RDVUvUMnDmloFnwwa017',
-              activityTitle: 'title017',
-              email: '017.com'),
-          RiderActivities(
-              id: '018',
-              uid: 'ltLWWdJvQ7RDVUvUMnDmloFnwwa018',
-              activityTitle: 'title018',
-              email: '018.com'),
-          RiderActivities(
-              id: '019',
-              uid: 'ltLWWdJvQ7RDVUvUMnDmloFnwwa019',
-              activityTitle: 'title019',
-              email: '019.com'),
-          RiderActivities(
-              id: '020',
-              uid: 'ltLWWdJvQ7RDVUvUMnDmloFnwwa020',
-              activityTitle: 'title020',
-              email: '020.com'),
+        // var now = new DateTime.now();
+        // var berlinWallFell = new DateTime.utc(1989, 11, 9);
+        // var moonLanding = DateTime.parse("1969-07-20 20:18:04Z");
+        // _riderActivities = [
+        //   RiderActivities(
+        //     uid: 'jmUx5BeigyYVWQ1ysaWjq02oKao2',
+        //     activityTitle: 'Ride1',
+        //     // date: DateTime.parse("2022-05-03 7:00:04Z"),
+        //     date: DateTime.utc(2022, 01, 03, 10, 30, 00),
+        //     distance: 180,
+        //     done: false,
+        //   ),
+        //   RiderActivities(
+        //     uid: 'ltLWWdJvQ7RDVUvUMnDmloFnwwa2',
+        //     activityTitle: 'Ride2',
+        //     date: DateTime.parse(
+        //         '2022-02-25 09:48:00'), //iso 年４桁　月、日、時、分、秒２桁　1桁はフォーマットエラー
+        //     // date: DateTime.utc(2022, 05, 03, 10, 30),
+        //     distance: 80,
+        //     done: false,
+        //   ),
+        //   RiderActivities(
+        //     uid: 'ltLWWdJvQ7RDVUvUMnDmloFnwwa3',
+        //     activityTitle: 'Ride3',
+        //     date: DateTime.parse('2022-03-30 10:48:00'), //iso
+        //     // date: DateTime.utc(2022, 05, 03, 10, 30),
+        //     distance: 50,
+        //     done: false,
+        //   ),
+        // ];
+
+        _activities = [
+          Activities(
+              plan: RiderActivities(
+                  uid: 'jmUx5BeigyYVWQ1ysaWjq02oKao2',
+                  activityTitle: '初詣ライド2022',
+                  date: DateTime.parse("2022-01-03 09:00:00"),
+                  // date: DateTime.utc(2022, 01, 03, 10, 30, 00),
+                  distance: 78,
+                  // time:0,
+                  // avelageSpeed:0,
+                  // vartical:0,
+                  done: true,
+                  startPoint: 'シティーライトフィットネス',
+                  wayPoint: '由加神社',
+                  finishPoint: 'シティーライトフィットネス',
+                  couseURL:
+                      'https://connect.garmin.com/modern/course/87305420'),
+              actual: ActualRide(
+                rideURL:
+                    'https://connect.garmin.com/modern/activity/embed/8052346097',
+                ridePhotos: ['img1.jpeg', 'img2.jpeg'],
+              ),
+              menber: Menber(rider: ['Frend1', 'Frend2'])),
+          Activities(
+              plan: RiderActivities(
+                  uid: 'ltLWWdJvQ7RDVUvUMnDmloFnwwa2',
+                  activityTitle: '河津桜ライド2022',
+                  // date: DateTime.utc(2022, 02, 03, 11, 30, 00),
+                  date: DateTime.parse('2022-03-12 14:00:00'), //iso
+                  distance: 50,
+                  done: false,
+                  startPoint: '自宅',
+                  wayPoint: '入船橋（美観地区の南端）',
+                  finishPoint: '自宅',
+                  couseURL:
+                      'https://connect.garmin.com/modern/course/105823680'),
+              actual: ActualRide(
+                rideURL:
+                    'https://connect.garmin.com/modern/activity/embed/8442710466',
+                ridePhotos: ['img1.jpeg', 'img2.jpeg'],
+              ),
+              menber: Menber(rider: ['Frend1', 'Frend2', 'Frend3'])),
+          Activities(
+              plan: RiderActivities(
+                  uid: 'ltLWWdJvQ7RDVUvUMnDmloFnwwa3',
+                  activityTitle: '児島半島ライド',
+                  // date: DateTime.utc(2022, 03, 03, 12, 30, 00),
+                  date: DateTime.parse('2022-04-23 13:20:00'), //iso
+                  distance: 60,
+                  done: false,
+                  startPoint: '自宅',
+                  wayPoint: 'サウスビレッジ',
+                  finishPoint: '自宅',
+                  couseURL:
+                      'https://connect.garmin.com/modern/course/105823680'),
+              // 'https://connect.garmin.com/modern/course/105823680'),
+              actual: ActualRide(
+                rideURL:
+                    'https://connect.garmin.com/modern/activity/embed/8763155713',
+                ridePhotos: ['img1.jpeg', 'img2.jpeg'],
+              ),
+              menber: Menber(rider: ['Frend1', 'Frend2', 'Frend3', 'Frend4'])),
         ];
 
         notifyListeners();
       } else {
         _loginState = ApplicationLoginState.loggedOut;
         _currentUser = null;
-        _riderActivities = [];
+        // _riderActivities = [];
+        _activities = [];
         print('userChanges logged out');
         // print(user);
         notifyListeners();
@@ -220,8 +214,30 @@ class ApplicationState extends ChangeNotifier {
   //       activityTitle: 'bbbb',
   //       email: 'aaa.com'),
   // ];
-  List<RiderActivities> _riderActivities = [];
-  List<RiderActivities> get riderActivities => _riderActivities;
+  // List<RiderActivities> _riderActivities = [];
+  // List<RiderActivities> get riderActivities => _riderActivities;
+
+  List<Activities> _activities = [];
+  List<Activities> get activities => _activities;
+
+  Activities _selectedActivity = Activities(
+      plan: RiderActivities(
+          uid: '',
+          activityTitle: '',
+          // date: DateTime.utc(2022, 03, 03, 12, 30, 00),
+          date: DateTime.parse('2022-01-01 01:00:00'), //iso
+          distance: 0,
+          done: false,
+          startPoint: '',
+          wayPoint: '',
+          finishPoint: '',
+          couseURL: ''),
+      actual: ActualRide(
+        rideURL: '',
+        ridePhotos: [],
+      ),
+      menber: Menber(rider: []));
+  Activities get selectActivity => _selectedActivity;
 
   RiderInfo _riderInfo =
       RiderInfo(uid: '', riderName: '', email: '', photoURL: '');
@@ -469,8 +485,22 @@ class ApplicationState extends ChangeNotifier {
     notifyListeners();
   }
 
-  void addRiderActivity(RiderActivities activities) {
-    _riderActivities.add(activities);
+  // void addRiderActivity(RiderActivities activities) {
+  //   _riderActivities.add(activities);
+  // }
+
+  void addActivity(Activities activities) {
+    _activities.add(activities);
+    notifyListeners();
+  }
+
+  void setSelectedActivity(Activities activity, ActivityState status) {
+    _selectedActivity = activity;
+    print('setSelectActivity');
+    print(activity.plan.activityTitle);
+    print(activity.actual.rideURL);
+    _activityState = status;
+    notifyListeners();
   }
 }
 
@@ -489,5 +519,3 @@ class ApplicationState extends ChangeNotifier {
 //     'uesrId': FirebaseAuth.instance.currentUser!.uid,
 //   });
 // }
-
-

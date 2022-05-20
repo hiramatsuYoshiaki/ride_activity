@@ -7,10 +7,12 @@ class ActivityAdd extends StatefulWidget {
   const ActivityAdd({
     Key? key,
     required this.setActivityState,
-    required this.addRiderActivity,
+    // required this.addRiderActivity,
+    required this.addActivity,
   }) : super(key: key);
   final void Function(ActivityState status) setActivityState;
-  final void Function(RiderActivities activities) addRiderActivity;
+  // final void Function(RiderActivities activities) addRiderActivity;
+  final void Function(Activities activities) addActivity;
 
   @override
   _ActivityAddState createState() => _ActivityAddState();
@@ -55,21 +57,43 @@ class _ActivityAddState extends State<ActivityAdd> {
                     return null;
                   },
                 )),
-                SizedBox(width: 8),
+                const SizedBox(width: 8),
                 ElevatedButton(
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
                         //  widget.addRiderActivity(_activityTitleController.text);
-                        widget.addRiderActivity(RiderActivities(
-                            id: 'add1',
-                            uid: 'add2',
-                            activityTitle: _activityTitleController.text,
-                            email: 'add1'));
+                        // widget.addRiderActivity(RiderActivities(
+                        //   uid: 'AddPlan1',
+                        //   activityTitle: _activityTitleController.text,
+                        //   // date: DateTime.parse("2022-05-03 7:00:04Z"),
+                        //   date: DateTime.utc(2022, 05, 29, 10, 30, 00),
+                        //   distance: 40,
+                        //   done: false,
+                        // ));
+
+                        widget.addActivity(Activities(
+                            plan: RiderActivities(
+                              uid: 'AddPlan1',
+                              activityTitle: _activityTitleController.text,
+                              // date: DateTime.parse("2022-05-03 7:00:04Z"),
+                              date: DateTime.utc(2022, 05, 29, 10, 30, 00),
+                              distance: 40,
+                              done: false,
+                              couseURL: '',
+                              startPoint: '',
+                              wayPoint: '',
+                              finishPoint: '',
+                            ),
+                            actual: ActualRide(
+                              rideURL: '',
+                              ridePhotos: [],
+                            ),
+                            menber: Menber(rider: [])));
                         _activityTitleController.clear();
                       }
                     },
                     child: Row(
-                      children: [
+                      children: const [
                         Icon(Icons.add),
                         SizedBox(width: 4),
                         Text('Add'),
