@@ -20,30 +20,31 @@ class _ActivityEditState extends State<ActivityEdit> {
       children: [
         Text('Activity Edit '),
         SizedBox(height: 8),
-        ElevatedButton(
-            onPressed: () {
-              widget.setActivityState(ActivityState.activityDetail);
-            },
-            child: Text('Detail')),
-        SizedBox(height: 8),
-        ElevatedButton(
-            onPressed: () {
-              widget.setActivityState(ActivityState.activityAdd);
-            },
-            child: Text('Add')),
-        SizedBox(height: 8),
-        ElevatedButton(
-            onPressed: () {
-              widget.setActivityState(ActivityState.activityEdit);
-            },
-            child: Text('Edit')),
-        SizedBox(height: 8),
-        ElevatedButton(
-            onPressed: () {
-              widget.setActivityState(ActivityState.activityRemove);
-            },
-            child: Text('Remove')),
-        SizedBox(height: 8),
+        // ElevatedButton(
+        //     onPressed: () {
+        //       widget.setActivityState(ActivityState.activityDetail);
+        //     },
+        //     child: Text('Detail')),
+        // SizedBox(height: 8),
+        // ElevatedButton(
+        //     onPressed: () {
+        //       widget.setActivityState(ActivityState.activityAdd);
+        //     },
+        //     child: Text('Add')),
+        // SizedBox(height: 8),
+        // ElevatedButton(
+        //     onPressed: () {
+        //       widget.setActivityState(ActivityState.activityEdit);
+        //     },
+        //     child: Text('Edit')),
+        // SizedBox(height: 8),
+        // ElevatedButton(
+        //     onPressed: () {
+        //       widget.setActivityState(ActivityState.activityRemove);
+        //     },
+        //     child: Text('Remove')),
+        // SizedBox(height: 8),
+
         ElevatedButton(
             onPressed: () {
               widget.setActivityState(ActivityState.display);

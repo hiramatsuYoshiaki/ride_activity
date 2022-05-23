@@ -121,7 +121,7 @@ class ApplicationState extends ChangeNotifier {
                   wayPoint: '由加神社',
                   finishPoint: 'シティーライトフィットネス',
                   couseURL:
-                      'https://connect.garmin.com/modern/course/87305420'),
+                      'https://connect.garmin.com/modern/course/embed/87305420'),
               actual: ActualRide(
                 rideURL:
                     'https://connect.garmin.com/modern/activity/embed/8052346097',
@@ -140,7 +140,7 @@ class ApplicationState extends ChangeNotifier {
                   wayPoint: '入船橋（美観地区の南端）',
                   finishPoint: '自宅',
                   couseURL:
-                      'https://connect.garmin.com/modern/course/105823680'),
+                      'https://connect.garmin.com/modern/course/embed/106611330'),
               actual: ActualRide(
                 rideURL:
                     'https://connect.garmin.com/modern/activity/embed/8442710466',
@@ -159,7 +159,7 @@ class ApplicationState extends ChangeNotifier {
                   wayPoint: 'サウスビレッジ',
                   finishPoint: '自宅',
                   couseURL:
-                      'https://connect.garmin.com/modern/course/105823680'),
+                      'https://connect.garmin.com/modern/course/embed/105823680'),
               // 'https://connect.garmin.com/modern/course/105823680'),
               actual: ActualRide(
                 rideURL:

@@ -267,6 +267,7 @@ class _ActivityDisplayState extends State<ActivityDisplay> {
             startPoint: activity.plan.startPoint,
             wayPoint: activity.plan.wayPoint,
             finishPoint: activity.plan.finishPoint,
+            done: activity.plan.done,
           ),
           // ),
           // Expanded(
@@ -274,15 +275,21 @@ class _ActivityDisplayState extends State<ActivityDisplay> {
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: <Widget>[
-              TextButton(
-                child: const Text('Done'),
-                onPressed: () {
-                  widget.setSelectedActivity(
-                      activity, ActivityState.activityEdit);
-                  // widget.setActivityState(ActivityState.activityEdit);
-                },
-              ),
+              activity.plan.done
+                  ? TextButton(
+                      child: const Text(''),
+                      onPressed: () {},
+                    )
+                  : TextButton(
+                      child: const Text('Done'),
+                      onPressed: () {
+                        widget.setSelectedActivity(
+                            activity, ActivityState.activityDone);
+                        // widget.setActivityState(ActivityState.activityEdit);
+                      },
+                    ),
               const SizedBox(width: 8),
+
               TextButton(
                 child: const Text('Detail'),
                 onPressed: () {
@@ -292,15 +299,15 @@ class _ActivityDisplayState extends State<ActivityDisplay> {
                 },
               ),
               const SizedBox(width: 8),
-              TextButton(
-                child: const Text('Delete'),
-                onPressed: () {
-                  widget.setSelectedActivity(
-                      activity, ActivityState.activityRemove);
-                  // widget.setActivityState(ActivityState.activityRemove);
-                },
-              ),
-              const SizedBox(width: 8),
+              // TextButton(
+              //   child: const Text('Delete'),
+              //   onPressed: () {
+              //     widget.setSelectedActivity(
+              //         activity, ActivityState.activityRemove);
+              //     // widget.setActivityState(ActivityState.activityRemove);
+              //   },
+              // ),
+              // const SizedBox(width: 8),
             ],
           )
           // ),
@@ -443,6 +450,7 @@ class CustomListItem extends StatelessWidget {
     required this.startPoint,
     required this.wayPoint,
     required this.finishPoint,
+    required this.done,
   });
 
   final Widget thumbnail;
@@ -453,6 +461,7 @@ class CustomListItem extends StatelessWidget {
   final String startPoint;
   final String wayPoint;
   final String finishPoint;
+  final bool done;
 
   @override
   Widget build(BuildContext context) {
@@ -475,6 +484,7 @@ class CustomListItem extends StatelessWidget {
               startPoint: startPoint,
               wayPoint: wayPoint,
               finishPoint: finishPoint,
+              done: done,
             ),
           ),
           // const Icon(
@@ -497,6 +507,7 @@ class _ActivityDescription extends StatelessWidget {
     required this.startPoint,
     required this.wayPoint,
     required this.finishPoint,
+    required this.done,
   }) : super(key: key);
 
   final String title;
@@ -506,6 +517,7 @@ class _ActivityDescription extends StatelessWidget {
   final String startPoint;
   final String wayPoint;
   final String finishPoint;
+  final bool done;
 
   @override
   Widget build(BuildContext context) {
@@ -514,6 +526,13 @@ class _ActivityDescription extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
+          const Padding(padding: EdgeInsets.symmetric(vertical: 2.0)),
+          // Text(
+          //   user,
+          //   style: const TextStyle(fontSize: 10.0),
+          // ),
+          // const Padding(padding: EdgeInsets.symmetric(vertical: 1.0)),
+
           Text(
             title,
             style: const TextStyle(
@@ -521,16 +540,38 @@ class _ActivityDescription extends StatelessWidget {
               fontSize: 24.0,
             ),
           ),
-          const Padding(padding: EdgeInsets.symmetric(vertical: 2.0)),
+
           // Text(
-          //   user,
-          //   style: const TextStyle(fontSize: 10.0),
+          //   date,
+          //   style: const TextStyle(
+          //     fontWeight: FontWeight.w500,
+          //     fontSize: 18.0,
+          //   ),
           // ),
-          // const Padding(padding: EdgeInsets.symmetric(vertical: 1.0)),
-          Text(
-            date,
-            style: const TextStyle(fontSize: 10.0),
-          ),
+          const Padding(padding: EdgeInsets.symmetric(vertical: 1.0)),
+          Row(mainAxisSize: MainAxisSize.min, children: [
+            Text(
+              date,
+              style: const TextStyle(
+                fontWeight: FontWeight.w500,
+                fontSize: 16.0,
+              ),
+            ),
+            SizedBox(width: 4),
+            done
+                ? Text(
+                    '',
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w500,
+                      fontSize: 16.0,
+                    ),
+                  )
+                : Text('スタート予定',
+                    style: const TextStyle(
+                        fontWeight: FontWeight.w700,
+                        fontSize: 16.0,
+                        color: Colors.blue)),
+          ]),
           const Padding(padding: EdgeInsets.symmetric(vertical: 1.0)),
           Row(mainAxisSize: MainAxisSize.min, children: [
             Text(startPoint),

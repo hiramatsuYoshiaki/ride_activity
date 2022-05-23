@@ -23,6 +23,7 @@ enum ActivityState {
   activityAdd,
   activityRemove,
   activityEdit,
+  activityDone,
 }
 
 enum RiderState {

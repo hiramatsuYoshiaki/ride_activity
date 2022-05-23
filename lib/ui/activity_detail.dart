@@ -125,19 +125,23 @@ class _ActivityDetailState extends State<ActivityDetail> {
     return WebViewX(
       key: const ValueKey('webviewx'),
       // <iframe src='https://connect.garmin.com/modern/activity/embed/8052346097' title='2022初詣ライド' width='465' height='500' frameborder='0'></iframe>
-      // initialContent:'https://connect.garmin.com/modern/activity/embed/8052346097',
+      // initialContent:
+      // 'https://connect.garmin.com/modern/activity/embed/8052346097',
       // initialContent:
       // 'https://connect.garmin.com/modern/activity/embed/8763155713',
       // 'https://connect.garmin.com/modern/activity/embed/8442710466',
 
-      initialContent: widget.selectedActivity.actual.rideURL,
+      // 'https://connect.garmin.com/modern/course/embed/105823680',
+
+      // initialContent: widget.selectedActivity.actual.rideURL,
+      // initialContent: 'https://news.yahoo.co.jp/',
 
       // initialContent: selectedActivityData.plan.done
       //     ? selectedActivityData.actual.rideURL
       //     : '<h2> Hello, world! </h2>',
-      // initialContent: selectedActivityData.plan.done
-      //     ? selectedActivityData.actual.rideURL
-      //     : selectedActivityData.plan.couseURL,
+      initialContent: selectedActivityData.plan.done
+          ? selectedActivityData.actual.rideURL
+          : selectedActivityData.plan.couseURL,
       // initialSourceType: SourceType.html,
       initialSourceType: SourceType.url,
       // initialSourceType:
