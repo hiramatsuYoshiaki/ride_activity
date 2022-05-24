@@ -13,7 +13,7 @@ class ActivityPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const AppBarAuth(
-        titleText: 'Account',
+        titleText: 'Activity',
       ),
       body: Center(
           child: ConstrainedBox(
@@ -28,20 +28,20 @@ class ActivityPage extends StatelessWidget {
                   child: Consumer<ApplicationState>(
                       builder: (BuildContext context, appState, _) =>
                           ActivitySwitch(
-                            activityState: appState.activityState,
-                            setActivityState: appState.setActivityState,
-                            //rideActivities--->activities
-                            // riderActivities: appState.riderActivities,
-                            activities: appState.activities,
+                              activityState: appState.activityState,
+                              setActivityState: appState.setActivityState,
+                              //rideActivities--->activities
+                              // riderActivities: appState.riderActivities,
+                              activities: appState.activities,
 
-                            //
-                            riderInfo: appState.riderInfo,
-                            //addRiderActivity-->addActivity
-                            // addRiderActivity: appState.addRiderActivity,
-                            addActivity: appState.addActivity,
-                            setSelectedActivity: appState.setSelectedActivity,
-                            selectedActivity: appState.selectActivity,
-                          )))
+                              //
+                              riderInfo: appState.riderInfo,
+                              //addRiderActivity-->addActivity
+                              // addRiderActivity: appState.addRiderActivity,
+                              addActivity: appState.addActivity,
+                              setSelectedActivity: appState.setSelectedActivity,
+                              selectedActivity: appState.selectActivity,
+                              setActual: appState.setActual)))
               // Consumer<ApplicationState>(
               //   builder: (context, appState, _) => UserProfile(
               //         profileState: appState.profileState,
@@ -68,9 +68,9 @@ class ActivityPage extends StatelessWidget {
 //   Widget build(BuildContext context) {
 //     return Scaffold(
 //       appBar: AppBarAuth(
-//         titleText: 'Activity', 
+//         titleText: 'Activity',
 //       ),
-      
+
 //       body: Column(
 //         crossAxisAlignment: CrossAxisAlignment.start,
 //         children: [

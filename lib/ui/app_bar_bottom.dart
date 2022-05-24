@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:ride_activity/pages/auth.dart';
-import '../pages/home.dart';
-import '../pages/rider.dart';
-import '../pages/account.dart';
-import '../pages/activity.dart';
-import '../application_state.dart';
+// import 'package:ride_activity/pages/auth.dart';
+// import '../pages/home.dart';
+// import '../pages/rider.dart';
+// import '../pages/account.dart';
+// import '../pages/activity.dart';
+// import '../application_state.dart';
 
 class AppBarBottom extends StatelessWidget {
   const AppBarBottom({Key? key}) : super(key: key);

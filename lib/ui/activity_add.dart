@@ -28,8 +28,8 @@ class _ActivityAddState extends State<ActivityAdd> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
-          decoration: new BoxDecoration(
-              border: new Border(
+          decoration: const BoxDecoration(
+              border: const Border(
                   bottom: BorderSide(width: 1.0, color: Colors.grey))),
           height: 50,
           child: Row(

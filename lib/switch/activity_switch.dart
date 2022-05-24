@@ -23,6 +23,7 @@ class ActivitySwitch extends StatelessWidget {
     required this.addActivity,
     required this.setSelectedActivity,
     required this.selectedActivity,
+    required this.setActual,
   }) : super(key: key);
   final ActivityState activityState;
   final void Function(ActivityState status) setActivityState;
@@ -31,9 +32,10 @@ class ActivitySwitch extends StatelessWidget {
   final RiderInfo riderInfo;
   // final void Function(RiderActivities activities) addRiderActivity;
   final void Function(Activities activities) addActivity;
-  final void Function(Activities activity, ActivityState status)
+  final void Function(Activities activity, ActivityState status, int index)
       setSelectedActivity;
   final Activities selectedActivity;
+  final void Function() setActual;
 
   @override
   Widget build(BuildContext context) {
@@ -100,7 +102,11 @@ class ActivitySwitch extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Text('activityRemove')
-            Expanded(child: ActivityDone(setActivityState: setActivityState))
+            Expanded(
+                child: ActivityDone(
+                    setActivityState: setActivityState,
+                    selectedActivity: selectedActivity,
+                    setActual: setActual))
           ],
         );
       default:

@@ -142,8 +142,8 @@ class ApplicationState extends ChangeNotifier {
                   couseURL:
                       'https://connect.garmin.com/modern/course/embed/106611330'),
               actual: ActualRide(
-                rideURL:
-                    'https://connect.garmin.com/modern/activity/embed/8442710466',
+                rideURL: '',
+                // 'https://connect.garmin.com/modern/activity/embed/8442710466',
                 ridePhotos: ['img1.jpeg', 'img2.jpeg'],
               ),
               menber: Menber(rider: ['Frend1', 'Frend2', 'Frend3'])),
@@ -162,8 +162,8 @@ class ApplicationState extends ChangeNotifier {
                       'https://connect.garmin.com/modern/course/embed/105823680'),
               // 'https://connect.garmin.com/modern/course/105823680'),
               actual: ActualRide(
-                rideURL:
-                    'https://connect.garmin.com/modern/activity/embed/8763155713',
+                rideURL: '',
+                // 'https://connect.garmin.com/modern/activity/embed/8763155713',
                 ridePhotos: ['img1.jpeg', 'img2.jpeg'],
               ),
               menber: Menber(rider: ['Frend1', 'Frend2', 'Frend3', 'Frend4'])),
@@ -217,8 +217,9 @@ class ApplicationState extends ChangeNotifier {
   // List<RiderActivities> _riderActivities = [];
   // List<RiderActivities> get riderActivities => _riderActivities;
 
-  List<Activities> _activities = [];
+  List<Activities> _activities = <Activities>[];
   List<Activities> get activities => _activities;
+  // set ActivitiesDone(int index) => _activities[index].plan.done = true;
 
   Activities _selectedActivity = Activities(
       plan: RiderActivities(
@@ -238,6 +239,8 @@ class ApplicationState extends ChangeNotifier {
       ),
       menber: Menber(rider: []));
   Activities get selectActivity => _selectedActivity;
+  int _selectedIndex = 0;
+  int get selectedIndex => _selectedIndex;
 
   RiderInfo _riderInfo =
       RiderInfo(uid: '', riderName: '', email: '', photoURL: '');
@@ -494,12 +497,82 @@ class ApplicationState extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setSelectedActivity(Activities activity, ActivityState status) {
+  void setSelectedActivity(
+      Activities activity, ActivityState status, int index) {
     _selectedActivity = activity;
+    _selectedIndex = index;
+
     print('setSelectActivity');
     print(activity.plan.activityTitle);
     print(activity.actual.rideURL);
     _activityState = status;
+    notifyListeners();
+  }
+
+  void setActual() {
+    print('setActual');
+    print(_activities[selectedIndex].plan.activityTitle);
+    _activities[selectedIndex].plan.done ? print('Done') : print('not done');
+    _activities[selectedIndex] = Activities(
+        plan: RiderActivities(
+            uid: _activities[selectedIndex].plan.uid,
+            activityTitle: _activities[selectedIndex].plan.activityTitle,
+            // date: DateTime.utc(2022, 03, 03, 12, 30, 00),
+            date: _activities[selectedIndex].plan.date, //iso
+            distance: _activities[selectedIndex].plan.distance,
+            done: true,
+            startPoint: _activities[selectedIndex].plan.startPoint,
+            wayPoint: _activities[selectedIndex].plan.wayPoint,
+            finishPoint: _activities[selectedIndex].plan.finishPoint,
+            couseURL: _activities[selectedIndex].plan.couseURL),
+        actual: ActualRide(
+          rideURL: _activities[selectedIndex].actual.rideURL,
+          ridePhotos: _activities[selectedIndex].actual.ridePhotos,
+        ),
+        menber: Menber(rider: _activities[selectedIndex].menber.rider));
+
+    // _activities[selectedIndex].plan.done = true;
+    // Activities(
+    //           plan: RiderActivities(
+    //               uid: 'jmUx5BeigyYVWQ1ysaWjq02oKao2',
+    //               activityTitle: '初詣ライド2022',
+    //               date: DateTime.parse("2022-01-03 09:00:00"),
+    //               // date: DateTime.utc(2022, 01, 03, 10, 30, 00),
+    //               distance: 78,
+    //               // time:0,
+    //               // avelageSpeed:0,
+    //               // vartical:0,
+    //               done: true,
+    //               startPoint: 'シティーライトフィットネス',
+    //               wayPoint: '由加神社',
+    //               finishPoint: 'シティーライトフィットネス',
+    //               couseURL:
+    //                   'https://connect.garmin.com/modern/course/embed/87305420'),
+    //           actual: ActualRide(
+    //             rideURL:
+    //                 'https://connect.garmin.com/modern/activity/embed/8052346097',
+    //             ridePhotos: ['img1.jpeg', 'img2.jpeg'],
+    //           ),
+    //           menber: Menber(rider: ['Frend1', 'Frend2'])),
+    // Activities _selectedActivity = Activities(
+    //     plan: RiderActivities(
+    //         uid: '',
+    //         activityTitle: '',
+    //         // date: DateTime.utc(2022, 03, 03, 12, 30, 00),
+    //         date: DateTime.parse('2022-01-01 01:00:00'), //iso
+    //         distance: 0,
+    //         done: false,
+    //         startPoint: '',
+    //         wayPoint: '',
+    //         finishPoint: '',
+    //         couseURL: ''),
+    //     actual: ActualRide(
+    //       rideURL: '',
+    //       ridePhotos: [],
+    //     ),
+    //     menber: Menber(rider: []));
+
+    _activityState = ActivityState.display;
     notifyListeners();
   }
 }

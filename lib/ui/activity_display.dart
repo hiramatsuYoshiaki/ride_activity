@@ -20,7 +20,7 @@ class ActivityDisplay extends StatefulWidget {
   // final List<RiderActivities> riderActivities;
   final List<Activities> activities;
   final RiderInfo riderInfo;
-  final void Function(Activities activity, ActivityState status)
+  final void Function(Activities activity, ActivityState status, int index)
       setSelectedActivity;
 
   @override
@@ -87,7 +87,7 @@ class _ActivityDisplayState extends State<ActivityDisplay> {
           itemCount: widget.activities.length,
           itemBuilder: (BuildContext context, int index) {
             // return _activityItem(widget.riderActivities[index]);
-            return _activityItem(widget.activities[index]);
+            return _activityItem(widget.activities[index], index);
           },
         ),
       )
@@ -239,12 +239,13 @@ class _ActivityDisplayState extends State<ActivityDisplay> {
   }
 
   // Widget _activityItem(RiderActivities activity) {
-  Widget _activityItem(Activities activity) {
+  Widget _activityItem(Activities activity, index) {
     return Container(
       decoration: new BoxDecoration(
           border:
               new Border(bottom: BorderSide(width: 1.0, color: Colors.grey))),
       child: Card(
+        color: activity.plan.done ? Colors.grey[100] : Colors.grey[50],
         child: Column(mainAxisSize: MainAxisSize.min, children: [
           // Expanded(child:
           CustomListItem(
@@ -284,7 +285,7 @@ class _ActivityDisplayState extends State<ActivityDisplay> {
                       child: const Text('Done'),
                       onPressed: () {
                         widget.setSelectedActivity(
-                            activity, ActivityState.activityDone);
+                            activity, ActivityState.activityDone, index);
                         // widget.setActivityState(ActivityState.activityEdit);
                       },
                     ),
@@ -294,7 +295,7 @@ class _ActivityDisplayState extends State<ActivityDisplay> {
                 child: const Text('Detail'),
                 onPressed: () {
                   widget.setSelectedActivity(
-                      activity, ActivityState.activityDetail);
+                      activity, ActivityState.activityDetail, index);
                   // widget.setActivityState(ActivityState.activityDetail);
                 },
               ),
@@ -532,14 +533,26 @@ class _ActivityDescription extends StatelessWidget {
           //   style: const TextStyle(fontSize: 10.0),
           // ),
           // const Padding(padding: EdgeInsets.symmetric(vertical: 1.0)),
-
-          Text(
-            title,
-            style: const TextStyle(
-              fontWeight: FontWeight.w500,
-              fontSize: 24.0,
+          Row(mainAxisSize: MainAxisSize.min, children: [
+            done
+                ? const Icon(
+                    Icons.done,
+                    size: 24.0,
+                  )
+                : const Icon(
+                    Icons.directions_bike_rounded,
+                    size: 24.0,
+                  ),
+            SizedBox(width: 4),
+            Text(
+              title,
+              style: const TextStyle(
+                fontWeight: FontWeight.w500,
+                fontSize: 24.0,
+              ),
             ),
-          ),
+            SizedBox(width: 4),
+          ]),
 
           // Text(
           //   date,
@@ -549,29 +562,44 @@ class _ActivityDescription extends StatelessWidget {
           //   ),
           // ),
           const Padding(padding: EdgeInsets.symmetric(vertical: 1.0)),
-          Row(mainAxisSize: MainAxisSize.min, children: [
-            Text(
-              date,
-              style: const TextStyle(
-                fontWeight: FontWeight.w500,
-                fontSize: 16.0,
-              ),
-            ),
-            SizedBox(width: 4),
-            done
-                ? Text(
-                    '',
-                    style: const TextStyle(
-                      fontWeight: FontWeight.w500,
-                      fontSize: 16.0,
-                    ),
-                  )
-                : Text('スタート予定',
-                    style: const TextStyle(
-                        fontWeight: FontWeight.w700,
-                        fontSize: 16.0,
-                        color: Colors.blue)),
-          ]),
+          Row(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  date,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w500,
+                    fontSize: 16.0,
+                  ),
+                ),
+                SizedBox(width: 4),
+                done
+                    ? const Text(
+                        '',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 16.0,
+                        ),
+                      )
+                    : Card(
+                        color: Colors.red[200],
+                        child: Padding(
+                            padding: EdgeInsets.all(2),
+                            child: Text('START',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 12.0,
+                                ))),
+                      ),
+                // Container(
+                //     padding: EdgeInsets.all(2.0),
+                //     child: const Text('START',
+                //         style: TextStyle(
+                //             color: Colors.white,
+                //             fontSize: 12.0,
+                //             backgroundColor: Colors.red)))
+              ]),
           const Padding(padding: EdgeInsets.symmetric(vertical: 1.0)),
           Row(mainAxisSize: MainAxisSize.min, children: [
             Text(startPoint),
