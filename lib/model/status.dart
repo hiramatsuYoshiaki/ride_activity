@@ -21,6 +21,7 @@ enum ActivityState {
   display,
   activityDetail,
   activityAdd,
+  activityAddElement,
   activityRemove,
   activityEdit,
   activityDone,

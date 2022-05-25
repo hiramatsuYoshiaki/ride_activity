@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-// import 'package:ride_activity/application_state.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:ride_activity/ui/activity_add.dart';
+import 'package:ride_activity/ui/activity_add_element.dart';
 import 'package:ride_activity/ui/activity_detail.dart';
 import 'package:ride_activity/ui/activity_display.dart';
 import 'package:ride_activity/ui/activity_done.dart';
@@ -14,6 +16,7 @@ import '../pages/home.dart';
 class ActivitySwitch extends StatelessWidget {
   const ActivitySwitch({
     Key? key,
+    required this.currentUser,
     required this.activityState,
     required this.setActivityState,
     // required this.riderActivities,
@@ -24,7 +27,10 @@ class ActivitySwitch extends StatelessWidget {
     required this.setSelectedActivity,
     required this.selectedActivity,
     required this.setActual,
+    required this.addPlan,
   }) : super(key: key);
+
+  final User? currentUser;
   final ActivityState activityState;
   final void Function(ActivityState status) setActivityState;
   // final List<RiderActivities> riderActivities;
@@ -36,6 +42,7 @@ class ActivitySwitch extends StatelessWidget {
       setSelectedActivity;
   final Activities selectedActivity;
   final void Function() setActual;
+  final void Function(Activities selectedActivity) addPlan;
 
   @override
   Widget build(BuildContext context) {
@@ -68,6 +75,19 @@ class ActivitySwitch extends StatelessWidget {
                     selectedActivity: selectedActivity))
           ],
         );
+      case ActivityState.activityAddElement:
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Text('activityAdd')
+            Expanded(
+                child: ActivityAddElement(
+              setActivityState: setActivityState,
+              selectedActivity: selectedActivity,
+              addPlan: addPlan,
+            ))
+          ],
+        );
       case ActivityState.activityAdd:
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -76,7 +96,7 @@ class ActivitySwitch extends StatelessWidget {
             Expanded(
                 child: ActivityAdd(
               setActivityState: setActivityState,
-              // addRiderActivity: addRiderActivity,
+              selectedActivity: selectedActivity,
               addActivity: addActivity,
             ))
           ],

@@ -76,7 +76,7 @@ class _ActivityDisplayState extends State<ActivityDisplay> {
         child: Center(
           child: ElevatedButton(
               onPressed: () {
-                widget.setActivityState(ActivityState.activityAdd);
+                widget.setActivityState(ActivityState.activityAddElement);
               },
               child: Text('Activity Add')),
         ),
@@ -245,7 +245,7 @@ class _ActivityDisplayState extends State<ActivityDisplay> {
           border:
               new Border(bottom: BorderSide(width: 1.0, color: Colors.grey))),
       child: Card(
-        color: activity.plan.done ? Colors.grey[100] : Colors.grey[50],
+        color: activity.plan.done ? Colors.grey[200] : Colors.grey[50],
         child: Column(mainAxisSize: MainAxisSize.min, children: [
           // Expanded(child:
           CustomListItem(

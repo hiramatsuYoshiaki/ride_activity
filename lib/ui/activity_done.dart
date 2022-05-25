@@ -59,10 +59,11 @@ class _ActivityDoneState extends State<ActivityDone> {
                       // inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly],
                       controller: _rideURLController,
                       decoration: const InputDecoration(
-                          labelText: 'Garmin Connectの共有リンクアドレス',
-                          hintText:
-                              // 'https://connect.garmin.com/modern/activity/embed/123456',
-                              'https://connect.garmin.com/modern/activity/embed/8763155713'),
+                        labelText: 'Garmin Connectの共有リンクアドレス',
+                        hintText:
+                            'https://connect.garmin.com/modern/activity/embed/123456',
+                        // 'https://connect.garmin.com/modern/activity/embed/8763155713'
+                      ),
                       validator: (value) {
                         if (value!.isEmpty) {
                           return '共有リンクアドレスは必須です';

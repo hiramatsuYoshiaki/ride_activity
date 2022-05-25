@@ -28,20 +28,23 @@ class ActivityPage extends StatelessWidget {
                   child: Consumer<ApplicationState>(
                       builder: (BuildContext context, appState, _) =>
                           ActivitySwitch(
-                              activityState: appState.activityState,
-                              setActivityState: appState.setActivityState,
-                              //rideActivities--->activities
-                              // riderActivities: appState.riderActivities,
-                              activities: appState.activities,
+                            currentUser: appState.currentUser,
+                            activityState: appState.activityState,
+                            setActivityState: appState.setActivityState,
+                            //rideActivities--->activities
+                            // riderActivities: appState.riderActivities,
+                            activities: appState.activities,
 
-                              //
-                              riderInfo: appState.riderInfo,
-                              //addRiderActivity-->addActivity
-                              // addRiderActivity: appState.addRiderActivity,
-                              addActivity: appState.addActivity,
-                              setSelectedActivity: appState.setSelectedActivity,
-                              selectedActivity: appState.selectActivity,
-                              setActual: appState.setActual)))
+                            //
+                            riderInfo: appState.riderInfo,
+                            //addRiderActivity-->addActivity
+                            // addRiderActivity: appState.addRiderActivity,
+                            addActivity: appState.addActivity,
+                            setSelectedActivity: appState.setSelectedActivity,
+                            selectedActivity: appState.selectActivity,
+                            setActual: appState.setActual,
+                            addPlan: appState.addPlan,
+                          )))
               // Consumer<ApplicationState>(
               //   builder: (context, appState, _) => UserProfile(
               //         profileState: appState.profileState,
