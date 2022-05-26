@@ -208,15 +208,15 @@ class ApplicationState extends ChangeNotifier {
   Activities _selectedActivity = Activities(
       plan: RiderActivities(
           uid: '',
-          activityTitle: '',
+          activityTitle: 'Activity Title',
           // date: DateTime.utc(2022, 03, 03, 12, 30, 00),
           date: DateTime.parse('2022-01-01 01:00:00'), //iso
           distance: 0,
           done: false,
-          startPoint: '',
-          wayPoint: '',
-          finishPoint: '',
-          couseURL: ''),
+          startPoint: 'Start point',
+          wayPoint: 'Way point',
+          finishPoint: 'Finish Point',
+          couseURL: 'https://connect.garmin.com/modern/course/embed/105823680'),
       actual: ActualRide(
         rideURL: '',
         ridePhotos: [],
@@ -484,8 +484,10 @@ class ApplicationState extends ChangeNotifier {
     notifyListeners();
   }
 
-  void addActivity(Activities activities) {
-    _activities.add(activities);
+  void addActivity(Activities selectedActivity) {
+    print('addActivity-----------------------------');
+    _activities.add(selectedActivity);
+    _activityState = ActivityState.display;
     notifyListeners();
   }
 

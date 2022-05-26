@@ -37,7 +37,7 @@ class ActivitySwitch extends StatelessWidget {
   final List<Activities> activities;
   final RiderInfo riderInfo;
   // final void Function(RiderActivities activities) addRiderActivity;
-  final void Function(Activities activities) addActivity;
+  final void Function(Activities selectedActivity) addActivity;
   final void Function(Activities activity, ActivityState status, int index)
       setSelectedActivity;
   final Activities selectedActivity;
@@ -85,6 +85,7 @@ class ActivitySwitch extends StatelessWidget {
               setActivityState: setActivityState,
               selectedActivity: selectedActivity,
               addPlan: addPlan,
+              currentUser: currentUser,
             ))
           ],
         );

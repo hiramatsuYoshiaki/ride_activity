@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import '../model/rider_activity.dart';
 import '../model/status.dart';
+import 'package:intl/intl.dart';
 
 class ActivityAddElement extends StatefulWidget {
   const ActivityAddElement({
@@ -25,12 +26,58 @@ class ActivityAddElement extends StatefulWidget {
 class _ActivityAddElementState extends State<ActivityAddElement> {
   final _formKey = GlobalKey<FormState>(debugLabel: '_ActivityAddState');
   final _activityTitleController = TextEditingController();
+  // final _activityTitleController = TextEditingController(text: "your Text");
   final _dateController = TextEditingController();
+  final _timeController = TextEditingController();
   final _distanceController = TextEditingController();
   final _startPointController = TextEditingController();
   final _wayPointController = TextEditingController();
   final _finishPointController = TextEditingController();
   final _couseURLController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _activityTitleController.text =
+        widget.selectedActivity.plan.activityTitle.toString();
+    _dateController.text =
+        DateFormat('yyyy年M月d日').format(widget.selectedActivity.plan.date);
+    _timeController.text =
+        DateFormat('h時m分').format(widget.selectedActivity.plan.date);
+    _distanceController.text = widget.selectedActivity.plan.distance.toString();
+    _startPointController.text =
+        widget.selectedActivity.plan.startPoint.toString();
+    _wayPointController.text = widget.selectedActivity.plan.wayPoint.toString();
+    _finishPointController.text =
+        widget.selectedActivity.plan.finishPoint.toString();
+    _couseURLController.text = widget.selectedActivity.plan.couseURL.toString();
+  }
+
+  DateTime _date = DateTime.now();
+  Future<Null> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+        context: context,
+        initialDate: _date,
+        firstDate: DateTime(2022),
+        lastDate: DateTime.now().add(const Duration(days: 360)));
+    if (picked != null) setState(() => _date = picked);
+    // _dateController.text = DateFormat('yyyy年M月d日 hh時mm分').format(_date);
+    _dateController.text = DateFormat('yyyy年M月d日').format(_date);
+  }
+
+  TimeOfDay _time = TimeOfDay.now();
+
+  Future<Null> _selectTime(BuildContext context) async {
+    final TimeOfDay? picked = await showTimePicker(
+      context: context,
+      initialTime: _time,
+    );
+    if (picked != null) setState(() => _time = picked);
+
+    _timeController.text = DateFormat('h時m分').format(
+        DateTime(_date.year, _date.month, _date.day, _time.hour, _time.minute));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -42,32 +89,16 @@ class _ActivityAddElementState extends State<ActivityAddElement> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 32),
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: const Text('アクティビティを追加',
                       style: TextStyle(color: Colors.black, fontSize: 18.0))),
+              const SizedBox(height: 16),
               Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 32),
-                  child: TextFormField(
-                    // keyboardType: TextInputType.number,
-                    // inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly],
-                    controller: _couseURLController,
-                    decoration: const InputDecoration(
-                      labelText: 'Garmin Connectの共有リンクアドレス',
-                      // hintText:
-                      //     'https://connect.garmin.com/modern/activity/embed/123456',
-                      // 'https://connect.garmin.com/modern/activity/embed/8763155713'
-                    ),
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return '共有リンクアドレスは必須です';
-                      }
-                      return null;
-                    },
-                  )),
-              const SizedBox(height: 32),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 32),
+                padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: TextFormField(
+                  // initialValue: 'Title',
+                  // initialValue:
+                  // widget.selectedActivity.plan.activityTitle.toString(),
                   controller: _activityTitleController,
                   decoration: const InputDecoration(
                     labelText: 'タイトル',
@@ -85,30 +116,117 @@ class _ActivityAddElementState extends State<ActivityAddElement> {
                   },
                 ),
               ),
-              const SizedBox(height: 32),
+              const SizedBox(height: 16),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 32),
-                child: TextFormField(
-                  controller: _dateController,
-                  decoration: const InputDecoration(
-                    labelText: '日付',
-                    hintText: '日付を入力してください',
-                    // helperText: '必須'
-                  ),
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return '日付は必須です';
-                    }
-                    if (value.length > 21) {
-                      return '日付は２０文字以内です';
-                    }
-                    return null;
-                  },
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Expanded(
+                        flex: 8,
+                        child: TextFormField(
+                          enabled: false,
+                          controller: _dateController,
+                          decoration: const InputDecoration(
+                            labelText: '日付',
+                            hintText: '日付を入力してください',
+                            // helperText: '必須'
+                          ),
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return '日付は必須です';
+                            }
+                            return null;
+                          },
+                        )),
+                    Expanded(
+                        flex: 2,
+                        child: ElevatedButton(
+                          onPressed: () => _selectDate(context),
+                          child: const Text('日付選択'),
+                        ))
+                    // Expanded(
+                    //     flex: 2,
+                    //     child: ElevatedButton(
+                    //       onPressed: () => _selectTime(context),
+                    //       child: const Text('日付選択'),
+                    //     ))
+                  ],
                 ),
               ),
-              const SizedBox(height: 32),
+              const SizedBox(height: 16),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 32),
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Expanded(
+                        flex: 8,
+                        child: TextFormField(
+                          enabled: false,
+                          controller: _timeController,
+                          decoration: const InputDecoration(
+                            labelText: '時刻',
+                            hintText: '時刻を入力してください',
+                            // helperText: '必須'
+                          ),
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return '時刻は必須です';
+                            }
+                            return null;
+                          },
+                        )),
+                    Expanded(
+                        flex: 2,
+                        child: ElevatedButton(
+                          onPressed: () => _selectTime(context),
+                          child: const Text('時刻選択'),
+                        ))
+                    // Expanded(
+                    //     flex: 2,
+                    //     child: ElevatedButton(
+                    //       onPressed: () => _selectTime(context),
+                    //       child: const Text('日付選択'),
+                    //     ))
+                  ],
+                ),
+              ),
+              const SizedBox(height: 16),
+              // Padding(
+              //   padding: const EdgeInsets.symmetric(horizontal: 16),
+              //   child: Container(
+              //       padding: const EdgeInsets.all(50.0),
+              //       child: Column(
+              //         children: <Widget>[
+              //           Center(child: Text("${_date}")),
+              //           ElevatedButton(
+              //             onPressed: () => _selectDate(context),
+              //             child: const Text('日付選択'),
+              //           )
+              //         ],
+              //       )),
+              // ),
+              // const SizedBox(height: 16),
+              // Padding(
+              //   padding: const EdgeInsets.symmetric(horizontal: 16),
+              //   child: Container(
+              //       padding: const EdgeInsets.all(50.0),
+              //       child: Column(
+              //         children: <Widget>[
+              //           Center(child: Text("${_time}")),
+              //           new ElevatedButton(
+              //             onPressed: () => _selectTime(context),
+              //             child: new Text('時間選択'),
+              //           )
+              //         ],
+              //       )),
+              // ),
+              // const SizedBox(height: 16),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: TextFormField(
                   controller: _distanceController,
                   decoration: const InputDecoration(
@@ -127,9 +245,9 @@ class _ActivityAddElementState extends State<ActivityAddElement> {
                   },
                 ),
               ),
-              const SizedBox(height: 32),
+              const SizedBox(height: 16),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 32),
+                padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: TextFormField(
                   controller: _startPointController,
                   decoration: const InputDecoration(
@@ -148,9 +266,9 @@ class _ActivityAddElementState extends State<ActivityAddElement> {
                   },
                 ),
               ),
-              const SizedBox(height: 32),
+              const SizedBox(height: 16),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 32),
+                padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: TextFormField(
                   controller: _wayPointController,
                   decoration: const InputDecoration(
@@ -169,9 +287,9 @@ class _ActivityAddElementState extends State<ActivityAddElement> {
                   },
                 ),
               ),
-              const SizedBox(height: 32),
+              const SizedBox(height: 16),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 32),
+                padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: TextFormField(
                   controller: _finishPointController,
                   decoration: const InputDecoration(
@@ -190,9 +308,29 @@ class _ActivityAddElementState extends State<ActivityAddElement> {
                   },
                 ),
               ),
-              const SizedBox(height: 32),
+              const SizedBox(height: 16),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 32),
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: TextFormField(
+                    // keyboardType: TextInputType.number,
+                    // inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly],
+                    controller: _couseURLController,
+                    decoration: const InputDecoration(
+                      labelText: 'Garmin Connectの共有リンクアドレス',
+                      // hintText:
+                      //     'https://connect.garmin.com/modern/activity/embed/123456',
+                      // 'https://connect.garmin.com/modern/activity/embed/8763155713'
+                    ),
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return '共有リンクアドレスは必須です';
+                      }
+                      return null;
+                    },
+                  )),
+              const SizedBox(height: 16),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
@@ -211,9 +349,12 @@ class _ActivityAddElementState extends State<ActivityAddElement> {
                                     activityTitle:
                                         _activityTitleController.text,
                                     // date: DateTime.utc(2022, 03, 03, 12, 30, 00),
-                                    date: DateTime.parse(
-                                        '2022-01-01 01:00:00'), //iso
-                                    distance: 0,
+                                    // date: DateTime.parse(
+                                    //     '2022-01-01 01:00:00'), //iso
+                                    date: DateTime(_date.year, _date.month,
+                                        _date.day, _time.hour, _time.minute),
+                                    distance:
+                                        int.parse(_distanceController.text),
                                     done: false,
                                     startPoint: _startPointController.text,
                                     wayPoint: _wayPointController.text,
