@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/services.dart';
+import 'package:validators/validators.dart';
 
 import '../model/rider_activity.dart';
 import '../model/status.dart';
@@ -25,15 +27,15 @@ class ActivityAddElement extends StatefulWidget {
 
 class _ActivityAddElementState extends State<ActivityAddElement> {
   final _formKey = GlobalKey<FormState>(debugLabel: '_ActivityAddState');
-  final _activityTitleController = TextEditingController();
+  TextEditingController _activityTitleController = TextEditingController();
   // final _activityTitleController = TextEditingController(text: "your Text");
-  final _dateController = TextEditingController();
-  final _timeController = TextEditingController();
-  final _distanceController = TextEditingController();
-  final _startPointController = TextEditingController();
-  final _wayPointController = TextEditingController();
-  final _finishPointController = TextEditingController();
-  final _couseURLController = TextEditingController();
+  TextEditingController _dateController = TextEditingController();
+  TextEditingController _timeController = TextEditingController();
+  TextEditingController _distanceController = TextEditingController();
+  TextEditingController _startPointController = TextEditingController();
+  TextEditingController _wayPointController = TextEditingController();
+  TextEditingController _finishPointController = TextEditingController();
+  TextEditingController _couseURLController = TextEditingController();
 
   @override
   void initState() {
@@ -58,7 +60,7 @@ class _ActivityAddElementState extends State<ActivityAddElement> {
     final DateTime? picked = await showDatePicker(
         context: context,
         initialDate: _date,
-        firstDate: DateTime(2022),
+        firstDate: DateTime(2020),
         lastDate: DateTime.now().add(const Duration(days: 360)));
     if (picked != null) setState(() => _date = picked);
     // _dateController.text = DateFormat('yyyy年M月d日 hh時mm分').format(_date);
@@ -109,8 +111,8 @@ class _ActivityAddElementState extends State<ActivityAddElement> {
                     if (value!.isEmpty) {
                       return 'タイトル名は必須です';
                     }
-                    if (value.length > 21) {
-                      return 'タイトル名は２０文字以内です';
+                    if (value.length > 51) {
+                      return 'タイトル名は50文字以内です';
                     }
                     return null;
                   },
@@ -230,16 +232,22 @@ class _ActivityAddElementState extends State<ActivityAddElement> {
                 child: TextFormField(
                   controller: _distanceController,
                   decoration: const InputDecoration(
-                    labelText: '距離',
+                    labelText: '距離(Km)',
                     hintText: '距離を入力してください',
                     // helperText: '必須'
                   ),
+                  maxLength: 7,
+                  keyboardType: TextInputType.number,
+                  // inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                  inputFormatters: <TextInputFormatter>[
+                    FilteringTextInputFormatter.allow(RegExp('[0-9]')),
+                  ],
                   validator: (value) {
                     if (value!.isEmpty) {
                       return '距離は必須です';
                     }
-                    if (value.length > 21) {
-                      return '距離は２０文字以内です';
+                    if (int.parse(value) <= 0) {
+                      return '距離は1km以上です';
                     }
                     return null;
                   },
@@ -259,8 +267,8 @@ class _ActivityAddElementState extends State<ActivityAddElement> {
                     if (value!.isEmpty) {
                       return 'スタートは必須です';
                     }
-                    if (value.length > 21) {
-                      return 'スタートは２０文字以内です';
+                    if (value.length > 51) {
+                      return 'タイトル名は50文字以内です';
                     }
                     return null;
                   },
@@ -280,8 +288,8 @@ class _ActivityAddElementState extends State<ActivityAddElement> {
                     if (value!.isEmpty) {
                       return '経由は必須です';
                     }
-                    if (value.length > 21) {
-                      return '経由は２０文字以内です';
+                    if (value.length > 51) {
+                      return '経由は51文字以内です';
                     }
                     return null;
                   },
@@ -301,8 +309,8 @@ class _ActivityAddElementState extends State<ActivityAddElement> {
                     if (value!.isEmpty) {
                       return 'ゴールは必須です';
                     }
-                    if (value.length > 21) {
-                      return 'ゴールは２０文字以内です';
+                    if (value.length > 51) {
+                      return 'ゴールは51文字以内です';
                     }
                     return null;
                   },
@@ -316,15 +324,46 @@ class _ActivityAddElementState extends State<ActivityAddElement> {
                     // inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly],
                     controller: _couseURLController,
                     decoration: const InputDecoration(
-                      labelText: 'Garmin Connectの共有リンクアドレス',
+                      labelText: 'Garmin Connectのコース共有コード',
                       // hintText:
                       //     'https://connect.garmin.com/modern/activity/embed/123456',
                       // 'https://connect.garmin.com/modern/activity/embed/8763155713'
                     ),
                     validator: (value) {
+                      // preg_match("/<iframe src=\"https:\/\/www\.google\.com\/map(.*?)<\/iframe>/s", $map, $is_map);
+
+                      // String pattern =
+                      //     r'^((?:.|\n)*?)((http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)([-A-Z0-9.]+)(/[-A-Z0-9+&@#/%=~_|!:,.;]*)?(\?[A-Z0-9+&@#/%=~_|!:‌​,.;]*)?)';
+                      // RegExp regExp = RegExp(pattern);
+
+                      // var str =
+                      //     "<iframe src='https://connect.garmin.com/modern/activity/embed/8763156143' title='来島海峡大橋～佐田岬ライド2日目' width='465' height='500' frameborder='0'></iframe>";
+
+                      // print(str.split(
+                      //     RegExp(r"src='|title='|width='|frameborder='")));
+                      // var strArrey =  value!.split(RegExp(r"\s"));
+                      // print(str.split(RegExp(r"\s")));
+                      // print(strArrey[1]);
+                      // var srt3 = strArrey[1].split(RegExp(r"'"));
+                      // print(srt3);
+                      // print(srt3[1]);
+
                       if (value!.isEmpty) {
                         return '共有リンクアドレスは必須です';
                       }
+                      String pattern2 = r'^<iframe[^>]*>\s*<\/iframe>';
+                      // String pattern2 = r'/^<iframe[^>]*>\s*<\/iframe>/';
+                      RegExp regExp2 = RegExp(pattern2);
+                      if (!regExp2.hasMatch(value)) {
+                        return 'コース追加のコードを入力してください';
+                      }
+                      // String pattern3 =
+                      //     r'[https://connect.garmin.com/modern/activity/embed/].*';
+                      // RegExp regExp3 = RegExp(pattern3);
+                      // if (!regExp3.hasMatch(value)) {
+                      //   return 'Garmin Connectのコース共有コードを入力してください';
+                      // }
+
                       return null;
                     },
                   )),
@@ -336,6 +375,23 @@ class _ActivityAddElementState extends State<ActivityAddElement> {
                   children: [
                     ElevatedButton(
                         onPressed: () {
+                          // setState(() {
+                          //   _formKey.currentState!.reset();
+                          // });
+
+                          _activityTitleController.clear();
+                          _dateController.clear();
+                          _timeController.clear();
+                          _distanceController.clear();
+                          _startPointController.clear();
+                          _wayPointController.clear();
+                          _finishPointController.clear();
+                          _couseURLController.clear();
+                        },
+                        child: const Text('クリア')),
+                    const SizedBox(width: 16),
+                    ElevatedButton(
+                        onPressed: () {
                           widget.setActivityState(ActivityState.display);
                         },
                         child: const Text('キャンセル')),
@@ -343,6 +399,27 @@ class _ActivityAddElementState extends State<ActivityAddElement> {
                     ElevatedButton(
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
+                            print(_couseURLController.text);
+                            var strArrey =
+                                _couseURLController.text.split(RegExp(r"\s"));
+                            print(strArrey[1]);
+                            // strArrey.forEach((element) { })
+                            var url = '';
+                            strArrey.asMap().forEach((int i, String value) {
+                              print('Index: $i --> Value: $value');
+                              String pattern5 =
+                                  r'https://connect.garmin.com/modern/course/embed/.*';
+                              RegExp regExp5 = RegExp(pattern5);
+                              if (regExp5.hasMatch(value)) {
+                                print('match---$value');
+                                url = value;
+                              }
+                            });
+                            var srt3 = url.split(RegExp(r"'"));
+                            // var srt3 = strArrey[1].split(RegExp(r"'"));
+                            // print(srt3);
+                            print(srt3[1]);
+
                             widget.addPlan(Activities(
                                 plan: RiderActivities(
                                     uid: widget.currentUser!.uid,
@@ -359,7 +436,8 @@ class _ActivityAddElementState extends State<ActivityAddElement> {
                                     startPoint: _startPointController.text,
                                     wayPoint: _wayPointController.text,
                                     finishPoint: _finishPointController.text,
-                                    couseURL: _couseURLController.text),
+                                    // couseURL: _couseURLController.text),
+                                    couseURL: srt3[1]),
                                 actual: ActualRide(
                                   rideURL: '',
                                   ridePhotos: [],

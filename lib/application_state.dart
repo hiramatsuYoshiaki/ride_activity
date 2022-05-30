@@ -204,25 +204,43 @@ class ApplicationState extends ChangeNotifier {
 
   List<Activities> _activities = <Activities>[];
   List<Activities> get activities => _activities;
-
   Activities _selectedActivity = Activities(
       plan: RiderActivities(
           uid: '',
-          activityTitle: 'Activity Title',
-          // date: DateTime.utc(2022, 03, 03, 12, 30, 00),
-          date: DateTime.parse('2022-01-01 01:00:00'), //iso
+          activityTitle: '',
+          date: DateTime.now(),
           distance: 0,
           done: false,
-          startPoint: 'Start point',
-          wayPoint: 'Way point',
-          finishPoint: 'Finish Point',
-          couseURL: 'https://connect.garmin.com/modern/course/embed/105823680'),
+          startPoint: '',
+          wayPoint: '',
+          finishPoint: '',
+          couseURL: ''),
       actual: ActualRide(
         rideURL: '',
         ridePhotos: [],
       ),
       menber: Menber(rider: []));
+  // Activities _selectedActivity = Activities(
+  //     plan: RiderActivities(
+  //         uid: '',
+  //         activityTitle: 'Activity Title',
+  //         // date: DateTime.utc(2022, 03, 03, 12, 30, 00),
+  //         date: DateTime.parse('2022-01-01 01:00:00'), //iso
+  //         distance: 0,
+  //         done: false,
+  //         startPoint: 'Start point',
+  //         wayPoint: 'Way point',
+  //         finishPoint: 'Finish Point',
+  //         couseURL: 'https://connect.garmin.com/modern/course/embed/105823680'),
+  //     actual: ActualRide(
+  //       rideURL: '',
+  //       ridePhotos: [],
+  //     ),
+  //     menber: Menber(rider: []));
   Activities get selectActivity => _selectedActivity;
+  // set clearSelectedActivity(Activities clear) {
+  //   _selectedActivity = clear;
+  // }
 
   int _selectedIndex = 0;
   int get selectedIndex => _selectedIndex;
@@ -293,6 +311,7 @@ class ApplicationState extends ChangeNotifier {
       print('createUserWithEmailPassword Error:$e');
     }
   }
+
   // void verifyEmail(
   //   String email,
   // ) {
@@ -487,6 +506,25 @@ class ApplicationState extends ChangeNotifier {
   void addActivity(Activities selectedActivity) {
     print('addActivity-----------------------------');
     _activities.add(selectedActivity);
+    _selectedActivity = Activities(
+        plan: RiderActivities(
+            uid: '',
+            activityTitle: 'Activity Title',
+            // date: DateTime.utc(2022, 03, 03, 12, 30, 00),
+            date: DateTime.parse('2022-01-01 01:00:00'), //iso
+            distance: 0,
+            done: false,
+            startPoint: 'Start point',
+            wayPoint: 'Way point',
+            finishPoint: 'Finish Point',
+            couseURL:
+                'https://connect.garmin.com/modern/course/embed/105823680'),
+        actual: ActualRide(
+          rideURL: '',
+          ridePhotos: [],
+        ),
+        menber: Menber(rider: []));
+
     _activityState = ActivityState.display;
     notifyListeners();
   }
