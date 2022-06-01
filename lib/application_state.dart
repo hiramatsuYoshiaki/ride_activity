@@ -107,66 +107,92 @@ class ApplicationState extends ChangeNotifier {
 
         _activities = [
           Activities(
-              plan: RiderActivities(
-                  uid: 'jmUx5BeigyYVWQ1ysaWjq02oKao2',
-                  activityTitle: '初詣ライド2022',
-                  date: DateTime.parse("2022-01-03 09:00:00"),
-                  // date: DateTime.utc(2022, 01, 03, 10, 30, 00),
-                  distance: 78,
-                  // time:0,
-                  // avelageSpeed:0,
-                  // vartical:0,
-                  done: true,
-                  startPoint: 'シティーライトフィットネス',
-                  wayPoint: '由加神社',
-                  finishPoint: 'シティーライトフィットネス',
-                  couseURL:
-                      'https://connect.garmin.com/modern/course/embed/87305420'),
-              actual: ActualRide(
-                rideURL:
-                    'https://connect.garmin.com/modern/activity/embed/8052346097',
-                ridePhotos: ['img1.jpeg', 'img2.jpeg'],
-              ),
-              menber: Menber(rider: ['Frend1', 'Frend2'])),
+            plan: RiderActivities(
+              uid: 'jmUx5BeigyYVWQ1ysaWjq02oKao2',
+              activityTitle: '初詣ライド2022',
+              date: DateTime.parse("2022-01-03 09:00:00"),
+              // date: DateTime.utc(2022, 01, 03, 10, 30, 00),
+              distance: 78,
+              // time:0,
+              // avelageSpeed:0,
+              // vartical:0,
+              done: true,
+              startPoint: 'シティーライトフィットネス',
+              wayPoint: '由加神社',
+              finishPoint: 'シティーライトフィットネス',
+              couseURL:
+                  'https://connect.garmin.com/modern/course/embed/87305420',
+              prefacture: ['岡山', '広島', '鳥取', '島根', '山口'],
+              rideType: 'event',
+            ),
+            actual: ActualRide(
+              rideURL:
+                  'https://connect.garmin.com/modern/activity/embed/8052346097',
+              ridePhotos: ['img1.jpeg', 'img2.jpeg'],
+            ),
+            menber: Menber(rider: ['Frend1', 'Frend2']),
+            shared: true,
+            tags: ['初詣', 'イベント', '由加神社', '恒例', '焼肉付き'],
+            createdAt: DateTime.now(),
+            updateAt: DateTime.now(),
+            status: 'active',
+          ),
           Activities(
-              plan: RiderActivities(
-                  uid: 'ltLWWdJvQ7RDVUvUMnDmloFnwwa2',
-                  activityTitle: '河津桜ライド2022',
-                  // date: DateTime.utc(2022, 02, 03, 11, 30, 00),
-                  date: DateTime.parse('2022-03-12 14:00:00'), //iso
-                  distance: 50,
-                  done: false,
-                  startPoint: '自宅',
-                  wayPoint: '入船橋（美観地区の南端）',
-                  finishPoint: '自宅',
-                  couseURL:
-                      'https://connect.garmin.com/modern/course/embed/106611330'),
-              actual: ActualRide(
-                rideURL: '',
-                // 'https://connect.garmin.com/modern/activity/embed/8442710466',
-                ridePhotos: ['img1.jpeg', 'img2.jpeg'],
-              ),
-              menber: Menber(rider: ['Frend1', 'Frend2', 'Frend3'])),
+            plan: RiderActivities(
+              uid: 'ltLWWdJvQ7RDVUvUMnDmloFnwwa2',
+              activityTitle: '河津桜ライド2022',
+              // date: DateTime.utc(2022, 02, 03, 11, 30, 00),
+              date: DateTime.parse('2022-03-12 14:00:00'), //iso
+              distance: 50,
+              done: false,
+              startPoint: '自宅',
+              wayPoint: '入船橋（美観地区の南端）',
+              finishPoint: '自宅',
+              couseURL:
+                  'https://connect.garmin.com/modern/course/embed/106611330',
+              prefacture: ['岡山'],
+              rideType: 'event', //'training',
+            ),
+            actual: ActualRide(
+              rideURL: '',
+              // 'https://connect.garmin.com/modern/activity/embed/8442710466',
+              ridePhotos: ['img1.jpeg', 'img2.jpeg'],
+            ),
+            menber: Menber(rider: ['Frend1', 'Frend2', 'Frend3']),
+            shared: true,
+            tags: ['河津桜', 'イベント', '倉敷', '岡南飛行場', '桜を見ながらポタリング'],
+            createdAt: DateTime.now(),
+            updateAt: DateTime.now(),
+            status: 'active',
+          ),
           Activities(
-              plan: RiderActivities(
-                  uid: 'ltLWWdJvQ7RDVUvUMnDmloFnwwa3',
-                  activityTitle: '児島半島ライド',
-                  // date: DateTime.utc(2022, 03, 03, 12, 30, 00),
-                  date: DateTime.parse('2022-04-23 13:20:00'), //iso
-                  distance: 60,
-                  done: false,
-                  startPoint: '自宅',
-                  wayPoint: 'サウスビレッジ',
-                  finishPoint: '自宅',
-                  couseURL:
-                      'https://connect.garmin.com/modern/course/embed/105823680'),
-              // 'https://connect.garmin.com/modern/course/105823680'),
-              actual: ActualRide(
-                rideURL: '',
-                // 'https://connect.garmin.com/modern/activity/embed/8763155713',
-                ridePhotos: ['img1.jpeg', 'img2.jpeg'],
-              ),
-              menber: Menber(rider: ['Frend1', 'Frend2', 'Frend3', 'Frend4'])),
+            plan: RiderActivities(
+              uid: 'ltLWWdJvQ7RDVUvUMnDmloFnwwa3',
+              activityTitle: '児島半島ライド',
+              // date: DateTime.utc(2022, 03, 03, 12, 30, 00),
+              date: DateTime.parse('2022-04-23 13:20:00'), //iso
+              distance: 60,
+              done: false,
+              startPoint: '自宅',
+              wayPoint: 'サウスビレッジ',
+              finishPoint: '自宅',
+              couseURL:
+                  'https://connect.garmin.com/modern/course/embed/105823680',
+              prefacture: ['岡山'],
+              rideType: 'training',
+            ), //'training','event'
+            actual: ActualRide(
+              rideURL: '',
+              // 'https://connect.garmin.com/modern/activity/embed/8763155713',
+              ridePhotos: ['img1.jpeg', 'img2.jpeg'],
+            ),
+            menber: Menber(rider: ['Frend1', 'Frend2', 'Frend3', 'Frend4']),
+            shared: true,
+            tags: ['児島半島', 'トレーニング', '定番コース'],
+            createdAt: DateTime.now(),
+            updateAt: DateTime.now(),
+            status: 'active',
+          ),
         ];
 
         notifyListeners();
@@ -205,21 +231,30 @@ class ApplicationState extends ChangeNotifier {
   List<Activities> _activities = <Activities>[];
   List<Activities> get activities => _activities;
   Activities _selectedActivity = Activities(
-      plan: RiderActivities(
-          uid: '',
-          activityTitle: '',
-          date: DateTime.now(),
-          distance: 0,
-          done: false,
-          startPoint: '',
-          wayPoint: '',
-          finishPoint: '',
-          couseURL: ''),
-      actual: ActualRide(
-        rideURL: '',
-        ridePhotos: [],
-      ),
-      menber: Menber(rider: []));
+    plan: RiderActivities(
+      uid: '',
+      activityTitle: '',
+      date: DateTime.now(),
+      distance: 0,
+      done: false,
+      startPoint: '',
+      wayPoint: '',
+      finishPoint: '',
+      couseURL: '',
+      prefacture: [],
+      rideType: '',
+    ),
+    actual: ActualRide(
+      rideURL: '',
+      ridePhotos: [],
+    ),
+    menber: Menber(rider: []),
+    shared: true,
+    tags: [],
+    createdAt: DateTime.now(),
+    updateAt: DateTime.now(),
+    status: 'active',
+  );
   // Activities _selectedActivity = Activities(
   //     plan: RiderActivities(
   //         uid: '',
@@ -507,23 +542,31 @@ class ApplicationState extends ChangeNotifier {
     print('addActivity-----------------------------');
     _activities.add(selectedActivity);
     _selectedActivity = Activities(
-        plan: RiderActivities(
-            uid: '',
-            activityTitle: 'Activity Title',
-            // date: DateTime.utc(2022, 03, 03, 12, 30, 00),
-            date: DateTime.parse('2022-01-01 01:00:00'), //iso
-            distance: 0,
-            done: false,
-            startPoint: 'Start point',
-            wayPoint: 'Way point',
-            finishPoint: 'Finish Point',
-            couseURL:
-                'https://connect.garmin.com/modern/course/embed/105823680'),
-        actual: ActualRide(
-          rideURL: '',
-          ridePhotos: [],
-        ),
-        menber: Menber(rider: []));
+      plan: RiderActivities(
+        uid: '',
+        activityTitle: 'Activity Title',
+        // date: DateTime.utc(2022, 03, 03, 12, 30, 00),
+        date: DateTime.parse('2022-01-01 01:00:00'), //iso
+        distance: 0,
+        done: false,
+        startPoint: 'Start point',
+        wayPoint: 'Way point',
+        finishPoint: 'Finish Point',
+        couseURL: 'https://connect.garmin.com/modern/course/embed/105823680',
+        prefacture: ['岡山'],
+        rideType: 'event',
+      ),
+      actual: ActualRide(
+        rideURL: '',
+        ridePhotos: [],
+      ),
+      menber: Menber(rider: []),
+      shared: true,
+      tags: ['トレーニング'],
+      createdAt: DateTime.now(),
+      updateAt: DateTime.now(),
+      status: 'active',
+    );
 
     _activityState = ActivityState.display;
     notifyListeners();
@@ -584,22 +627,31 @@ class ApplicationState extends ChangeNotifier {
     print(_activities[selectedIndex].plan.activityTitle);
     _activities[selectedIndex].plan.done ? print('Done') : print('not done');
     _activities[selectedIndex] = Activities(
-        plan: RiderActivities(
-            uid: _activities[selectedIndex].plan.uid,
-            activityTitle: _activities[selectedIndex].plan.activityTitle,
-            // date: DateTime.utc(2022, 03, 03, 12, 30, 00),
-            date: _activities[selectedIndex].plan.date, //iso
-            distance: _activities[selectedIndex].plan.distance,
-            done: true,
-            startPoint: _activities[selectedIndex].plan.startPoint,
-            wayPoint: _activities[selectedIndex].plan.wayPoint,
-            finishPoint: _activities[selectedIndex].plan.finishPoint,
-            couseURL: _activities[selectedIndex].plan.couseURL),
-        actual: ActualRide(
-          rideURL: _activities[selectedIndex].actual.rideURL,
-          ridePhotos: _activities[selectedIndex].actual.ridePhotos,
-        ),
-        menber: Menber(rider: _activities[selectedIndex].menber.rider));
+      plan: RiderActivities(
+        uid: _activities[selectedIndex].plan.uid,
+        activityTitle: _activities[selectedIndex].plan.activityTitle,
+        // date: DateTime.utc(2022, 03, 03, 12, 30, 00),
+        date: _activities[selectedIndex].plan.date, //iso
+        distance: _activities[selectedIndex].plan.distance,
+        done: true,
+        startPoint: _activities[selectedIndex].plan.startPoint,
+        wayPoint: _activities[selectedIndex].plan.wayPoint,
+        finishPoint: _activities[selectedIndex].plan.finishPoint,
+        couseURL: _activities[selectedIndex].plan.couseURL,
+        prefacture: ['岡山'],
+        rideType: 'event',
+      ),
+      actual: ActualRide(
+        rideURL: _activities[selectedIndex].actual.rideURL,
+        ridePhotos: _activities[selectedIndex].actual.ridePhotos,
+      ),
+      menber: Menber(rider: _activities[selectedIndex].menber.rider),
+      shared: true,
+      tags: ['イベント', '四国', 'ロングライド', '花見'],
+      createdAt: DateTime.now(),
+      updateAt: DateTime.now(),
+      status: 'active',
+    );
     _activityState = ActivityState.display;
     notifyListeners();
   }

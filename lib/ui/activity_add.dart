@@ -103,28 +103,35 @@ class _ActivityAddState extends State<ActivityAdd> {
                     onPressed: () {
                       print('add onPress button');
                       widget.addActivity(Activities(
-                          plan: RiderActivities(
-                              uid: widget.selectedActivity.plan.uid,
-                              activityTitle:
-                                  widget.selectedActivity.plan.activityTitle,
-                              date: DateTime.utc(2022, 03, 03, 12, 30, 00),
-                              // date: widget.selectedActivity.plan.date, //iso
-                              //iso
-                              // distance: int.parse(
-                              //     widget.selectedActivity.plan.startPoint),
-                              distance: 250,
-                              done: false,
-                              startPoint:
-                                  widget.selectedActivity.plan.startPoint,
-                              wayPoint: widget.selectedActivity.plan.wayPoint,
-                              finishPoint:
-                                  widget.selectedActivity.plan.finishPoint,
-                              couseURL: widget.selectedActivity.plan.couseURL),
-                          actual: ActualRide(
-                            rideURL: '',
-                            ridePhotos: [],
-                          ),
-                          menber: Menber(rider: [])));
+                        plan: RiderActivities(
+                          uid: widget.selectedActivity.plan.uid,
+                          activityTitle:
+                              widget.selectedActivity.plan.activityTitle,
+                          date: DateTime.utc(2022, 03, 03, 12, 30, 00),
+                          // date: widget.selectedActivity.plan.date, //iso
+                          //iso
+                          // distance: int.parse(
+                          //     widget.selectedActivity.plan.startPoint),
+                          distance: 250,
+                          done: false,
+                          startPoint: widget.selectedActivity.plan.startPoint,
+                          wayPoint: widget.selectedActivity.plan.wayPoint,
+                          finishPoint: widget.selectedActivity.plan.finishPoint,
+                          couseURL: widget.selectedActivity.plan.couseURL,
+                          prefacture: widget.selectedActivity.plan.prefacture,
+                          rideType: widget.selectedActivity.plan.rideType,
+                        ),
+                        actual: ActualRide(
+                          rideURL: '',
+                          ridePhotos: [],
+                        ),
+                        menber: Menber(rider: []),
+                        shared: true,
+                        tags: widget.selectedActivity.tags,
+                        createdAt: DateTime.now(),
+                        updateAt: DateTime.now(),
+                        status: 'active',
+                      ));
                     },
                   ),
                   const SizedBox(width: 30),
@@ -309,6 +316,7 @@ class _ActivityDescription extends StatelessWidget {
             SizedBox(width: 4),
             Text(finishPoint),
           ]),
+
           const Padding(padding: EdgeInsets.symmetric(vertical: 1.0)),
           Text(
             '$distance km',

@@ -1,14 +1,26 @@
-import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+// import 'package:flutter/material.dart';
 
 class Activities {
   Activities({
     required this.plan,
     required this.actual,
     required this.menber,
+    required this.shared,
+    required this.tags,
+    required this.createdAt,
+    required this.updateAt,
+    required this.status,
   });
   final RiderActivities plan;
   final ActualRide actual;
   final Menber menber;
+
+  final bool shared;
+  final List<String> tags;
+  final DateTime createdAt;
+  final DateTime updateAt;
+  final String status; //  push,  visible,  active,  inactive,  invisible,  pop,
 }
 
 class RiderActivities {
@@ -22,6 +34,8 @@ class RiderActivities {
     required this.startPoint,
     required this.wayPoint,
     required this.finishPoint,
+    required this.prefacture,
+    required this.rideType,
   });
   final String uid;
   final String activityTitle;
@@ -32,6 +46,9 @@ class RiderActivities {
   final String startPoint;
   final String wayPoint;
   final String finishPoint;
+
+  final List<String> prefacture;
+  final String rideType;
 }
 
 class ActualRide {

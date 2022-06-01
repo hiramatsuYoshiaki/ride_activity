@@ -78,7 +78,7 @@ class _ActivityDisplayState extends State<ActivityDisplay> {
               onPressed: () {
                 widget.setActivityState(ActivityState.activityAddElement);
               },
-              child: Text('Activity Add')),
+              child: Text('アクティビティを予定する')),
         ),
       ),
       Expanded(
@@ -269,6 +269,10 @@ class _ActivityDisplayState extends State<ActivityDisplay> {
             wayPoint: activity.plan.wayPoint,
             finishPoint: activity.plan.finishPoint,
             done: activity.plan.done,
+            prefacture: activity.plan.prefacture,
+            rideType: activity.plan.rideType,
+            shared: activity.shared,
+            tags: activity.tags,
           ),
           // ),
           // Expanded(
@@ -282,7 +286,7 @@ class _ActivityDisplayState extends State<ActivityDisplay> {
                       onPressed: () {},
                     )
                   : TextButton(
-                      child: const Text('Done'),
+                      child: const Text('実走済にする'),
                       onPressed: () {
                         widget.setSelectedActivity(
                             activity, ActivityState.activityDone, index);
@@ -292,7 +296,7 @@ class _ActivityDisplayState extends State<ActivityDisplay> {
               const SizedBox(width: 8),
 
               TextButton(
-                child: const Text('Detail'),
+                child: const Text('予定を見る'),
                 onPressed: () {
                   widget.setSelectedActivity(
                       activity, ActivityState.activityDetail, index);
@@ -452,6 +456,10 @@ class CustomListItem extends StatelessWidget {
     required this.wayPoint,
     required this.finishPoint,
     required this.done,
+    required this.prefacture,
+    required this.rideType,
+    required this.shared,
+    required this.tags,
   });
 
   final Widget thumbnail;
@@ -463,6 +471,10 @@ class CustomListItem extends StatelessWidget {
   final String wayPoint;
   final String finishPoint;
   final bool done;
+  final List<String> prefacture;
+  final String rideType;
+  final bool shared;
+  final List<String> tags;
 
   @override
   Widget build(BuildContext context) {
@@ -486,6 +498,10 @@ class CustomListItem extends StatelessWidget {
               wayPoint: wayPoint,
               finishPoint: finishPoint,
               done: done,
+              prefacture: prefacture,
+              rideType: rideType,
+              shared: shared,
+              tags: tags,
             ),
           ),
           // const Icon(
@@ -509,6 +525,10 @@ class _ActivityDescription extends StatelessWidget {
     required this.wayPoint,
     required this.finishPoint,
     required this.done,
+    required this.prefacture,
+    required this.rideType,
+    required this.shared,
+    required this.tags,
   }) : super(key: key);
 
   final String title;
@@ -519,6 +539,10 @@ class _ActivityDescription extends StatelessWidget {
   final String wayPoint;
   final String finishPoint;
   final bool done;
+  final List<String> prefacture;
+  final String rideType;
+  final bool shared;
+  final List<String> tags;
 
   @override
   Widget build(BuildContext context) {
@@ -613,10 +637,93 @@ class _ActivityDescription extends StatelessWidget {
             Text(finishPoint),
           ]),
           const Padding(padding: EdgeInsets.symmetric(vertical: 1.0)),
-          Text(
-            '$distance km',
-            style: const TextStyle(fontSize: 10.0),
-          ),
+          Row(mainAxisSize: MainAxisSize.min, children: [
+            Text(
+              '$distance km',
+              style: const TextStyle(fontSize: 12.0),
+            ),
+            SizedBox(width: 4),
+            Text(
+              '$rideType ,',
+              style: const TextStyle(fontSize: 12.0),
+            ),
+          ]),
+          const Padding(padding: EdgeInsets.symmetric(vertical: 1.0)),
+          Wrap(
+              runSpacing: 8,
+              spacing: 8,
+              children: prefacture
+                  .map((item) => Text(
+                        '$item,',
+                        style: const TextStyle(fontSize: 12.0),
+                      ))
+                  .toList()),
+          Wrap(
+            runSpacing: 8,
+            spacing: 8,
+            children: [
+              for (final tag in tags)
+                // Flexible(
+                // child: Wrap(
+                //     alignment: WrapAlignment.start,
+                //     spacing: 8.0,
+                //     runSpacing: 4.0,
+                //     direction: Axis.horizontal,
+                // children: [
+                SizedBox(
+                  width: 100,
+                  height: 28,
+                  child: ElevatedButton.icon(
+                    onPressed: () {},
+                    icon: Icon(
+                      Icons.sell,
+                      size: 12,
+                    ),
+                    label: Text(
+                      "$tag",
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      textStyle: TextStyle(fontSize: 12),
+                      primary: Colors.white70,
+                      onPrimary: Colors.black87,
+                    ),
+                  ),
+                )
+              // ]))
+              // Text(
+              //   '$tag,',
+              //   style: const TextStyle(fontSize: 12.0),
+              // ),
+              // ),
+            ],
+          )
+          // Row(
+          //   children: tags.forEach((element) {
+          //     Text(element);
+          //   }),
+          // Row(children: tags.forEach((key, value) {
+          //   Text(value)
+          // })
+          // Row(children: tags.map((item) => new Text(item)).toList()),
+          // Row(children: tags.forEach((key, value) {
+          //   Text(value)
+          // })
+          // ),
+          // Expanded(
+          //     child: ListView.builder(
+          //         itemCount: tags.length,
+          //         itemBuilder: (BuildContext context, int index) {
+          //           return Text(tags[index]);
+          //         }))
+          // Row(mainAxisSize: MainAxisSize.min, children: [
+          // ListView.builder(
+          //     itemCount: tags.length,
+          //     itemBuilder: (BuildContext context, int index) {
+          //       return Text(tags[index]);
+          //     })
+          // SizedBox(width: 4),
+          // ]),
         ],
       ),
     );

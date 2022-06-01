@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import 'package:validators/validators.dart';
+import 'package:select_form_field/select_form_field.dart';
 
 import '../model/rider_activity.dart';
 import '../model/status.dart';
+import '../model/select_items.dart';
 import 'package:intl/intl.dart';
 
 class ActivityAddElement extends StatefulWidget {
@@ -36,6 +38,10 @@ class _ActivityAddElementState extends State<ActivityAddElement> {
   TextEditingController _wayPointController = TextEditingController();
   TextEditingController _finishPointController = TextEditingController();
   TextEditingController _couseURLController = TextEditingController();
+  TextEditingController _rideTypeController = TextEditingController();
+  String _valueChanged = '';
+  String _valueToValidate = '';
+  String _valueSaved = '';
 
   @override
   void initState() {
@@ -53,6 +59,7 @@ class _ActivityAddElementState extends State<ActivityAddElement> {
     _finishPointController.text =
         widget.selectedActivity.plan.finishPoint.toString();
     _couseURLController.text = widget.selectedActivity.plan.couseURL.toString();
+    _rideTypeController.text = widget.selectedActivity.plan.rideType.toString();
   }
 
   DateTime _date = DateTime.now();
@@ -82,7 +89,8 @@ class _ActivityAddElementState extends State<ActivityAddElement> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return SingleChildScrollView(
+        child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Form(
@@ -94,7 +102,7 @@ class _ActivityAddElementState extends State<ActivityAddElement> {
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: const Text('アクティビティを追加',
                       style: TextStyle(color: Colors.black, fontSize: 18.0))),
-              const SizedBox(height: 16),
+              const SizedBox(height: 8),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: TextFormField(
@@ -118,7 +126,7 @@ class _ActivityAddElementState extends State<ActivityAddElement> {
                   },
                 ),
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 8),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Row(
@@ -157,7 +165,7 @@ class _ActivityAddElementState extends State<ActivityAddElement> {
                   ],
                 ),
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 8),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Row(
@@ -196,7 +204,7 @@ class _ActivityAddElementState extends State<ActivityAddElement> {
                   ],
                 ),
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 8),
               // Padding(
               //   padding: const EdgeInsets.symmetric(horizontal: 16),
               //   child: Container(
@@ -211,7 +219,7 @@ class _ActivityAddElementState extends State<ActivityAddElement> {
               //         ],
               //       )),
               // ),
-              // const SizedBox(height: 16),
+              // const SizedBox(height: 8),
               // Padding(
               //   padding: const EdgeInsets.symmetric(horizontal: 16),
               //   child: Container(
@@ -226,7 +234,7 @@ class _ActivityAddElementState extends State<ActivityAddElement> {
               //         ],
               //       )),
               // ),
-              // const SizedBox(height: 16),
+              // const SizedBox(height: 8),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: TextFormField(
@@ -253,7 +261,7 @@ class _ActivityAddElementState extends State<ActivityAddElement> {
                   },
                 ),
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 8),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: TextFormField(
@@ -274,7 +282,7 @@ class _ActivityAddElementState extends State<ActivityAddElement> {
                   },
                 ),
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 8),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: TextFormField(
@@ -295,7 +303,7 @@ class _ActivityAddElementState extends State<ActivityAddElement> {
                   },
                 ),
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 8),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: TextFormField(
@@ -316,7 +324,7 @@ class _ActivityAddElementState extends State<ActivityAddElement> {
                   },
                 ),
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 8),
               Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: TextFormField(
@@ -367,7 +375,48 @@ class _ActivityAddElementState extends State<ActivityAddElement> {
                       return null;
                     },
                   )),
-              const SizedBox(height: 16),
+              const SizedBox(height: 8),
+              //prefacture
+              //rideType
+              Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: SelectFormField(
+                    type: SelectFormFieldType.dialog,
+                    controller: _rideTypeController,
+                    // initialValue: 'trainingShort',
+                    // icon: Icon(Icons.format_shapes),
+                    labelText: 'セグメントタイプ',
+                    changeIcon: false,
+                    dialogTitle: 'セグメントタイプ',
+                    dialogCancelBtn: 'キャンセル',
+                    enableSearch: true,
+                    dialogSearchHint: '検索',
+                    items: rideTypeItems,
+                    // onChanged: (val) => setState(() => _valueChanged = val),
+                    // validator: (val) {
+                    //   setState(() => _valueToValidate = val ?? '');
+                    //   return null;
+                    // },
+                    // onSaved: (val) => setState(() => _valueSaved = val ?? ''),
+                    onChanged: (val) =>
+                        setState(() => _rideTypeController.text = val),
+                    validator: (val) {
+                      // setState(() => _valueToValidate = val ?? '');
+                      // return null;
+                      if (val!.isEmpty || val == '') {
+                        return 'セグメントタイプは必須です';
+                      }
+                    },
+                    onSaved: (val) =>
+                        setState(() => _rideTypeController.text = val ?? ''),
+                  )),
+              Text('onChanged: $_valueChanged'),
+              Text('validator: $_valueToValidate'),
+              Text('onSaved: $_valueSaved'),
+              const SizedBox(height: 8),
+              //shared
+              //tags
+
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Row(
@@ -387,6 +436,7 @@ class _ActivityAddElementState extends State<ActivityAddElement> {
                           _wayPointController.clear();
                           _finishPointController.clear();
                           _couseURLController.clear();
+                          _rideTypeController.clear();
                         },
                         child: const Text('クリア')),
                     const SizedBox(width: 16),
@@ -421,28 +471,35 @@ class _ActivityAddElementState extends State<ActivityAddElement> {
                             print(srt3[1]);
 
                             widget.addPlan(Activities(
-                                plan: RiderActivities(
-                                    uid: widget.currentUser!.uid,
-                                    activityTitle:
-                                        _activityTitleController.text,
-                                    // date: DateTime.utc(2022, 03, 03, 12, 30, 00),
-                                    // date: DateTime.parse(
-                                    //     '2022-01-01 01:00:00'), //iso
-                                    date: DateTime(_date.year, _date.month,
-                                        _date.day, _time.hour, _time.minute),
-                                    distance:
-                                        int.parse(_distanceController.text),
-                                    done: false,
-                                    startPoint: _startPointController.text,
-                                    wayPoint: _wayPointController.text,
-                                    finishPoint: _finishPointController.text,
-                                    // couseURL: _couseURLController.text),
-                                    couseURL: srt3[1]),
-                                actual: ActualRide(
-                                  rideURL: '',
-                                  ridePhotos: [],
-                                ),
-                                menber: Menber(rider: [])));
+                              plan: RiderActivities(
+                                uid: widget.currentUser!.uid,
+                                activityTitle: _activityTitleController.text,
+                                // date: DateTime.utc(2022, 03, 03, 12, 30, 00),
+                                // date: DateTime.parse(
+                                //     '2022-01-01 01:00:00'), //iso
+                                date: DateTime(_date.year, _date.month,
+                                    _date.day, _time.hour, _time.minute),
+                                distance: int.parse(_distanceController.text),
+                                done: false,
+                                startPoint: _startPointController.text,
+                                wayPoint: _wayPointController.text,
+                                finishPoint: _finishPointController.text,
+                                // couseURL: _couseURLController.text),
+                                couseURL: srt3[1],
+                                prefacture: ['岡山'],
+                                rideType: _rideTypeController.text,
+                              ),
+                              actual: ActualRide(
+                                rideURL: '',
+                                ridePhotos: [],
+                              ),
+                              menber: Menber(rider: []),
+                              shared: true,
+                              tags: ['トレーニング'],
+                              createdAt: DateTime.now(),
+                              updateAt: DateTime.now(),
+                              status: 'active',
+                            ));
                             // widget.registerAccount(
                             //   _emailController.text,
                             //   _displayNameController.text,
@@ -461,6 +518,6 @@ class _ActivityAddElementState extends State<ActivityAddElement> {
           ),
         ),
       ],
-    );
+    ));
   }
 }
