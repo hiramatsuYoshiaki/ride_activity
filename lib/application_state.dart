@@ -29,11 +29,13 @@ class ApplicationState extends ChangeNotifier {
           _loginState = ApplicationLoginState.loggedIn;
         }
 
-        print('userChanges logged in');
-        print(user.uid);
-        print(user.email);
-        print(user.displayName);
-        print(user.emailVerified);
+        // print('userChanges logged in');
+        // print(user.uid);
+        // print(user.email);
+        // print(user.displayName);
+        // print(user.emailVerified);
+        // print('photoURL: ${user.photoURL}');
+
         // setUser(user);
         // User(
         //   displayName: aaa,
@@ -57,7 +59,7 @@ class ApplicationState extends ChangeNotifier {
             uid: user.uid.toString(),
             riderName: user.displayName.toString(),
             email: user.email.toString(),
-            photoURL: user.photoURL.toString());
+            photoURL: user.photoURL ?? '');
 
         //Activity情報-------------------------------------------------
         // _guestBookSubscription = FirebaseFirestore.instance
@@ -105,96 +107,6 @@ class ApplicationState extends ChangeNotifier {
         //   ),
         // ];
 
-        _activities = [
-          Activities(
-            plan: RiderActivities(
-              uid: 'jmUx5BeigyYVWQ1ysaWjq02oKao2',
-              activityTitle: '初詣ライド2022',
-              date: DateTime.parse("2022-01-03 09:00:00"),
-              // date: DateTime.utc(2022, 01, 03, 10, 30, 00),
-              distance: 78,
-              // time:0,
-              // avelageSpeed:0,
-              // vartical:0,
-              done: true,
-              startPoint: 'シティーライトフィットネス',
-              wayPoint: '由加神社',
-              finishPoint: 'シティーライトフィットネス',
-              couseURL:
-                  'https://connect.garmin.com/modern/course/embed/87305420',
-              prefacture: ['岡山', '広島', '鳥取', '島根', '山口'],
-              rideType: 'event',
-            ),
-            actual: ActualRide(
-              rideURL:
-                  'https://connect.garmin.com/modern/activity/embed/8052346097',
-              ridePhotos: ['img1.jpeg', 'img2.jpeg'],
-            ),
-            menber: Menber(rider: ['Frend1', 'Frend2']),
-            shared: true,
-            tags: ['初詣', 'イベント', '由加神社', '恒例', '焼肉付き'],
-            createdAt: DateTime.now(),
-            updateAt: DateTime.now(),
-            status: 'active',
-          ),
-          Activities(
-            plan: RiderActivities(
-              uid: 'ltLWWdJvQ7RDVUvUMnDmloFnwwa2',
-              activityTitle: '河津桜ライド2022',
-              // date: DateTime.utc(2022, 02, 03, 11, 30, 00),
-              date: DateTime.parse('2022-03-12 14:00:00'), //iso
-              distance: 50,
-              done: false,
-              startPoint: '自宅',
-              wayPoint: '入船橋（美観地区の南端）',
-              finishPoint: '自宅',
-              couseURL:
-                  'https://connect.garmin.com/modern/course/embed/106611330',
-              prefacture: ['岡山'],
-              rideType: 'event', //'training',
-            ),
-            actual: ActualRide(
-              rideURL: '',
-              // 'https://connect.garmin.com/modern/activity/embed/8442710466',
-              ridePhotos: ['img1.jpeg', 'img2.jpeg'],
-            ),
-            menber: Menber(rider: ['Frend1', 'Frend2', 'Frend3']),
-            shared: true,
-            tags: ['河津桜', 'イベント', '倉敷', '岡南飛行場', '桜を見ながらポタリング'],
-            createdAt: DateTime.now(),
-            updateAt: DateTime.now(),
-            status: 'active',
-          ),
-          Activities(
-            plan: RiderActivities(
-              uid: 'ltLWWdJvQ7RDVUvUMnDmloFnwwa3',
-              activityTitle: '児島半島ライド',
-              // date: DateTime.utc(2022, 03, 03, 12, 30, 00),
-              date: DateTime.parse('2022-04-23 13:20:00'), //iso
-              distance: 60,
-              done: false,
-              startPoint: '自宅',
-              wayPoint: 'サウスビレッジ',
-              finishPoint: '自宅',
-              couseURL:
-                  'https://connect.garmin.com/modern/course/embed/105823680',
-              prefacture: ['岡山'],
-              rideType: 'training',
-            ), //'training','event'
-            actual: ActualRide(
-              rideURL: '',
-              // 'https://connect.garmin.com/modern/activity/embed/8763155713',
-              ridePhotos: ['img1.jpeg', 'img2.jpeg'],
-            ),
-            menber: Menber(rider: ['Frend1', 'Frend2', 'Frend3', 'Frend4']),
-            shared: true,
-            tags: ['児島半島', 'トレーニング', '定番コース'],
-            createdAt: DateTime.now(),
-            updateAt: DateTime.now(),
-            status: 'active',
-          ),
-        ];
-
         notifyListeners();
       } else {
         _loginState = ApplicationLoginState.loggedOut;
@@ -205,6 +117,101 @@ class ApplicationState extends ChangeNotifier {
         // print(user);
         notifyListeners();
       }
+      _activities = [
+        Activities(
+          plan: RiderActivities(
+            uid: 'jmUx5BeigyYVWQ1ysaWjq02oKao2',
+            activityTitle: '初詣ライド2022',
+            date: DateTime.parse("2022-01-03 09:00:00"),
+            // date: DateTime.utc(2022, 01, 03, 10, 30, 00),
+            distance: 78,
+            // time:0,
+            // avelageSpeed:0,
+            // vartical:0,
+            done: true,
+            startPoint: 'シティーライトフィットネス',
+            wayPoint: '由加神社',
+            finishPoint: 'シティーライトフィットネス',
+            couseURL: 'https://connect.garmin.com/modern/course/embed/87305420',
+            prefacture: ['岡山', '広島', '鳥取', '島根', '山口'],
+            rideType: 'event',
+          ),
+          actual: ActualRide(
+            rideURL:
+                'https://connect.garmin.com/modern/activity/embed/8052346097',
+            ridePhotos: [
+              'img8360.jpg',
+              'img8372.jpg',
+              'img8414.jpg',
+              'img8426.jpg',
+              'img8438.jpg',
+              'img8447.jpg',
+            ],
+          ),
+          menber: Menber(rider: ['中野', '檜尾', '土屋']),
+          shared: true,
+          tags: ['初詣', 'イベント', '由加神社', '玉野のチヌ', 'UNO HOTEL'],
+          createdAt: DateTime.now(),
+          updateAt: DateTime.now(),
+          status: 'active',
+        ),
+        Activities(
+          plan: RiderActivities(
+            uid: 'ltLWWdJvQ7RDVUvUMnDmloFnwwa2',
+            activityTitle: '河津桜ライド2022',
+            // date: DateTime.utc(2022, 02, 03, 11, 30, 00),
+            date: DateTime.parse('2022-03-12 14:00:00'), //iso
+            distance: 50,
+            done: false,
+            startPoint: '自宅',
+            wayPoint: '入船橋（美観地区の南端）',
+            finishPoint: '自宅',
+            couseURL:
+                'https://connect.garmin.com/modern/course/embed/106611330',
+            prefacture: ['岡山'],
+            rideType: 'event', //'training',
+          ),
+          actual: ActualRide(
+            rideURL: '',
+            // 'https://connect.garmin.com/modern/activity/embed/8442710466',
+            ridePhotos: [],
+          ),
+          menber: Menber(rider: ['Frend1', 'Frend2', 'Frend3']),
+          shared: true,
+          tags: ['河津桜', 'イベント', '倉敷', '岡南飛行場', '桜を見ながらポタリング'],
+          createdAt: DateTime.now(),
+          updateAt: DateTime.now(),
+          status: 'active',
+        ),
+        Activities(
+          plan: RiderActivities(
+            uid: 'ltLWWdJvQ7RDVUvUMnDmloFnwwa3',
+            activityTitle: '児島半島ライド',
+            // date: DateTime.utc(2022, 03, 03, 12, 30, 00),
+            date: DateTime.parse('2022-04-23 13:20:00'), //iso
+            distance: 60,
+            done: false,
+            startPoint: '自宅',
+            wayPoint: 'サウスビレッジ',
+            finishPoint: '自宅',
+            couseURL:
+                'https://connect.garmin.com/modern/course/embed/105823680',
+            prefacture: ['岡山'],
+            rideType: 'training',
+          ), //'training','event'
+          actual: ActualRide(
+            rideURL: '',
+            // 'https://connect.garmin.com/modern/activity/embed/8763155713',
+            ridePhotos: [],
+          ),
+          menber: Menber(rider: []),
+          shared: true,
+          tags: [],
+          createdAt: DateTime.now(),
+          updateAt: DateTime.now(),
+          status: 'active',
+        ),
+      ];
     });
   }
   // void init() {
@@ -279,6 +286,14 @@ class ApplicationState extends ChangeNotifier {
 
   int _selectedIndex = 0;
   int get selectedIndex => _selectedIndex;
+
+  String _changedMapURL = '';
+  String get changedMapURL => _changedMapURL;
+  void setChangedMapURL(String url) {
+    _changedMapURL = url;
+    notifyListeners();
+    print('notifyListeners---------------------------');
+  }
 
   RiderInfo _riderInfo =
       RiderInfo(uid: '', riderName: '', email: '', photoURL: '');

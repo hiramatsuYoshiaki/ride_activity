@@ -410,9 +410,9 @@ class _ActivityAddElementState extends State<ActivityAddElement> {
                     onSaved: (val) =>
                         setState(() => _rideTypeController.text = val ?? ''),
                   )),
-              Text('onChanged: $_valueChanged'),
-              Text('validator: $_valueToValidate'),
-              Text('onSaved: $_valueSaved'),
+              // Text('onChanged: $_valueChanged'),
+              // Text('validator: $_valueToValidate'),
+              // Text('onSaved: $_valueSaved'),
               const SizedBox(height: 8),
               //shared
               //tags

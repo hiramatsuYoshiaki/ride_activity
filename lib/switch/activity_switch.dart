@@ -106,7 +106,10 @@ class ActivitySwitch extends StatelessWidget {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Expanded(child: ActivityEdit(setActivityState: setActivityState))
+            Expanded(
+                child: ActivityEdit(
+                    setActivityState: setActivityState,
+                    selectedActivity: selectedActivity))
             // Text('activityEdit')
           ],
         );

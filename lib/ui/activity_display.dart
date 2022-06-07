@@ -37,40 +37,68 @@ class _ActivityDisplayState extends State<ActivityDisplay> {
     //   "メッセージ",
     //   "メッセージ",
     // ];
+    // print(widget.riderInfo.photoURL);
+    // print(widget.riderInfo.riderName);
+    // widget.riderInfo.photoURL != '' ? print('nothing') : print('photoURL');
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Container(
-          decoration: new BoxDecoration(
-              border: new Border(
-                  bottom: BorderSide(width: 1.0, color: Colors.grey))),
-          height: 300,
-          child: Center(
-            child:
-                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-              // widget.riderInfo.photoURL == null
-              //     ? const CircleAvatar(
-              //         backgroundImage: NetworkImage(
-              //             'assets/images/undraw_profile_pic_ic5t.png'),
-              //         minRadius: 50,
-              //         maxRadius: 100,
-              //       )
-              //     : CircleAvatar(
-              //         backgroundImage:
-              //             NetworkImage('${widget..riderInfo.photoURL}'),
-              //         minRadius: 50,
-              //         maxRadius: 100,
-              //       ),
-              CircleAvatar(
-                backgroundImage:
-                    NetworkImage('assets/images/undraw_profile_pic_ic5t.png'),
-                minRadius: 50,
-                maxRadius: 100,
-              ),
-              const SizedBox(height: 8),
-              Text(widget.riderInfo.riderName),
-              Text(widget.riderInfo.email),
-              Text(widget.riderInfo.uid),
-            ]),
-          )),
+          child: Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+            widget.riderInfo.photoURL != ''
+                ? CircleAvatar(
+                    backgroundImage:
+                        NetworkImage('${widget.riderInfo.photoURL}'),
+                    minRadius: 25,
+                    maxRadius: 25,
+                  )
+                : const CircleAvatar(
+                    backgroundImage: NetworkImage(
+                        'assets/images/undraw_profile_pic_ic5t.png'),
+                    minRadius: 25,
+                    maxRadius: 25,
+                  ),
+            const SizedBox(width: 8),
+            Text(widget.riderInfo.riderName,
+                style: const TextStyle(fontSize: 22)),
+          ])),
+      // Container(
+      //     decoration: BoxDecoration(
+      //         border: Border(
+      //             bottom: BorderSide(width: 1.0, color: Colors.grey))),
+      //     height: 300,
+      //     child: Center(
+      //       child:
+      //           Column(
+      //             mainAxisAlignment: MainAxisAlignment.center,
+      //             children: [
+      //         // widget.riderInfo.photoURL == null
+      //         //     ? const CircleAvatar(
+      //         //         backgroundImage: NetworkImage(
+      //         //             'assets/images/undraw_profile_pic_ic5t.png'),
+      //         //         minRadius: 50,
+      //         //         maxRadius: 100,
+      //         //       )
+      //         //     : CircleAvatar(
+      //         //         backgroundImage:
+      //         //             NetworkImage('${widget..riderInfo.photoURL}'),
+      //         //         minRadius: 50,
+      //         //         maxRadius: 100,
+      //         //       ),
+      //         CircleAvatar(
+      //           backgroundImage:
+      //               NetworkImage('assets/images/undraw_profile_pic_ic5t.png'),
+      //           minRadius: 50,
+      //           maxRadius: 100,
+      //         ),
+      //         const SizedBox(height: 8),
+      //         Text(widget.riderInfo.riderName),
+      //         Text(widget.riderInfo.email),
+      //         Text(widget.riderInfo.uid),
+      //       ]),
+      // )),
+
       Container(
         height: 50,
         child: Center(
@@ -296,7 +324,7 @@ class _ActivityDisplayState extends State<ActivityDisplay> {
               const SizedBox(width: 8),
 
               TextButton(
-                child: const Text('予定を見る'),
+                child: const Text('見る'),
                 onPressed: () {
                   widget.setSelectedActivity(
                       activity, ActivityState.activityDetail, index);
@@ -637,6 +665,8 @@ class _ActivityDescription extends StatelessWidget {
             Text(finishPoint),
           ]),
           const Padding(padding: EdgeInsets.symmetric(vertical: 1.0)),
+
+          // distance ridetipe--------------------------------------------
           Row(mainAxisSize: MainAxisSize.min, children: [
             Text(
               '$distance km',
@@ -649,47 +679,47 @@ class _ActivityDescription extends StatelessWidget {
             ),
           ]),
           const Padding(padding: EdgeInsets.symmetric(vertical: 1.0)),
+
+          //prefectur-------------------------------------------------
           Wrap(
-              runSpacing: 8,
-              spacing: 8,
-              children: prefacture
-                  .map((item) => Text(
-                        '$item,',
-                        style: const TextStyle(fontSize: 12.0),
-                      ))
-                  .toList()),
+            runSpacing: 8,
+            spacing: 8,
+            children: prefacture
+                .map((item) => Text(
+                      '$item ',
+                      style: const TextStyle(fontSize: 12.0),
+                    ))
+                .toList(),
+          ),
+          const Padding(padding: EdgeInsets.symmetric(vertical: 5.0)),
+          //tags ------------------------------------------------------
           Wrap(
             runSpacing: 8,
             spacing: 8,
             children: [
               for (final tag in tags)
-                // Flexible(
-                // child: Wrap(
-                //     alignment: WrapAlignment.start,
-                //     spacing: 8.0,
-                //     runSpacing: 4.0,
-                //     direction: Axis.horizontal,
-                // children: [
-                SizedBox(
-                  width: 100,
-                  height: 28,
-                  child: ElevatedButton.icon(
-                    onPressed: () {},
-                    icon: Icon(
-                      Icons.sell,
-                      size: 12,
-                    ),
-                    label: Text(
-                      "$tag",
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      textStyle: TextStyle(fontSize: 12),
-                      primary: Colors.white70,
-                      onPrimary: Colors.black87,
-                    ),
+                // SizedBox(
+                //   width: 100,
+                //   height: 28,
+                //   child:
+                ElevatedButton.icon(
+                  onPressed: () {},
+                  icon: Icon(
+                    Icons.sell,
+                    size: 12,
                   ),
-                )
+                  label: Text(
+                    "$tag",
+                    // overflow: TextOverflow.ellipsis,
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    textStyle: TextStyle(fontSize: 12),
+                    primary: Colors.white70,
+                    onPrimary: Colors.black87,
+                  ),
+                ),
+              // )
+
               // ]))
               // Text(
               //   '$tag,',

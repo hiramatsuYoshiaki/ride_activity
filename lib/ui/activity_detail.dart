@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:ride_activity/model/rider_activity.dart';
 import 'package:webviewx/webviewx.dart';
 // import 'package:url_launcher/url_launcher.dart';
-import 'package:provider/provider.dart';
 // import 'package:webview_flutter/webview_flutter.dart';
 
-import '../application_state.dart';
+// import '../application_state.dart';
 import '../model/status.dart';
+import 'package:intl/intl.dart';
 
 class ActivityDetail extends StatefulWidget {
   const ActivityDetail({
@@ -23,11 +23,6 @@ class ActivityDetail extends StatefulWidget {
 
 class _ActivityDetailState extends State<ActivityDetail> {
   late WebViewXController webviewController;
-  // final Uri _url = Uri.parse('https://flutter.dev');
-  // _launchUrl(url) async {
-  //   final Uri _url = Uri.parse(url);
-  //   if (!await launchUrl(_url)) throw 'Could not launch $_url';
-  // }
 
   @override
   void dispose() {
@@ -38,17 +33,80 @@ class _ActivityDetailState extends State<ActivityDetail> {
   @override
   Widget build(BuildContext context) {
     // print('ActivityDetail--------------------------');
-    return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          // Text('Activity Detail '),
-          // LinearProgressIndicator(),
-
+    return SingleChildScrollView(
+        child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
           Container(
-              padding: const EdgeInsets.all(10.0),
-              child: Consumer<ApplicationState>(
-                  builder: (BuildContext context, appState, _) =>
-                      _buildWebViewX(appState.selectActivity))),
+            alignment: Alignment.center,
+            child: widget.selectedActivity.plan.done
+                ? _buildWebViewX(widget.selectedActivity.actual.rideURL)
+                : _buildWebViewX(widget.selectedActivity.plan.couseURL),
+          ),
+          widget.selectedActivity.plan.done
+              ? Container(
+                  alignment: Alignment.topLeft,
+                  child: _actualDetail(),
+                )
+              : Container(
+                  alignment: Alignment.topLeft,
+                  child: _planDetail(),
+                ),
+
+          // const SizedBox(height: 8),
+          // Wrap(
+          //   alignment: WrapAlignment.center,
+          //   runSpacing: 8,
+          //   spacing: 8,
+          //   children: widget.selectedActivity.actual.ridePhotos
+          //       .map(
+          //         (photoUrl) => CircleAvatar(
+          //           backgroundImage: NetworkImage("assets/images/$photoUrl"),
+          //           minRadius: 50,
+          //           maxRadius: 50,
+          //         ),
+          //       )
+          //       .toList(),
+          // ),
+          // const SizedBox(height: 8),
+          // Wrap(
+          //   alignment: WrapAlignment.center,
+          //   runSpacing: 8,
+          //   spacing: 8,
+          //   children: widget.selectedActivity.menber.rider
+          //       .map(
+          //         (rider) => Text(
+          //           '$rider ',
+          //           style: const TextStyle(fontSize: 16.0),
+          //         ),
+          //       )
+          //       .toList(),
+          // ),
+          // const Padding(padding: EdgeInsets.symmetric(vertical: 8.0)),
+          // const SizedBox(height: 8),
+          // Text(widget.selectedActivity.plan.activityTitle),
+          // Text(DateFormat('yyyy年M月d日 hh時mm分')
+          //     .format(widget.selectedActivity.plan.date)),
+          // Text('${widget.selectedActivity.plan.distance} km'),
+          // Text(widget.selectedActivity.plan.done ? '実走' : '予定'),
+          // Text(widget.selectedActivity.plan.startPoint),
+          // Text(widget.selectedActivity.plan.wayPoint),
+          // Text(widget.selectedActivity.plan.finishPoint),
+          // Text(widget.selectedActivity.plan.couseURL),
+          // Text(widget.selectedActivity.plan.prefacture[0]),
+          // Wrap(
+          //   runSpacing: 8,
+          //   spacing: 8,
+          //   children: widget.selectedActivity.plan.prefacture
+          //       .map((item) => Text(
+          //             '$item,',
+          //             style: const TextStyle(fontSize: 12.0),
+          //           ))
+          //       .toList(),
+          // ),
+
+          // Text(widget.selectedActivity.plan.rideType),
+
           // Expanded(
           //     // Container(
           //     //     padding: const EdgeInsets.all(10.0),
@@ -86,89 +144,195 @@ class _ActivityDetailState extends State<ActivityDetail> {
           //       // },
           //     ))),
           // Text(widget.selectedActivity.actual.rideURL),
-
           SizedBox(height: 8),
-          // ElevatedButton(
-          //     onPressed: () {
-          //       widget.setActivityState(ActivityState.activityDetail);
-          //     },
-          //     child: Text('Detail')),
-          // SizedBox(height: 8),
-          // ElevatedButton(
-          //     onPressed: () {
-          //       widget.setActivityState(ActivityState.activityAdd);
-          //     },
-          //     child: Text('Add')),
-          // SizedBox(height: 8),
-          ElevatedButton(
-              onPressed: () {
-                widget.setActivityState(ActivityState.activityEdit);
-              },
-              child: Text('Edit')),
-          SizedBox(height: 8),
-          // ElevatedButton(
-          //     onPressed: () {
-          //       widget.setActivityState(ActivityState.activityRemove);
-          //     },
-          //     child: Text('Remove')),
-          // SizedBox(height: 8),
-          ElevatedButton(
-              onPressed: () {
-                widget.setActivityState(ActivityState.display);
-              },
-              child: Text('List')),
-        ]);
+          Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child:
+                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                ElevatedButton(
+                    onPressed: () {
+                      widget.setActivityState(ActivityState.display);
+                    },
+                    child: Text('Back')),
+                SizedBox(width: 4),
+                ElevatedButton(
+                    onPressed: () {
+                      widget.setActivityState(ActivityState.activityEdit);
+                    },
+                    child: Text('Edit')),
+                SizedBox(height: 8),
+                SizedBox(width: 4),
+                ElevatedButton(
+                    onPressed: () {
+                      widget.setActivityState(ActivityState.activityRemove);
+                    },
+                    child: Text('Remove')),
+                SizedBox(height: 8),
+              ])),
+        ]));
   }
 
-  Widget _buildWebViewX(Activities selectedActivityData) {
-    // print('buildWebViewx');
-    // print(selectedActivityData.actual.rideURL);
+  Widget _buildWebViewX(String url) {
     return WebViewX(
       key: const ValueKey('webviewx'),
-      // <iframe src='https://connect.garmin.com/modern/activity/embed/8052346097' title='2022初詣ライド' width='465' height='500' frameborder='0'></iframe>
-      // initialContent:
-      // 'https://connect.garmin.com/modern/activity/embed/8052346097',
-      // initialContent:
-      // 'https://connect.garmin.com/modern/activity/embed/8763155713',
-      // 'https://connect.garmin.com/modern/activity/embed/8442710466',
-
-      // 'https://connect.garmin.com/modern/course/embed/105823680',
-
-      // initialContent: widget.selectedActivity.actual.rideURL,
-      // initialContent: 'https://news.yahoo.co.jp/',
-
-      // initialContent: selectedActivityData.plan.done
-      //     ? selectedActivityData.actual.rideURL
-      //     : '<h2> Hello, world! </h2>',
-      initialContent: selectedActivityData.plan.done
-          ? selectedActivityData.actual.rideURL
-          : selectedActivityData.plan.couseURL,
-      // initialSourceType: SourceType.html,
+      initialContent: url,
       initialSourceType: SourceType.url,
-      // initialSourceType:
-      //     selectedActivityData.plan.done ? SourceType.url : SourceType.html,
       height: 500, //サイズは適当
       width: 500, //サイズは適当
       onWebViewCreated: (controller) => webviewController = controller,
     );
   }
 
-  // Widget _launchInBrowser(Activities selectActivityData) {
-  //   print('_launchInBrowser');
-  //   print(selectActivityData.actual.rideURL);
-  //   return Column(children: <Widget>[
-  //     Expanded(child: _launchUrl(selectActivityData.plan.couseURL))
-  //   ]);
-  // }
+  Widget _actualDetail() {
+    return Column(
+      children: [
+        Container(
+            alignment: Alignment.center,
+            child: const Text('Actual Riding!',
+                style: TextStyle(fontSize: 12, color: Colors.blue))),
+        const Padding(padding: EdgeInsets.symmetric(vertical: 2.0)),
+        Text(widget.selectedActivity.plan.activityTitle,
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+        const Padding(padding: EdgeInsets.symmetric(vertical: 2.0)),
+        Text(
+            "${DateFormat('yyyy年M月d日 h時m分').format(widget.selectedActivity.plan.date)} スタート"),
+        const Padding(padding: EdgeInsets.symmetric(vertical: 2.0)),
 
-  // Widget _launchInBrowserButton(Activities selectActivityData) {
-  //   return Center(
-  //       child: ElevatedButton(
-  //     // onPressed: _launchUrl(selectActivityData.plan.couseURL),
-  //     onPressed: () {
-  //       _launchUrl(selectActivityData.plan.couseURL);
-  //     },
-  //     child: Text('Show Couse Map'),
-  //   ));
-  // }
+        // Text('${widget.selectedActivity.plan.distance} km'),
+        // Text(widget.selectedActivity.plan.done ? '実走' : '予定'),
+        // Text(widget.selectedActivity.plan.startPoint),
+        // Text(widget.selectedActivity.plan.wayPoint),
+        // Text(widget.selectedActivity.plan.finishPoint),
+        // Text(widget.selectedActivity.plan.couseURL),
+        // Text(widget.selectedActivity.plan.activityTitle),
+        // <Widget>[...widget.selectedActivity.plan.prefacture]
+        // widget.selectedActivity.plan.prefacture
+        // Text(widget.selectedActivity.plan.prefacture[0]),
+        Wrap(
+          runSpacing: 8,
+          spacing: 8,
+          children: widget.selectedActivity.plan.prefacture
+              .map((item) => Text(
+                    '$item ',
+                    style: const TextStyle(fontSize: 12.0),
+                  ))
+              .toList(),
+        ),
+
+        Text(widget.selectedActivity.plan.rideType),
+        Wrap(
+          alignment: WrapAlignment.center,
+          runSpacing: 8,
+          spacing: 8,
+          children: widget.selectedActivity.actual.ridePhotos
+              .map(
+                (photoUrl) => CircleAvatar(
+                  backgroundImage: NetworkImage("assets/images/$photoUrl"),
+                  minRadius: 50,
+                  maxRadius: 50,
+                ),
+              )
+              .toList(),
+        ),
+        const SizedBox(height: 8),
+        Wrap(
+          alignment: WrapAlignment.center,
+          runSpacing: 8,
+          spacing: 8,
+          children: widget.selectedActivity.menber.rider
+              .map(
+                (rider) => Text(
+                  '$rider ',
+                  style: const TextStyle(fontSize: 16.0),
+                ),
+              )
+              .toList(),
+        ),
+      ],
+    );
+  }
+
+  Widget _planDetail() {
+    return Column(
+      children: [
+        Container(
+            alignment: Alignment.center,
+            child: const Text('Scheduled Riding!',
+                style: TextStyle(fontSize: 12, color: Colors.pink))),
+        const Padding(padding: EdgeInsets.symmetric(vertical: 2.0)),
+        Text(widget.selectedActivity.plan.activityTitle,
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+        const Padding(padding: EdgeInsets.symmetric(vertical: 2.0)),
+        Text(
+            "${DateFormat('yyyy年M月d日 h時m分').format(widget.selectedActivity.plan.date)} スタート"),
+        const Padding(padding: EdgeInsets.symmetric(vertical: 2.0)),
+        // Text('${widget.selectedActivity.plan.distance} km'),
+        // const Padding(padding: EdgeInsets.symmetric(vertical: 2.0)),
+        // Text(widget.selectedActivity.plan.rideType),
+        Row(mainAxisSize: MainAxisSize.min, children: [
+          Text(
+            '${widget.selectedActivity.plan.distance} km',
+            style: const TextStyle(fontSize: 20.0),
+          ),
+          SizedBox(width: 4),
+          Text(
+            '${widget.selectedActivity.plan.rideType}',
+            style: const TextStyle(fontSize: 16.0),
+          ),
+        ]),
+        Wrap(runSpacing: 8, spacing: 8, children: [
+          Text(
+            widget.selectedActivity.plan.startPoint,
+            style: const TextStyle(fontSize: 12.0),
+          ),
+          SizedBox(width: 2),
+          Text('～'),
+          SizedBox(width: 2),
+          Text(
+            widget.selectedActivity.plan.wayPoint,
+            style: const TextStyle(fontSize: 12.0),
+          ),
+          SizedBox(width: 2),
+          Text('～'),
+          SizedBox(width: 2),
+          Text(
+            widget.selectedActivity.plan.finishPoint,
+            style: const TextStyle(fontSize: 12.0),
+          ),
+        ]),
+
+        Wrap(
+          runSpacing: 8,
+          spacing: 8,
+          children: widget.selectedActivity.plan.prefacture
+              .map((item) => Text(
+                    '$item ',
+                    style: const TextStyle(fontSize: 12.0),
+                  ))
+              .toList(),
+        ),
+        // Container(
+        //   alignment: Alignment.center,
+        //   decoration: BoxDecoration(
+        //     border: Border.all(color: Colors.red),
+        //     borderRadius: BorderRadius.circular(10),
+        //   ),
+        //   child: Wrap(
+        //     alignment: WrapAlignment.center,
+        //     runSpacing: 8,
+        //     spacing: 8,
+        //     children: widget.selectedActivity.menber.rider
+        //         .map(
+        //           (rider) => Text(
+        //             '$rider ',
+        //             style: const TextStyle(fontSize: 16.0),
+        //           ),
+        //         )
+        //         .toList(),
+        //   ),
+        // ),
+        const Padding(padding: EdgeInsets.symmetric(vertical: 4.0)),
+      ],
+    );
+  }
 }
