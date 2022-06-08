@@ -37,12 +37,65 @@ class _ActivityDetailState extends State<ActivityDetail> {
         child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-          Container(
-            alignment: Alignment.center,
-            child: widget.selectedActivity.plan.done
-                ? _buildWebViewX(widget.selectedActivity.actual.rideURL)
-                : _buildWebViewX(widget.selectedActivity.plan.couseURL),
+          // button------------------------------------------
+          SizedBox(height: 16),
+          Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child:
+                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                ElevatedButton(
+                    onPressed: () {
+                      widget.setActivityState(ActivityState.display);
+                    },
+                    child: Text('Back')),
+                SizedBox(width: 4),
+                ElevatedButton(
+                    onPressed: () {
+                      widget.setActivityState(ActivityState.activityEdit);
+                    },
+                    child: Text('Edit')),
+                SizedBox(height: 8),
+                SizedBox(width: 4),
+                ElevatedButton(
+                    onPressed: () {
+                      widget.setActivityState(ActivityState.activityRemove);
+                    },
+                    child: Text('Remove')),
+                SizedBox(height: 8),
+              ])),
+          SizedBox(height: 32),
+          // Container(
+          //     padding: const EdgeInsets.all(10.0),
+          //     height: 500,
+          //     width: 500,
+          //     child: Expanded(
+          //         child: WebView(
+          //       initialUrl: 'https://flutter.dev',
+          //       // javascriptMode: JavascriptMode.unrestricted,
+          //       // onPageFinished: _handleLoad,
+          //       // onWebViewCreated: (WebViewController webViewController) {
+          //       //   _controller.complete(webViewController);
+          //       // },
+          //     ))),
+          //map----------------------------------------
+          Center(
+            child: Container(
+              height: 500,
+              width: 465,
+              // width: double.infinity,
+              // height: double.infinity,
+              // width: MediaQuery.of(context).size.width,
+              // height: MediaQuery.of(context).size.height,
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              // margin: const EdgeInsets.all(20),
+              alignment: Alignment.center,
+              child: widget.selectedActivity.plan.done
+                  ? _buildWebViewX(widget.selectedActivity.actual.rideURL)
+                  : _buildWebViewX(widget.selectedActivity.plan.couseURL),
+            ),
           ),
+
+          //------------------------------------------
           widget.selectedActivity.plan.done
               ? Container(
                   alignment: Alignment.topLeft,
@@ -144,41 +197,19 @@ class _ActivityDetailState extends State<ActivityDetail> {
           //       // },
           //     ))),
           // Text(widget.selectedActivity.actual.rideURL),
-          SizedBox(height: 8),
-          Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child:
-                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                ElevatedButton(
-                    onPressed: () {
-                      widget.setActivityState(ActivityState.display);
-                    },
-                    child: Text('Back')),
-                SizedBox(width: 4),
-                ElevatedButton(
-                    onPressed: () {
-                      widget.setActivityState(ActivityState.activityEdit);
-                    },
-                    child: Text('Edit')),
-                SizedBox(height: 8),
-                SizedBox(width: 4),
-                ElevatedButton(
-                    onPressed: () {
-                      widget.setActivityState(ActivityState.activityRemove);
-                    },
-                    child: Text('Remove')),
-                SizedBox(height: 8),
-              ])),
         ]));
   }
 
   Widget _buildWebViewX(String url) {
     return WebViewX(
       key: const ValueKey('webviewx'),
+      javascriptMode: JavascriptMode.unrestricted,
       initialContent: url,
       initialSourceType: SourceType.url,
-      height: 500, //サイズは適当
-      width: 500, //サイズは適当
+      height: 500,
+      width: 465,
+      // width: double.infinity,
+      // height: double.infinity,
       onWebViewCreated: (controller) => webviewController = controller,
     );
   }

@@ -653,17 +653,19 @@ class _ActivityDescription extends StatelessWidget {
                 //             backgroundColor: Colors.red)))
               ]),
           const Padding(padding: EdgeInsets.symmetric(vertical: 1.0)),
-          Row(mainAxisSize: MainAxisSize.min, children: [
-            Text(startPoint),
-            SizedBox(width: 4),
-            Text('～'),
-            SizedBox(width: 4),
-            Text(wayPoint),
-            SizedBox(width: 4),
-            Text('～'),
-            SizedBox(width: 4),
-            Text(finishPoint),
-          ]),
+          Wrap(
+              // mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(startPoint),
+                SizedBox(width: 4),
+                Text('～'),
+                SizedBox(width: 4),
+                Text(wayPoint),
+                SizedBox(width: 4),
+                Text('～'),
+                SizedBox(width: 4),
+                Text(finishPoint),
+              ]),
           const Padding(padding: EdgeInsets.symmetric(vertical: 1.0)),
 
           // distance ridetipe--------------------------------------------
