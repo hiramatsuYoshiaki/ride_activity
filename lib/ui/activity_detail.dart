@@ -37,33 +37,6 @@ class _ActivityDetailState extends State<ActivityDetail> {
         child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-          // button------------------------------------------
-          SizedBox(height: 16),
-          Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child:
-                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                ElevatedButton(
-                    onPressed: () {
-                      widget.setActivityState(ActivityState.display);
-                    },
-                    child: Text('Back')),
-                SizedBox(width: 4),
-                ElevatedButton(
-                    onPressed: () {
-                      widget.setActivityState(ActivityState.activityEdit);
-                    },
-                    child: Text('Edit')),
-                SizedBox(height: 8),
-                SizedBox(width: 4),
-                ElevatedButton(
-                    onPressed: () {
-                      widget.setActivityState(ActivityState.activityRemove);
-                    },
-                    child: Text('Remove')),
-                SizedBox(height: 8),
-              ])),
-          SizedBox(height: 32),
           // Container(
           //     padding: const EdgeInsets.all(10.0),
           //     height: 500,
@@ -94,7 +67,7 @@ class _ActivityDetailState extends State<ActivityDetail> {
                   : _buildWebViewX(widget.selectedActivity.plan.couseURL),
             ),
           ),
-
+          SizedBox(height: 16),
           //------------------------------------------
           widget.selectedActivity.plan.done
               ? Container(
@@ -197,6 +170,33 @@ class _ActivityDetailState extends State<ActivityDetail> {
           //       // },
           //     ))),
           // Text(widget.selectedActivity.actual.rideURL),
+          // button------------------------------------------
+          SizedBox(height: 16),
+          Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child:
+                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                ElevatedButton(
+                    onPressed: () {
+                      widget.setActivityState(ActivityState.display);
+                    },
+                    child: Text('Back')),
+                SizedBox(width: 4),
+                ElevatedButton(
+                    onPressed: () {
+                      widget.setActivityState(ActivityState.activityEdit);
+                    },
+                    child: Text('Edit')),
+                SizedBox(height: 8),
+                SizedBox(width: 4),
+                ElevatedButton(
+                    onPressed: () {
+                      widget.setActivityState(ActivityState.activityRemove);
+                    },
+                    child: Text('Remove')),
+                SizedBox(height: 8),
+              ])),
+          SizedBox(height: 32),
         ]));
   }
 
@@ -249,8 +249,9 @@ class _ActivityDetailState extends State<ActivityDetail> {
                   ))
               .toList(),
         ),
-
+        const Padding(padding: EdgeInsets.symmetric(vertical: 2.0)),
         Text(widget.selectedActivity.plan.rideType),
+        const Padding(padding: EdgeInsets.symmetric(vertical: 8.0)),
         Wrap(
           alignment: WrapAlignment.center,
           runSpacing: 8,
@@ -265,20 +266,32 @@ class _ActivityDetailState extends State<ActivityDetail> {
               )
               .toList(),
         ),
-        const SizedBox(height: 8),
-        Wrap(
-          alignment: WrapAlignment.center,
-          runSpacing: 8,
-          spacing: 8,
-          children: widget.selectedActivity.menber.rider
-              .map(
-                (rider) => Text(
-                  '$rider ',
-                  style: const TextStyle(fontSize: 16.0),
+        const Padding(padding: EdgeInsets.symmetric(vertical: 8.0)),
+        Container(
+            padding: EdgeInsets.all(4),
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.grey),
+              borderRadius: BorderRadius.circular(2),
+            ),
+            child: Column(
+              children: [
+                Text('参加ライダー', style: TextStyle(fontSize: 12)),
+                Wrap(
+                  alignment: WrapAlignment.center,
+                  runSpacing: 8,
+                  spacing: 8,
+                  children: widget.selectedActivity.menber.rider
+                      .map(
+                        (rider) => Text(
+                          '$rider ',
+                          style: const TextStyle(fontSize: 18.0),
+                        ),
+                      )
+                      .toList(),
                 ),
-              )
-              .toList(),
-        ),
+              ],
+            )),
       ],
     );
   }
@@ -297,9 +310,6 @@ class _ActivityDetailState extends State<ActivityDetail> {
         Text(
             "${DateFormat('yyyy年M月d日 h時m分').format(widget.selectedActivity.plan.date)} スタート"),
         const Padding(padding: EdgeInsets.symmetric(vertical: 2.0)),
-        // Text('${widget.selectedActivity.plan.distance} km'),
-        // const Padding(padding: EdgeInsets.symmetric(vertical: 2.0)),
-        // Text(widget.selectedActivity.plan.rideType),
         Row(mainAxisSize: MainAxisSize.min, children: [
           Text(
             '${widget.selectedActivity.plan.distance} km',
@@ -311,27 +321,19 @@ class _ActivityDetailState extends State<ActivityDetail> {
             style: const TextStyle(fontSize: 16.0),
           ),
         ]),
-        Wrap(runSpacing: 8, spacing: 8, children: [
-          Text(
-            widget.selectedActivity.plan.startPoint,
-            style: const TextStyle(fontSize: 12.0),
-          ),
-          SizedBox(width: 2),
+        const Padding(padding: EdgeInsets.symmetric(vertical: 2.0)),
+        Wrap(alignment: WrapAlignment.start, children: [
+          Text(widget.selectedActivity.plan.startPoint),
+          SizedBox(width: 4),
           Text('～'),
-          SizedBox(width: 2),
-          Text(
-            widget.selectedActivity.plan.wayPoint,
-            style: const TextStyle(fontSize: 12.0),
-          ),
-          SizedBox(width: 2),
+          SizedBox(width: 4),
+          Text(widget.selectedActivity.plan.wayPoint),
+          SizedBox(width: 4),
           Text('～'),
-          SizedBox(width: 2),
-          Text(
-            widget.selectedActivity.plan.finishPoint,
-            style: const TextStyle(fontSize: 12.0),
-          ),
+          SizedBox(width: 4),
+          Text(widget.selectedActivity.plan.finishPoint),
         ]),
-
+        const Padding(padding: EdgeInsets.symmetric(vertical: 2.0)),
         Wrap(
           runSpacing: 8,
           spacing: 8,
@@ -342,27 +344,33 @@ class _ActivityDetailState extends State<ActivityDetail> {
                   ))
               .toList(),
         ),
-        // Container(
-        //   alignment: Alignment.center,
-        //   decoration: BoxDecoration(
-        //     border: Border.all(color: Colors.red),
-        //     borderRadius: BorderRadius.circular(10),
-        //   ),
-        //   child: Wrap(
-        //     alignment: WrapAlignment.center,
-        //     runSpacing: 8,
-        //     spacing: 8,
-        //     children: widget.selectedActivity.menber.rider
-        //         .map(
-        //           (rider) => Text(
-        //             '$rider ',
-        //             style: const TextStyle(fontSize: 16.0),
-        //           ),
-        //         )
-        //         .toList(),
-        //   ),
-        // ),
         const Padding(padding: EdgeInsets.symmetric(vertical: 4.0)),
+        Container(
+            padding: EdgeInsets.all(4),
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.grey),
+              borderRadius: BorderRadius.circular(2),
+            ),
+            child: Column(
+              children: [
+                Text('参加ライダー', style: TextStyle(fontSize: 12)),
+                Wrap(
+                  alignment: WrapAlignment.center,
+                  runSpacing: 8,
+                  spacing: 8,
+                  children: widget.selectedActivity.menber.rider
+                      .map(
+                        (rider) => Text(
+                          '$rider ',
+                          style: const TextStyle(fontSize: 18.0),
+                        ),
+                      )
+                      .toList(),
+                ),
+              ],
+            )),
+        const Padding(padding: EdgeInsets.symmetric(vertical: 16.0)),
       ],
     );
   }

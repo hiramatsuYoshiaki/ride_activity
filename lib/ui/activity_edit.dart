@@ -57,6 +57,8 @@ class _ActivityEditState extends State<ActivityEdit> {
         DateTime(_date.year, _date.month, _date.day, _time.hour, _time.minute));
   }
 
+  String _rideType = 'イベント';
+
   @override
   void initState() {
     super.initState();
@@ -72,6 +74,8 @@ class _ActivityEditState extends State<ActivityEdit> {
     _wayPointController.text = widget.selectedActivity.plan.wayPoint.toString();
     _finishPointController.text =
         widget.selectedActivity.plan.finishPoint.toString();
+    _rideTypeController.text = widget.selectedActivity.plan.rideType.toString();
+    _rideType = widget.selectedActivity.plan.rideType.toString();
     var _couseURL =
         "<iframe src='${widget.selectedActivity.plan.couseURL.toString()} title='ライドタイトル' width='465' height='500' frameborder='0'></iframe>";
     _couseURLController.text = _couseURL;
@@ -140,7 +144,6 @@ class _ActivityEditState extends State<ActivityEdit> {
                     },
                   ),
                 ),
-                const SizedBox(height: 8),
                 const SizedBox(height: 8),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -315,7 +318,8 @@ class _ActivityEditState extends State<ActivityEdit> {
             child: SelectFormField(
               type: SelectFormFieldType.dialog,
               controller: _rideTypeController,
-              // initialValue: 'trainingShort',
+              // initialValue: 'event',
+              // initialValue: _rideTypeController.text.toString(),
               // icon: Icon(Icons.format_shapes),
               labelText: 'セグメントタイプ',
               changeIcon: false,
@@ -338,6 +342,7 @@ class _ActivityEditState extends State<ActivityEdit> {
                 if (val!.isEmpty || val == '') {
                   return 'セグメントタイプは必須です';
                 }
+                return null;
               },
               onSaved: (val) =>
                   setState(() => _rideTypeController.text = val ?? ''),
@@ -458,29 +463,86 @@ class _ActivityEditState extends State<ActivityEdit> {
         ),
         const SizedBox(height: 30),
         // _buildWebViewX(widget.selectedActivity),
+        Text('予定コースマップURL------'),
         Text(widget.selectedActivity.plan.couseURL),
+        Text('実走コースURL-----'),
+        Text(widget.selectedActivity.actual.rideURL),
+        Text('予定情報-----'),
+
         Text(widget.selectedActivity.plan.activityTitle),
         Text(DateFormat('yyyy年M月d日 hh時mm分')
             .format(widget.selectedActivity.plan.date)),
         Text('${widget.selectedActivity.plan.distance} km'),
-        Text(widget.selectedActivity.plan.done ? '実走' : '予定'),
+        Text(widget.selectedActivity.plan.done ? '実走 true' : '予定 false'),
         Text(widget.selectedActivity.plan.startPoint),
         Text(widget.selectedActivity.plan.wayPoint),
         Text(widget.selectedActivity.plan.finishPoint),
-        Text(widget.selectedActivity.plan.couseURL),
+        Text(widget.selectedActivity.plan.rideType),
+        Wrap(
+          runSpacing: 8,
+          spacing: 8,
+          children: widget.selectedActivity.plan.prefacture
+              .map((item) => Text(
+                    '$item ',
+                    style: const TextStyle(fontSize: 12.0),
+                  ))
+              .toList(),
+        ),
 
-        SizedBox(height: 16),
+        Text('実走情報-----'),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: widget.selectedActivity.actual.ridePhotos
+              .map(
+                (photoUrl) =>
+                    // CircleAvatar(
+                    //   backgroundImage: NetworkImage("assets/images/$photoUrl"),
+                    //   minRadius: 50,
+                    //   maxRadius: 50,
+                    // ),
+                    Text(photoUrl),
+              )
+              .toList(),
+        ),
+        Text('参加ライダー-----'),
+        Container(
+            padding: EdgeInsets.all(4),
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.grey),
+              borderRadius: BorderRadius.circular(2),
+            ),
+            child: Column(
+              children: [
+                Text('参加ライダー', style: TextStyle(fontSize: 12)),
+                Wrap(
+                  alignment: WrapAlignment.center,
+                  runSpacing: 8,
+                  spacing: 8,
+                  children: widget.selectedActivity.menber.rider
+                      .map(
+                        (rider) => Text(
+                          '$rider ',
+                          style: const TextStyle(fontSize: 18.0),
+                        ),
+                      )
+                      .toList(),
+                ),
+              ],
+            )),
+
+        // SizedBox(height: 16),
         // ElevatedButton(
         //     onPressed: () {
         //       widget.setActivityState(ActivityState.activityRemove);
         //     },
         //     child: Text('Remove')),
-        SizedBox(height: 16),
-        ElevatedButton(
-            onPressed: () {
-              widget.setActivityState(ActivityState.display);
-            },
-            child: Text('List')),
+        // SizedBox(height: 16),
+        // ElevatedButton(
+        //     onPressed: () {
+        //       widget.setActivityState(ActivityState.display);
+        //     },
+        //     child: Text('List')),
       ],
     ));
   }

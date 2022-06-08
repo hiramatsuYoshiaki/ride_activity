@@ -97,7 +97,7 @@ class _ActivityListState extends State<ActivityList> {
                         //             backgroundColor: Colors.red)))
                       ]),
                   const Padding(padding: EdgeInsets.symmetric(vertical: 1.0)),
-                  Row(mainAxisSize: MainAxisSize.min, children: [
+                  Wrap(alignment: WrapAlignment.start, children: [
                     Text(widget.activity.plan.startPoint),
                     SizedBox(width: 4),
                     Text('～'),

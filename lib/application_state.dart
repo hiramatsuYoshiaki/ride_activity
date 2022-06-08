@@ -134,7 +134,7 @@ class ApplicationState extends ChangeNotifier {
             finishPoint: 'シティーライトフィットネス',
             couseURL: 'https://connect.garmin.com/modern/course/embed/87305420',
             prefacture: ['岡山', '広島', '鳥取', '島根', '山口'],
-            rideType: 'event',
+            rideType: 'Event',
           ),
           actual: ActualRide(
             rideURL:
@@ -169,14 +169,14 @@ class ApplicationState extends ChangeNotifier {
             couseURL:
                 'https://connect.garmin.com/modern/course/embed/106611330',
             prefacture: ['岡山'],
-            rideType: 'event', //'training',
+            rideType: 'Evevt', //'training',
           ),
           actual: ActualRide(
             rideURL: '',
             // 'https://connect.garmin.com/modern/activity/embed/8442710466',
             ridePhotos: [],
           ),
-          menber: Menber(rider: ['Frend1', 'Frend2', 'Frend3']),
+          menber: Menber(rider: ['中野', '檜尾', '土屋', '加藤', 'タデイ・ポガチャル', '新城']),
           shared: true,
           tags: ['河津桜', 'イベント', '倉敷', '岡南飛行場', '桜を見ながらポタリング'],
           createdAt: DateTime.now(),
@@ -197,7 +197,7 @@ class ApplicationState extends ChangeNotifier {
             couseURL:
                 'https://connect.garmin.com/modern/course/embed/105823680',
             prefacture: ['岡山'],
-            rideType: 'training',
+            rideType: 'TtrainingShort',
           ), //'training','event'
           actual: ActualRide(
             rideURL: '',
