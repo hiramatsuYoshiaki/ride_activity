@@ -31,7 +31,8 @@ class _ActivityAddState extends State<ActivityAdd> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return SingleChildScrollView(
+        child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Text(widget.selectedActivity.plan.uid),
@@ -141,7 +142,7 @@ class _ActivityAddState extends State<ActivityAdd> {
           ],
         ),
       ],
-    );
+    ));
   }
 }
 

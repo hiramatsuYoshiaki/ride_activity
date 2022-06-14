@@ -693,41 +693,33 @@ class _ActivityDescription extends StatelessWidget {
           ),
           const Padding(padding: EdgeInsets.symmetric(vertical: 5.0)),
           //tags ------------------------------------------------------
-          Wrap(
-            runSpacing: 8,
-            spacing: 8,
-            children: [
-              for (final tag in tags)
-                // SizedBox(
-                //   width: 100,
-                //   height: 28,
-                //   child:
-                ElevatedButton.icon(
-                  onPressed: () {},
-                  icon: Icon(
-                    Icons.sell,
-                    size: 12,
-                  ),
-                  label: Text(
-                    "$tag",
-                    // overflow: TextOverflow.ellipsis,
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    textStyle: TextStyle(fontSize: 12),
-                    primary: Colors.white70,
-                    onPrimary: Colors.black87,
-                  ),
-                ),
-              // )
-
-              // ]))
-              // Text(
-              //   '$tag,',
-              //   style: const TextStyle(fontSize: 12.0),
-              // ),
-              // ),
-            ],
-          )
+          // Wrap(
+          //   runSpacing: 8,
+          //   spacing: 8,
+          //   children: [
+          //     for (final tag in tags)
+          //       // SizedBox(
+          //       //   width: 100,
+          //       //   height: 28,
+          //       //   child:
+          //       ElevatedButton.icon(
+          //         onPressed: () {},
+          //         icon: Icon(
+          //           Icons.sell,
+          //           size: 12,
+          //         ),
+          //         label: Text(
+          //           "$tag",
+          //           // overflow: TextOverflow.ellipsis,
+          //         ),
+          //         style: ElevatedButton.styleFrom(
+          //           textStyle: TextStyle(fontSize: 12),
+          //           primary: Colors.white70,
+          //           onPrimary: Colors.black87,
+          //         ),
+          //       ),
+          //   ],
+          // )
           // Row(
           //   children: tags.forEach((element) {
           //     Text(element);

@@ -7,6 +7,7 @@ import 'package:select_form_field/select_form_field.dart';
 import '../model/rider_activity.dart';
 import '../model/status.dart';
 import '../model/select_items.dart';
+import '../model/prefacturs.dart';
 import 'package:intl/intl.dart';
 
 class ActivityAddElement extends StatefulWidget {
@@ -39,9 +40,13 @@ class _ActivityAddElementState extends State<ActivityAddElement> {
   TextEditingController _finishPointController = TextEditingController();
   TextEditingController _couseURLController = TextEditingController();
   TextEditingController _rideTypeController = TextEditingController();
+  TextEditingController _prefactureItemController = TextEditingController();
+  TextEditingController _tagItemController = TextEditingController();
   String _valueChanged = '';
   String _valueToValidate = '';
   String _valueSaved = '';
+  List<String> prefs = [];
+  List<String> tags = [];
 
   @override
   void initState() {
@@ -60,6 +65,8 @@ class _ActivityAddElementState extends State<ActivityAddElement> {
         widget.selectedActivity.plan.finishPoint.toString();
     _couseURLController.text = widget.selectedActivity.plan.couseURL.toString();
     _rideTypeController.text = widget.selectedActivity.plan.rideType.toString();
+    _prefactureItemController.text = '';
+    _tagItemController.text = '';
   }
 
   DateTime _date = DateTime.now();
@@ -86,6 +93,9 @@ class _ActivityAddElementState extends State<ActivityAddElement> {
     _timeController.text = DateFormat('h時m分').format(
         DateTime(_date.year, _date.month, _date.day, _time.hour, _time.minute));
   }
+
+  // List<Prefacturs> prefactursItems = <Prefacturs>[];
+  // prefactursItems = makePrefactureSelectItems();
 
   @override
   Widget build(BuildContext context) {
@@ -381,7 +391,8 @@ class _ActivityAddElementState extends State<ActivityAddElement> {
               Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: SelectFormField(
-                    type: SelectFormFieldType.dialog,
+                    // type: SelectFormFieldType.dialog,
+                    type: SelectFormFieldType.dropdown,
                     controller: _rideTypeController,
                     // initialValue: 'trainingShort',
                     // icon: Icon(Icons.format_shapes),
@@ -414,8 +425,157 @@ class _ActivityAddElementState extends State<ActivityAddElement> {
               // Text('validator: $_valueToValidate'),
               // Text('onSaved: $_valueSaved'),
               const SizedBox(height: 8),
-              //shared
-              //tags
+              const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  child: Text('県名(フォームをクリックして選択)',
+                      style: TextStyle(fontSize: 12, color: Colors.grey))),
+              const SizedBox(height: 4),
+              //prefacture
+              Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Wrap(
+                    runSpacing: 8,
+                    spacing: 8,
+                    children: prefs
+                        .map((pref) => Container(
+                            padding: const EdgeInsets.all(4),
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.grey),
+                              borderRadius: BorderRadius.circular(4),
+                            ),
+                            // child: Text(
+                            //   '$pref ',
+                            //   style: const TextStyle(fontSize: 16.0),
+                            // )
+                            child: TextButton.icon(
+                              onPressed: () {
+                                setState(() => prefs.remove(pref));
+                              },
+                              icon: const Icon(
+                                Icons.close,
+                                size: 12.0,
+                                color: Colors.grey,
+                              ),
+                              label: Text('$pref ',
+                                  style: const TextStyle(color: Colors.black)),
+                            )))
+                        .toList(),
+                  )),
+              Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Row(
+                    children: [
+                      Expanded(
+                          child: SelectFormField(
+                        type: SelectFormFieldType.dialog, // or dialog
+                        // type: SelectFormFieldType.dropdown, // or dialog
+                        controller: _prefactureItemController,
+                        // initialValue: 'trainingShort',
+                        // icon: Icon(Icons.format_shapes),
+                        enabled: true,
+                        labelText: '都道府県',
+                        hintText: 'クリックして選択',
+                        changeIcon: false,
+                        dialogTitle: '都道府県',
+                        dialogCancelBtn: 'キャンセル',
+                        enableSearch: true,
+                        dialogSearchHint: '検索',
+                        items: makePrefactureSelectItems(),
+                        onChanged: (val) => setState(
+                            () => _prefactureItemController.text = val),
+                        // validator: (val) {
+                        //   if (val!.isEmpty || val == '') {
+                        //     return 'セグメントタイプは必須です';
+                        //   }
+                        //   return null;
+                        // },
+                        onSaved: (val) => setState(
+                            () => _prefactureItemController.text = val ?? ''),
+                      )),
+                      ElevatedButton(
+                          onPressed: () {
+                            // setState(() =>
+                            //     prefs.add(_prefactureItemController.text)
+                            //     );
+                            setState(() {
+                              prefs.add(_prefactureItemController.text);
+                              _prefactureItemController.clear();
+                            });
+                          },
+                          child: const Text('追加')),
+                    ],
+                  )),
+
+              // Text('Rider menber'),
+              const SizedBox(height: 16),
+              Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Wrap(
+                    runSpacing: 8,
+                    spacing: 8,
+                    children: tags
+                        .map((tag) => Container(
+                            padding: const EdgeInsets.all(4),
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.grey),
+                              borderRadius: BorderRadius.circular(4),
+                            ),
+                            // child: Text(
+                            //   '$tag ',
+                            //   style: const TextStyle(fontSize: 16.0),
+                            // )
+                            child: TextButton.icon(
+                              onPressed: () {
+                                setState(() => tags.remove(tag));
+                              },
+                              icon: const Icon(
+                                Icons.close,
+                                size: 12.0,
+                                color: Colors.grey,
+                              ),
+                              label: Text('$tag ',
+                                  style: const TextStyle(color: Colors.black)),
+                            )))
+                        .toList(),
+                  )),
+              const SizedBox(height: 8),
+              const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  child: Text('Tag(タグを入力して追加ボタンを押してください)',
+                      style: TextStyle(fontSize: 12, color: Colors.grey))),
+              Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Row(children: [
+                    Expanded(
+                      child: TextFormField(
+                        controller: _tagItemController,
+                        decoration: const InputDecoration(
+                          labelText: 'Tag',
+                          hintText: 'タグを入力してください',
+                          // helperText: '必須'
+                        ),
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return null;
+                          } else {}
+                          if (value.length > 21) {
+                            return 'ゴールは21文字以内です';
+                          }
+                          return null;
+                        },
+                      ),
+                    ),
+                    ElevatedButton(
+                        onPressed: () {
+                          setState(() {
+                            tags.add(_tagItemController.text);
+                            _tagItemController.clear();
+                          });
+                        },
+                        child: const Text('追加')),
+                  ])),
+
+              const SizedBox(height: 32),
 
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -437,6 +597,8 @@ class _ActivityAddElementState extends State<ActivityAddElement> {
                           _finishPointController.clear();
                           _couseURLController.clear();
                           _rideTypeController.clear();
+                          prefs = [];
+                          tags = [];
                         },
                         child: const Text('クリア')),
                     const SizedBox(width: 16),
@@ -486,7 +648,7 @@ class _ActivityAddElementState extends State<ActivityAddElement> {
                                 finishPoint: _finishPointController.text,
                                 // couseURL: _couseURLController.text),
                                 couseURL: srt3[1],
-                                prefacture: ['岡山'],
+                                prefacture: prefs,
                                 rideType: _rideTypeController.text,
                               ),
                               actual: ActualRide(
@@ -495,7 +657,7 @@ class _ActivityAddElementState extends State<ActivityAddElement> {
                               ),
                               menber: Menber(rider: []),
                               shared: true,
-                              tags: ['トレーニング'],
+                              tags: tags,
                               createdAt: DateTime.now(),
                               updateAt: DateTime.now(),
                               status: 'active',
@@ -510,7 +672,7 @@ class _ActivityAddElementState extends State<ActivityAddElement> {
                           }
                         },
                         child: const Text('入力')),
-                    const SizedBox(width: 30),
+                    const SizedBox(width: 36),
                   ],
                 ),
               ),

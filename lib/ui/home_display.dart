@@ -15,7 +15,9 @@ class HomeDisplay extends StatelessWidget {
           itemBuilder: (BuildContext context, int index) {
             return Column(children: [
               // Text(appState.activities[index].plan.activityTitle),
-              ActivityList(activity: appState.activities[index], index: index),
+              ActivityList(
+                  selectedActivity: appState.activities[index],
+                  setHomeSelectedActivity: appState.setHomeSelectedActivity),
             ]);
           });
     });

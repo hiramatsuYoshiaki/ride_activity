@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:ride_activity/model/status.dart';
+import 'package:ride_activity/switch/home_switch.dart';
 import 'package:ride_activity/ui/app_bar_bottom.dart';
 import 'package:ride_activity/ui/home_display.dart';
 import '../ui/app_bar_auth.dart';
@@ -14,7 +15,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBarAuth(
-        titleText: 'Feed',
+        titleText: 'New Activity',
       ),
       body: Center(
         child: ConstrainedBox(
@@ -23,10 +24,30 @@ class HomePage extends StatelessWidget {
             padding: const EdgeInsets.all(8),
             color: Colors.green[100],
             alignment: Alignment.center,
-            child: HomeDisplay(),
+            child: Column(children: [
+              Expanded(
+                  child: Consumer<ApplicationState>(
+                builder: (BuildContext context, appState, _) => HomeSwitch(
+                  homeState: appState.homeState,
+                  setHomeState: appState.setHomeState,
+                  // setHomeSelectedActivity: appState.setHomeSelectedActivity,
+                ),
+              ))
+            ]),
           ),
         ),
       ),
+      // body: Center(
+      //   child: ConstrainedBox(
+      //     constraints: BoxConstraints(maxWidth: 1200),
+      //     child: Container(
+      //       padding: const EdgeInsets.all(8),
+      //       color: Colors.green[100],
+      //       alignment: Alignment.center,
+      //       child: HomeDisplay(),
+      //     ),
+      //   ),
+      // ),
       // GridView.extent(
       //     maxCrossAxisExtent: 300,
       //     padding: const EdgeInsets.all(4),

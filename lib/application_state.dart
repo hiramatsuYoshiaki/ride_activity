@@ -230,6 +230,8 @@ class ApplicationState extends ChangeNotifier {
   ProfileState get profileState => _profileState;
   ActivityState _activityState = ActivityState.display;
   ActivityState get activityState => _activityState;
+  HomeState _homeState = HomeState.display;
+  HomeState get homeState => _homeState;
   RiderState _riderState = RiderState.display;
   RiderState get riderState => _riderState;
   String? _email;
@@ -308,6 +310,11 @@ class ApplicationState extends ChangeNotifier {
 
   void setProfileState(ProfileState status) {
     _profileState = status;
+    notifyListeners();
+  }
+
+  void setHomeState(HomeState status) {
+    _homeState = status;
     notifyListeners();
   }
 
@@ -587,14 +594,16 @@ class ApplicationState extends ChangeNotifier {
     notifyListeners();
   }
 
+  void setHomeSelectedActivity(Activities activity, HomeState status) {
+    _selectedActivity = activity;
+    _homeState = status;
+    notifyListeners();
+  }
+
   void setSelectedActivity(
       Activities activity, ActivityState status, int index) {
     _selectedActivity = activity;
     _selectedIndex = index;
-
-    print('setSelectActivity');
-    print(activity.plan.activityTitle);
-    print(activity.actual.rideURL);
     _activityState = status;
     notifyListeners();
   }

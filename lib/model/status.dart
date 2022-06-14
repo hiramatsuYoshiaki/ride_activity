@@ -17,6 +17,8 @@ enum ProfileState {
   removeAccount
 }
 
+enum HomeState { display, homeDetail, homeParticipation }
+
 enum ActivityState {
   display,
   activityDetail,

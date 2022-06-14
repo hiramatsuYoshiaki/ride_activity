@@ -2,11 +2,17 @@ import 'package:flutter/material.dart';
 import '../model/rider_activity.dart';
 import 'package:intl/intl.dart';
 
+import '../model/status.dart';
+
 class ActivityList extends StatefulWidget {
-  const ActivityList({required this.activity, required this.index, Key? key})
+  const ActivityList(
+      {required this.selectedActivity,
+      required this.setHomeSelectedActivity,
+      Key? key})
       : super(key: key);
-  final Activities activity;
-  final int index;
+  final Activities selectedActivity;
+  final void Function(Activities activity, HomeState status)
+      setHomeSelectedActivity;
 
   @override
   _ActivityListState createState() => _ActivityListState();
@@ -24,8 +30,9 @@ class _ActivityListState extends State<ActivityList> {
         decoration: BoxDecoration(
             border: Border(bottom: BorderSide(width: 1.0, color: Colors.grey))),
         child: Card(
-            color:
-                widget.activity.plan.done ? Colors.grey[200] : Colors.grey[50],
+            color: widget.selectedActivity.plan.done
+                ? Colors.grey[200]
+                : Colors.grey[50],
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 4),
               child: Column(
@@ -35,7 +42,7 @@ class _ActivityListState extends State<ActivityList> {
                   //title-----------------------------------
                   const Padding(padding: EdgeInsets.symmetric(vertical: 2.0)),
                   Row(mainAxisSize: MainAxisSize.min, children: [
-                    widget.activity.plan.done
+                    widget.selectedActivity.plan.done
                         ? const Icon(
                             Icons.done,
                             size: 24.0,
@@ -46,7 +53,7 @@ class _ActivityListState extends State<ActivityList> {
                           ),
                     SizedBox(width: 4),
                     Text(
-                      widget.activity.plan.activityTitle,
+                      widget.selectedActivity.plan.activityTitle,
                       style: const TextStyle(
                         fontWeight: FontWeight.w500,
                         fontSize: 24.0,
@@ -63,14 +70,14 @@ class _ActivityListState extends State<ActivityList> {
                       children: [
                         Text(
                           DateFormat('yyyy年M月d日 hh時mm分')
-                              .format(widget.activity.plan.date),
+                              .format(widget.selectedActivity.plan.date),
                           style: const TextStyle(
                             fontWeight: FontWeight.w500,
                             fontSize: 16.0,
                           ),
                         ),
                         SizedBox(width: 4),
-                        widget.activity.plan.done
+                        widget.selectedActivity.plan.done
                             ? const Text(
                                 '',
                                 style: TextStyle(
@@ -98,27 +105,27 @@ class _ActivityListState extends State<ActivityList> {
                       ]),
                   const Padding(padding: EdgeInsets.symmetric(vertical: 1.0)),
                   Wrap(alignment: WrapAlignment.start, children: [
-                    Text(widget.activity.plan.startPoint),
+                    Text(widget.selectedActivity.plan.startPoint),
                     SizedBox(width: 4),
                     Text('～'),
                     SizedBox(width: 4),
-                    Text(widget.activity.plan.wayPoint),
+                    Text(widget.selectedActivity.plan.wayPoint),
                     SizedBox(width: 4),
                     Text('～'),
                     SizedBox(width: 4),
-                    Text(widget.activity.plan.finishPoint),
+                    Text(widget.selectedActivity.plan.finishPoint),
                   ]),
                   const Padding(padding: EdgeInsets.symmetric(vertical: 1.0)),
 
                   // distance ridetipe--------------------------------------------
                   Row(mainAxisSize: MainAxisSize.min, children: [
                     Text(
-                      '${widget.activity.plan.distance} km',
+                      '${widget.selectedActivity.plan.distance} km',
                       style: const TextStyle(fontSize: 12.0),
                     ),
                     SizedBox(width: 4),
                     Text(
-                      '${widget.activity.plan.rideType} ,',
+                      '${widget.selectedActivity.plan.rideType} ,',
                       style: const TextStyle(fontSize: 12.0),
                     ),
                   ]),
@@ -128,7 +135,7 @@ class _ActivityListState extends State<ActivityList> {
                   Wrap(
                     runSpacing: 8,
                     spacing: 8,
-                    children: widget.activity.plan.prefacture
+                    children: widget.selectedActivity.plan.prefacture
                         .map((item) => Text(
                               '$item,',
                               style: const TextStyle(fontSize: 12.0),
@@ -141,7 +148,7 @@ class _ActivityListState extends State<ActivityList> {
                     runSpacing: 8,
                     spacing: 8,
                     children: [
-                      for (final tag in widget.activity.tags)
+                      for (final tag in widget.selectedActivity.tags)
                         // SizedBox(
                         //   width: 100,
                         //   height: 28,
@@ -178,11 +185,11 @@ class _ActivityListState extends State<ActivityList> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: <Widget>[
                       TextButton(
-                        child: const Text('見る'),
+                        child: const Text('詳細を見る'),
                         onPressed: () {
-                          // widget.setSelectedActivity(
-                          //     activity, ActivityState.activityDetail, index);
-                          // widget.setActivityState(ActivityState.activityDetail);
+                          // print('onPressd button activity list');
+                          widget.setHomeSelectedActivity(
+                              widget.selectedActivity, HomeState.homeDetail);
                         },
                       ),
                       const SizedBox(width: 8),
