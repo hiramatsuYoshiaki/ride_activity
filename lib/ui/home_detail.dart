@@ -25,15 +25,17 @@ class _HomeDetailState extends State<HomeDetail> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             ActivityGarminmap(selectedActivity: appState.selectActivity),
-            Text('activity area'),
+            SizedBox(height: 16),
             appState.selectActivity.plan.done
                 ? Container(
                     alignment: Alignment.topLeft,
-                    child: ActualDetail(),
+                    child:
+                        ActualDetail(selectedActivity: appState.selectActivity),
                   )
                 : Container(
                     alignment: Alignment.topLeft,
-                    child: PlanDetail(),
+                    child:
+                        PlanDetail(selectedActivity: appState.selectActivity),
                   ),
             SizedBox(height: 16),
             Padding(
