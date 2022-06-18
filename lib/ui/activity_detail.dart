@@ -269,6 +269,7 @@ class _ActivityDetailState extends State<ActivityDetail> {
         const Padding(padding: EdgeInsets.symmetric(vertical: 8.0)),
         Container(
             padding: EdgeInsets.all(4),
+            margin: EdgeInsets.fromLTRB(16, 4, 16, 4),
             alignment: Alignment.center,
             decoration: BoxDecoration(
               border: Border.all(color: Colors.grey),
@@ -347,6 +348,7 @@ class _ActivityDetailState extends State<ActivityDetail> {
         const Padding(padding: EdgeInsets.symmetric(vertical: 4.0)),
         Container(
             padding: EdgeInsets.all(4),
+            margin: EdgeInsets.fromLTRB(16, 4, 16, 4),
             alignment: Alignment.center,
             decoration: BoxDecoration(
               border: Border.all(color: Colors.grey),

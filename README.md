@@ -140,6 +140,62 @@ https://www.flutter-study.dev/host-web-app/hosting
     Project Console: https://console.firebase.google.com/project/ride-activity/overview  
     Hosting URL: https://ride-activity.web.app  
 
+# ImageオブジェクトをImageProviderにフラッターします 
+https://stackoverflow.com/questions/58870443/flutter-image-object-to-imageprovider
+```
+Container(
+  decoration: BoxDecoration(
+    color: Colors.green,
+    image: DecorationImage(
+      image: img // <-- Expecting ImageProvider
+    )
+)
+```
+1. イメージピッカー(image_picker_web.dart)を使って画像をダウンロード
+```
+final _pickedImages = <Image>[];
+  // final _pickedVideos = <dynamic>[];
+  String _imageInfo = '';
+  Future<void> _pickImage() async {
+    final fromPicker = await ImagePickerWeb.getImageAsWidget();
+    if (fromPicker != null) {
+      setState(() {
+        _pickedImages.clear();
+        _pickedImages.add(fromPicker);
+        print(fromPicker);
+      });
+    }
+  }
+```
+2. _pickedImagesには、MemoryImageが保存される
+`[Image(image: MemoryImage(Uint8List#1c3c8, scale: 1), frameBuilder: null, loadingBuilder: null, alignment: Alignment.center, this.excludeFromSemantics: false, filterQuality: low), Image(image:`
+3. 画像をコンテナ(CircleAvater)の背景として配置したいが、backgroundImageはImageProviderのみを受け入れますので、ImageMemoryをImageProviderに変換します。imgをimg.imageに変更します。（ImageProviderを呼び出変換します。）
+
+```
+ _pickedImages
+    .map(
+        (img) => CircleAvatar(
+        // backgroundImage: NetworkImage('$img'),
+        // backgroundImage: NetworkImage('$img'),
+        backgroundImage: img.image,// <-- Expecting ImageProvider
+        minRadius: 50,
+        maxRadius: 50,
+        // child: img,
+        ),
+    )
+    .toList(),
+```
+4. 参考：画像を指定するさまざまな方法のために、いくつかのコンストラクターが提供されています。 
+https://api.flutter.dev/flutter/widgets/Image-class.html 
+
+
+- Image.new、ImageProviderから画像を取得するため。
+- Image.asset 、キーを使用してAssetBundleから画像を取得し ます。
+- Image.network、URLから画像を取得します。
+- Image.file、ファイルから画像を取得するため。
+- Image.memory、Uint8Listから画像を取得します。
+次の画像形式がサポートされています：JPEG、PNG、GIF、アニメーションGIF、WebP、アニメーションWebP、BMP、およびWBMP。追加のフォーマットは、基盤となるプラットフォームでサポートされる場合があります。FlutterはプラットフォームAPIを呼び出して認識されない形式をデコードしようとします。プラットフォームAPIが画像のデコードをサポートしている場合、Flutterは画像をレンダリングできます。
+
 
 
 

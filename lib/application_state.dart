@@ -646,32 +646,33 @@ class ApplicationState extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setActual() {
-    print('setActual');
-    print(_activities[selectedIndex].plan.activityTitle);
-    _activities[selectedIndex].plan.done ? print('Done') : print('not done');
+  void setActual(DateTime rideDate, List<String> ridePhotos, bool rideDone) {
+    // print('setActual');
+    // print(_activities[selectedIndex].plan.activityTitle);
+    // _activities[selectedIndex].plan.done ? print('Done') : print('not done');
     _activities[selectedIndex] = Activities(
       plan: RiderActivities(
         uid: _activities[selectedIndex].plan.uid,
         activityTitle: _activities[selectedIndex].plan.activityTitle,
-        // date: DateTime.utc(2022, 03, 03, 12, 30, 00),
-        date: _activities[selectedIndex].plan.date, //iso
+        // date: _activities[selectedIndex].plan.date, //iso
+        date: rideDate,
         distance: _activities[selectedIndex].plan.distance,
-        done: true,
+        done: rideDone,
         startPoint: _activities[selectedIndex].plan.startPoint,
         wayPoint: _activities[selectedIndex].plan.wayPoint,
         finishPoint: _activities[selectedIndex].plan.finishPoint,
         couseURL: _activities[selectedIndex].plan.couseURL,
-        prefacture: ['岡山'],
-        rideType: 'event',
+        prefacture: _activities[selectedIndex].plan.prefacture,
+        rideType: _activities[selectedIndex].plan.rideType,
       ),
       actual: ActualRide(
         rideURL: _activities[selectedIndex].actual.rideURL,
-        ridePhotos: _activities[selectedIndex].actual.ridePhotos,
+        // ridePhotos: _activities[selectedIndex].actual.ridePhotos,
+        ridePhotos: ridePhotos,
       ),
       menber: Menber(rider: _activities[selectedIndex].menber.rider),
       shared: true,
-      tags: ['イベント', '四国', 'ロングライド', '花見'],
+      tags: _activities[selectedIndex].tags,
       createdAt: DateTime.now(),
       updateAt: DateTime.now(),
       status: 'active',

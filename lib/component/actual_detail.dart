@@ -54,6 +54,7 @@ class ActualDetail extends StatelessWidget {
           const Padding(padding: EdgeInsets.symmetric(vertical: 8.0)),
           Container(
               padding: EdgeInsets.all(4),
+              margin: EdgeInsets.fromLTRB(16, 4, 16, 4),
               alignment: Alignment.center,
               decoration: BoxDecoration(
                 border: Border.all(color: Colors.grey),
