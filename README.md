@@ -199,3 +199,5 @@ https://api.flutter.dev/flutter/widgets/Image-class.html
 
 
 
+# Cloud Firestore にデータを追加する
+ `https://firebase.google.com/docs/firestore/manage-data/add-data#dart_1` 

@@ -45,6 +45,7 @@ dependencies:
   validators: ^3.0.0
   select_form_field: ^2.2.0
   image_picker_web: ^2.1.1
+  firebase_storage: ^10.2.18
 
 dev_dependencies:
   flutter_test:

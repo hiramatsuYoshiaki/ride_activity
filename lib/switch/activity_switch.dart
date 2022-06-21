@@ -41,8 +41,8 @@ class ActivitySwitch extends StatelessWidget {
   final void Function(Activities activity, ActivityState status, int index)
       setSelectedActivity;
   final Activities selectedActivity;
-  final void Function(DateTime rideDate, List<String> ridePhotos, bool rideDone)
-      setActual;
+  final void Function(String rideLinkURL, DateTime rideDate,
+      List<Image> ridePhotos, bool rideDone) setActual;
   final void Function(Activities selectedActivity) addPlan;
 
   @override

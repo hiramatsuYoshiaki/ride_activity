@@ -76,6 +76,8 @@ class _ActivityAddState extends State<ActivityAdd> {
             key: const ValueKey('webviewx'),
             // initialContent:
             //     'https://connect.garmin.com/modern/course/embed/87305420',
+            //<iframe src='https://connect.garmin.com/modern/course/embed/87305420' title='河津桜ライド2022' width='465' height='500' frameborder='0'></iframe>"
+
             initialContent: widget.selectedActivity.plan.couseURL,
             initialSourceType: SourceType.url,
             height: 500, //サイズは適当

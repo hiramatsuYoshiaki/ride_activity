@@ -342,30 +342,12 @@ class _ActivityAddElementState extends State<ActivityAddElement> {
                     // inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly],
                     controller: _couseURLController,
                     decoration: const InputDecoration(
-                      labelText: 'Garmin Connectのコース共有コード',
+                      labelText: 'Garmin Connectの共有リンクアドレス',
                       // hintText:
                       //     'https://connect.garmin.com/modern/activity/embed/123456',
                       // 'https://connect.garmin.com/modern/activity/embed/8763155713'
                     ),
                     validator: (value) {
-                      // preg_match("/<iframe src=\"https:\/\/www\.google\.com\/map(.*?)<\/iframe>/s", $map, $is_map);
-
-                      // String pattern =
-                      //     r'^((?:.|\n)*?)((http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)([-A-Z0-9.]+)(/[-A-Z0-9+&@#/%=~_|!:,.;]*)?(\?[A-Z0-9+&@#/%=~_|!:‌​,.;]*)?)';
-                      // RegExp regExp = RegExp(pattern);
-
-                      // var str =
-                      //     "<iframe src='https://connect.garmin.com/modern/activity/embed/8763156143' title='来島海峡大橋～佐田岬ライド2日目' width='465' height='500' frameborder='0'></iframe>";
-
-                      // print(str.split(
-                      //     RegExp(r"src='|title='|width='|frameborder='")));
-                      // var strArrey =  value!.split(RegExp(r"\s"));
-                      // print(str.split(RegExp(r"\s")));
-                      // print(strArrey[1]);
-                      // var srt3 = strArrey[1].split(RegExp(r"'"));
-                      // print(srt3);
-                      // print(srt3[1]);
-
                       if (value!.isEmpty) {
                         return '共有リンクアドレスは必須です';
                       }
@@ -375,12 +357,6 @@ class _ActivityAddElementState extends State<ActivityAddElement> {
                       if (!regExp2.hasMatch(value)) {
                         return 'コース追加のコードを入力してください';
                       }
-                      // String pattern3 =
-                      //     r'[https://connect.garmin.com/modern/activity/embed/].*';
-                      // RegExp regExp3 = RegExp(pattern3);
-                      // if (!regExp3.hasMatch(value)) {
-                      //   return 'Garmin Connectのコース共有コードを入力してください';
-                      // }
 
                       return null;
                     },
@@ -611,10 +587,10 @@ class _ActivityAddElementState extends State<ActivityAddElement> {
                     ElevatedButton(
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
-                            print(_couseURLController.text);
+                            // print(_couseURLController.text);
                             var strArrey =
                                 _couseURLController.text.split(RegExp(r"\s"));
-                            print(strArrey[1]);
+                            // print(strArrey[1]);
                             // strArrey.forEach((element) { })
                             var url = '';
                             strArrey.asMap().forEach((int i, String value) {
@@ -630,7 +606,7 @@ class _ActivityAddElementState extends State<ActivityAddElement> {
                             var srt3 = url.split(RegExp(r"'"));
                             // var srt3 = strArrey[1].split(RegExp(r"'"));
                             // print(srt3);
-                            print(srt3[1]);
+                            // print(srt3[1]);
 
                             widget.addPlan(Activities(
                               plan: RiderActivities(

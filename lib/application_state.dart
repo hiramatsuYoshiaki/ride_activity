@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -27,6 +28,11 @@ class ApplicationState extends ChangeNotifier {
           _loginState = ApplicationLoginState.welcom;
         } else {
           _loginState = ApplicationLoginState.loggedIn;
+          //firestore----------------------------------
+
+          //strage-------------------------------------
+          // FirebaseStorage storage = FirebaseStorage.instance;
+
         }
 
         // print('userChanges logged in');
@@ -117,6 +123,7 @@ class ApplicationState extends ChangeNotifier {
         // print(user);
         notifyListeners();
       }
+
       _activities = [
         Activities(
           plan: RiderActivities(
@@ -294,7 +301,6 @@ class ApplicationState extends ChangeNotifier {
   void setChangedMapURL(String url) {
     _changedMapURL = url;
     notifyListeners();
-    print('notifyListeners---------------------------');
   }
 
   RiderInfo _riderInfo =
@@ -549,6 +555,126 @@ class ApplicationState extends ChangeNotifier {
     _loginState = ApplicationLoginState.loggedOut;
     notifyListeners();
   }
+  //firestore-----------------------------------------------
+
+  Future<void> addActivityFiresore(Activities activity) {
+    print('addActivityFiresore');
+    if (_loginState != ApplicationLoginState.loggedIn) {
+      throw Exception('Must be logged in');
+    }
+
+    print('addActivityFiresore----------------');
+    print('activity:$activity');
+
+    final docData = {
+      "shared": true,
+      "tags": <String>[],
+      "createdAt": Timestamp.now(),
+      "updateAt": Timestamp.now(),
+      "status": "active"
+    };
+    final plan = {
+      "uid": '',
+      "activityTitle": 'Activity Title',
+      "date": DateTime.parse('2022-01-01 01:00:00'), //iso
+      "distance": 0,
+      "done": false,
+      "startPoint": 'Start point',
+      "wayPoint": 'Way point',
+      "finishPoint": 'Finish Point',
+      "couseURL": 'https://connect.garmin.com/modern/course/embed/105823680',
+      "prefacture": ['岡山'],
+      "rideType": 'event',
+    };
+    final actual = {
+      "rideURL": 'https://connect.garmin.com/modern/course/embed/105823680',
+      "ridePhotos": ['img001', 'img002', 'img003'],
+    };
+    final menber = {
+      "rider": <String>['中野', '土屋', '檜尾'],
+    };
+    docData["plan"] = plan;
+    docData["actual"] = actual;
+    docData["member"] = menber;
+    print('docData activities data------');
+    print(docData);
+    return FirebaseFirestore.instance
+        .collection('activities')
+        .doc("one")
+        .set(docData)
+        .then((value) => print("Activities Added"))
+        .catchError((error) => print("Failed to add Activities: $error"));
+
+    //   final city = City(
+    // name: "Los Angeles",
+    // state: "CA",
+    // country: "USA",
+    // capital: false,
+    // population: 5000000,
+    // regions: ["west_coast", "socal"],
+    // );
+    // final docRef = db
+    //     .collection("cities")
+    //     .withConverter(
+    //       fromFirestore: City.fromFirestore,
+    //       toFirestore: (City city, options) => city.toFirestore(),
+    //     )
+    //     .doc("LA");
+    //  await docRef.set(city);
+
+    // return FirebaseFirestore.instance.collection('activities').add(<String, dynamic>{
+    //   'text': 'test message',
+    //   'timestamp': DateTime.now().millisecondsSinceEpoch,
+    //   'name': FirebaseAuth.instance.currentUser!.displayName,
+    //   'uesrId': FirebaseAuth.instance.currentUser!.uid,
+    // });
+
+    // CollectionReference firestore =
+    //     FirebaseFirestore.instance.collection('activities');
+    // return firestore
+    //     .add(_selectedActivity = Activities(
+    //       plan: RiderActivities(
+    //         uid: '',
+    //         activityTitle: 'Activity Title',
+    //         // date: DateTime.utc(2022, 03, 03, 12, 30, 00),
+    //         date: DateTime.parse('2022-01-01 01:00:00'), //iso
+    //         distance: 0,
+    //         done: false,
+    //         startPoint: 'Start point',
+    //         wayPoint: 'Way point',
+    //         finishPoint: 'Finish Point',
+    //         couseURL:
+    //             'https://connect.garmin.com/modern/course/embed/105823680',
+    //         prefacture: ['岡山'],
+    //         rideType: 'event',
+    //       ),
+    //       actual: ActualRide(
+    //         rideURL: '',
+    //         ridePhotos: [],
+    //       ),
+    //       menber: Menber(rider: []),
+    //       shared: true,
+    //       tags: ['トレーニング'],
+    //       createdAt: DateTime.now(),
+    //       updateAt: DateTime.now(),
+    //       status: 'active',
+    //     ))
+    //     .then((value) => print("Activities Added"))
+    //     .catchError((error) => print("Failed to add Activities: $error"));
+    // CollectionReference firestore =
+    //     FirebaseFirestore.instance.collection('activities');
+    // return firestore
+    //     .add({activity)
+    //     .then((value) => print("Activities Added"))
+    // CollectionReference firestore =
+    //     FirebaseFirestore.instance.collection('activities');
+    //     .catchError((error) => print("Failed to add Activities: $error"));
+    // return FirebaseFirestore.instance
+    //     .collection('activities')
+    //     .doc('user').set(activity);
+  }
+
+  //strage--------------------------------------------------
 
   // void addRiderActivity(RiderActivities activities) {
   //   _riderActivities.add(activities);
@@ -589,7 +715,8 @@ class ApplicationState extends ChangeNotifier {
       updateAt: DateTime.now(),
       status: 'active',
     );
-
+    //firestore add-------------------------------------------------
+    addActivityFiresore(_selectedActivity);
     _activityState = ActivityState.display;
     notifyListeners();
   }
@@ -646,10 +773,22 @@ class ApplicationState extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setActual(DateTime rideDate, List<String> ridePhotos, bool rideDone) {
-    // print('setActual');
+  void setActual(
+      String RideLinkURL, DateTime rideDate, List pickedImages, bool rideDone) {
+    print('setActual');
+    print('pickedImages');
+    print(pickedImages);
+    List<String> _ridePhotos = [
+      'img8360.jpg',
+      'img8372.jpg',
+      // 'img8414.jpg',
+      // 'img8426.jpg',
+      // 'img8438.jpg',
+      // 'img8447.jpg',
+    ];
     // print(_activities[selectedIndex].plan.activityTitle);
     // _activities[selectedIndex].plan.done ? print('Done') : print('not done');
+
     _activities[selectedIndex] = Activities(
       plan: RiderActivities(
         uid: _activities[selectedIndex].plan.uid,
@@ -666,9 +805,10 @@ class ApplicationState extends ChangeNotifier {
         rideType: _activities[selectedIndex].plan.rideType,
       ),
       actual: ActualRide(
-        rideURL: _activities[selectedIndex].actual.rideURL,
+        // rideURL: _activities[selectedIndex].actual.rideURL,
+        rideURL: RideLinkURL,
         // ridePhotos: _activities[selectedIndex].actual.ridePhotos,
-        ridePhotos: ridePhotos,
+        ridePhotos: _ridePhotos,
       ),
       menber: Menber(rider: _activities[selectedIndex].menber.rider),
       shared: true,
@@ -678,9 +818,10 @@ class ApplicationState extends ChangeNotifier {
       status: 'active',
     );
     _activityState = ActivityState.display;
+
     notifyListeners();
   }
-}
+} 
 
 // Future<DocumentReference> addMessageToGuestBook(String message) {
 //   if (_loginState != ApplicationLoginState.loggedIn) {

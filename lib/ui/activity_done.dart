@@ -18,9 +18,8 @@ class ActivityDone extends StatefulWidget {
   }) : super(key: key);
   final void Function(ActivityState status) setActivityState;
   final Activities selectedActivity;
-  final void Function(DateTime rideDate, List<String> ridePhotos, bool rideDone)
-      setActual;
-
+  final void Function(String rideLinkURL, DateTime rideDate,
+      List<Image> ridePhotos, bool rideDone) setActual;
   @override
   _ActivityDoneState createState() => _ActivityDoneState();
 }
@@ -34,7 +33,7 @@ class _ActivityDoneState extends State<ActivityDone> {
   // final _avelageController = TextEditingController();
   // final _elevationController = TextEditingController();
   final _rideURLController = TextEditingController();
-  final _ridePhotosController = TextEditingController();
+  // final _ridePhotosController = TextEditingController();
   List<String> _ridePhotos = [
     'img8360.jpg',
     'img8372.jpg',
@@ -100,14 +99,14 @@ class _ActivityDoneState extends State<ActivityDone> {
 
   final _pickedImages = <Image>[];
   // final _pickedVideos = <dynamic>[];
-  String _imageInfo = '';
+  // String _imageInfo = '';
   Future<void> _pickImage() async {
     final fromPicker = await ImagePickerWeb.getImageAsWidget();
     if (fromPicker != null) {
       setState(() {
         _pickedImages.clear();
         _pickedImages.add(fromPicker);
-        print(fromPicker);
+        // print(fromPicker);
       });
     }
   }
@@ -117,11 +116,8 @@ class _ActivityDoneState extends State<ActivityDone> {
     setState(() {
       _pickedImages.clear();
       if (images != null) _pickedImages.addAll(images);
-      print('_pickMultiImages-----------------------------------');
-      // print('images');
-      // print(images);
-      print('_pickedImages');
-      print(_pickedImages);
+      // print('_pickedImages');
+      // print(_pickedImages);
     });
   }
 
@@ -164,6 +160,13 @@ class _ActivityDoneState extends State<ActivityDone> {
                               validator: (value) {
                                 if (value!.isEmpty) {
                                   return '共有リンクアドレスは必須です';
+                                }
+                                String pattern2 =
+                                    r'^<iframe[^>]*>\s*<\/iframe>';
+                                // String pattern2 = r'/^<iframe[^>]*>\s*<\/iframe>/';
+                                RegExp regExp2 = RegExp(pattern2);
+                                if (!regExp2.hasMatch(value)) {
+                                  return 'コース追加のコードを入力してください';
                                 }
                                 return null;
                               },
@@ -372,15 +375,38 @@ class _ActivityDoneState extends State<ActivityDone> {
                                       //   _displayNameController.text,
                                       //   _passwordController.text,
                                       // );
+
+                                      print(_rideURLController.text);
+                                      var strArrey = _rideURLController.text
+                                          .split(RegExp(r"\s"));
+                                      var url = '';
+                                      strArrey
+                                          .asMap()
+                                          .forEach((int i, String value) {
+                                        // print('Index: $i --> Value: $value');
+                                        // <iframe src='https://connect.garmin.com/modern/activity/embed/8442710466' title='河津桜ライド2022' width='465' height='500' frameborder='0'></iframe>
+                                        String pattern5 =
+                                            r'https://connect.garmin.com/modern/activity/embed/.*';
+                                        RegExp regExp5 = RegExp(pattern5);
+                                        if (regExp5.hasMatch(value)) {
+                                          // print('match---$value');
+                                          url = value;
+                                        }
+                                      });
+                                      var rideLinkURL = url.split(RegExp(r"'"));
+                                      // print(rideLinkURL);
+                                      // print(rideLinkURL[1]);
                                       DateTime rideDate = DateTime(
                                           _date.year,
                                           _date.month,
                                           _date.day,
                                           _time.hour,
                                           _time.minute);
-                                      widget.setActual(
-                                          rideDate, _ridePhotos, true);
-                                      print(_ridePhotos);
+                                      print('_pickedImages');
+                                      // print('_pickedImages');
+                                      print(_pickedImages);
+                                      widget.setActual(rideLinkURL[1], rideDate,
+                                          _pickedImages, true);
                                     }
                                   },
                                   child: const Text('実走済み')),
@@ -411,8 +437,8 @@ class _ActivityDoneState extends State<ActivityDone> {
       key: const ValueKey('webviewx'),
       initialContent: selectedActivityData.plan.couseURL,
       initialSourceType: SourceType.url,
-      height: 500, //サイズは適当
-      width: 500, //サイズは適当
+      height: 500,
+      width: 500,
       onWebViewCreated: (controller) => webviewController = controller,
     );
   }
