@@ -594,12 +594,12 @@ class _ActivityAddElementState extends State<ActivityAddElement> {
                             // strArrey.forEach((element) { })
                             var url = '';
                             strArrey.asMap().forEach((int i, String value) {
-                              print('Index: $i --> Value: $value');
+                              // print('Index: $i --> Value: $value');
                               String pattern5 =
                                   r'https://connect.garmin.com/modern/course/embed/.*';
                               RegExp regExp5 = RegExp(pattern5);
                               if (regExp5.hasMatch(value)) {
-                                print('match---$value');
+                                // print('match---$value');
                                 url = value;
                               }
                             });

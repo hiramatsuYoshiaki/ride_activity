@@ -20,7 +20,7 @@ class ApplicationState extends ChangeNotifier {
       options: DefaultFirebaseOptions.currentPlatform,
     );
 
-    FirebaseAuth.instance.userChanges().listen((user) {
+    FirebaseAuth.instance.userChanges().listen((user) async {
       print('ApplicationState init userChanges------ start ');
       if (user != null) {
         _currentUser = user;
@@ -61,6 +61,7 @@ class ApplicationState extends ChangeNotifier {
         //Rider情報----------------------------------------------------
         // _riderInfo = RiderInfo(
         //     uid: user.uid, riderName: user.displayName, email: user.email);
+        print('RiderInfo------$_riderInfo ');
         _riderInfo = RiderInfo(
             uid: user.uid.toString(),
             riderName: user.displayName.toString(),
@@ -68,6 +69,23 @@ class ApplicationState extends ChangeNotifier {
             photoURL: user.photoURL ?? '');
 
         //Activity情報-------------------------------------------------
+        // getActivities();
+        // final ref = FirebaseFirestore.instance.collection("activities").withConverter(
+        //   fromFirestore: Activities.fromFirestore,
+        //   toFirestore: (Activities _selectedActivity, _) =>  _selectedActivity.toFirestore(),
+        // );
+        // final docSnap = ref.get();
+        // final _activities = docSnap.data(); // Convert to City object
+        // if (_activities != null) {
+        //   print(_activities);
+        // } else {
+        //   print("No such document.");
+        // }
+
+        // FirebaseFirestore.instance.collection("activities").get().then(
+        //       (res) => print("Successfully completed"),
+        //       onError: (e) => print("Error completing: $e"),
+        //     );
         // _guestBookSubscription = FirebaseFirestore.instance
         //     .collection('guestbook')
         //     .orderBy('timestamp', descending: true)
@@ -124,103 +142,245 @@ class ApplicationState extends ChangeNotifier {
         notifyListeners();
       }
 
-      _activities = [
-        Activities(
-          plan: RiderActivities(
-            uid: 'jmUx5BeigyYVWQ1ysaWjq02oKao2',
-            activityTitle: '初詣ライド2022',
-            date: DateTime.parse("2022-01-03 09:00:00"),
-            // date: DateTime.utc(2022, 01, 03, 10, 30, 00),
-            distance: 78,
-            // time:0,
-            // avelageSpeed:0,
-            // vartical:0,
-            done: true,
-            startPoint: 'シティーライトフィットネス',
-            wayPoint: '由加神社',
-            finishPoint: 'シティーライトフィットネス',
-            couseURL: 'https://connect.garmin.com/modern/course/embed/87305420',
-            prefacture: ['岡山', '広島', '鳥取', '島根', '山口'],
-            rideType: 'Event',
-          ),
-          actual: ActualRide(
-            rideURL:
-                'https://connect.garmin.com/modern/activity/embed/8052346097',
-            ridePhotos: [
-              'img8360.jpg',
-              'img8372.jpg',
-              'img8414.jpg',
-              'img8426.jpg',
-              'img8438.jpg',
-              'img8447.jpg',
-            ],
-          ),
-          menber: Menber(rider: ['中野', '檜尾', '土屋']),
-          shared: true,
-          tags: ['初詣', 'イベント', '由加神社', '玉野のチヌ', 'UNO HOTEL'],
-          createdAt: DateTime.now(),
-          updateAt: DateTime.now(),
-          status: 'active',
-        ),
-        Activities(
-          plan: RiderActivities(
-            uid: 'ltLWWdJvQ7RDVUvUMnDmloFnwwa2',
-            activityTitle: '河津桜ライド2022',
-            // date: DateTime.utc(2022, 02, 03, 11, 30, 00),
-            date: DateTime.parse('2022-03-12 14:00:00'), //iso
-            distance: 50,
-            done: false,
-            startPoint: '自宅',
-            wayPoint: '入船橋（美観地区の南端）',
-            finishPoint: '自宅',
-            couseURL:
-                'https://connect.garmin.com/modern/course/embed/106611330',
-            prefacture: ['岡山'],
-            rideType: 'Evevt', //'training',
-          ),
-          actual: ActualRide(
-            rideURL: '',
-            // 'https://connect.garmin.com/modern/activity/embed/8442710466',
-            ridePhotos: [],
-          ),
-          menber: Menber(rider: ['中野', '檜尾', '土屋', '加藤', 'タデイ・ポガチャル', '新城']),
-          shared: true,
-          tags: ['河津桜', 'イベント', '倉敷', '岡南飛行場', '桜を見ながらポタリング'],
-          createdAt: DateTime.now(),
-          updateAt: DateTime.now(),
-          status: 'active',
-        ),
-        Activities(
-          plan: RiderActivities(
-            uid: 'ltLWWdJvQ7RDVUvUMnDmloFnwwa3',
-            activityTitle: '児島半島ライド',
-            // date: DateTime.utc(2022, 03, 03, 12, 30, 00),
-            date: DateTime.parse('2022-04-23 13:20:00'), //iso
-            distance: 60,
-            done: false,
-            startPoint: '自宅',
-            wayPoint: 'サウスビレッジ',
-            finishPoint: '自宅',
-            couseURL:
-                'https://connect.garmin.com/modern/course/embed/105823680',
-            prefacture: ['岡山'],
-            rideType: 'TtrainingShort',
-          ), //'training','event'
-          actual: ActualRide(
-            rideURL: '',
-            // 'https://connect.garmin.com/modern/activity/embed/8763155713',
-            ridePhotos: [],
-          ),
-          menber: Menber(rider: []),
-          shared: true,
-          tags: [],
-          createdAt: DateTime.now(),
-          updateAt: DateTime.now(),
-          status: 'active',
-        ),
-      ];
+      //   _activities = [
+      //     Activities(
+      //       plan: RiderActivities(
+      //         uid: 'jmUx5BeigyYVWQ1ysaWjq02oKao2',
+      //         activityTitle: '初詣ライド2022',
+      //         date: DateTime.parse("2022-01-03 09:00:00"),
+      //         // date: DateTime.utc(2022, 01, 03, 10, 30, 00),
+      //         distance: 78,
+      //         // time:0,
+      //         // avelageSpeed:0,
+      //         // vartical:0,
+      //         done: true,
+      //         startPoint: 'シティーライトフィットネス',
+      //         wayPoint: '由加神社',
+      //         finishPoint: 'シティーライトフィットネス',
+      //         couseURL: 'https://connect.garmin.com/modern/course/embed/87305420',
+      //         prefacture: ['岡山', '広島', '鳥取', '島根', '山口'],
+      //         rideType: 'Event',
+      //       ),
+      //       actual: ActualRide(
+      //         rideURL:
+      //             'https://connect.garmin.com/modern/activity/embed/8052346097',
+      //         ridePhotos: [
+      //           'img8360.jpg',
+      //           'img8372.jpg',
+      //           'img8414.jpg',
+      //           'img8426.jpg',
+      //           'img8438.jpg',
+      //           'img8447.jpg',
+      //         ],
+      //       ),
+      //       menber: Menber(rider: ['中野', '檜尾', '土屋']),
+      //       shared: true,
+      //       tags: ['初詣', 'イベント', '由加神社', '玉野のチヌ', 'UNO HOTEL'],
+      //       createdAt: DateTime.now(),
+      //       updateAt: DateTime.now(),
+      //       status: 'active',
+      //     ),
+      //     Activities(
+      //       plan: RiderActivities(
+      //         uid: 'ltLWWdJvQ7RDVUvUMnDmloFnwwa2',
+      //         activityTitle: '河津桜ライド2022',
+      //         // date: DateTime.utc(2022, 02, 03, 11, 30, 00),
+      //         date: DateTime.parse('2022-03-12 14:00:00'), //iso
+      //         distance: 50,
+      //         done: false,
+      //         startPoint: '自宅',
+      //         wayPoint: '入船橋（美観地区の南端）',
+      //         finishPoint: '自宅',
+      //         couseURL:
+      //             'https://connect.garmin.com/modern/course/embed/106611330',
+      //         prefacture: ['岡山'],
+      //         rideType: 'Evevt', //'training',
+      //       ),
+      //       actual: ActualRide(
+      //         rideURL: '',
+      //         // 'https://connect.garmin.com/modern/activity/embed/8442710466',
+      //         ridePhotos: [],
+      //       ),
+      //       menber: Menber(rider: ['中野', '檜尾', '土屋', '加藤', 'タデイ・ポガチャル', '新城']),
+      //       shared: true,
+      //       tags: ['河津桜', 'イベント', '倉敷', '岡南飛行場', '桜を見ながらポタリング'],
+      //       createdAt: DateTime.now(),
+      //       updateAt: DateTime.now(),
+      //       status: 'active',
+      //     ),
+      //     Activities(
+      //       plan: RiderActivities(
+      //         uid: 'ltLWWdJvQ7RDVUvUMnDmloFnwwa3',
+      //         activityTitle: '児島半島ライド',
+      //         // date: DateTime.utc(2022, 03, 03, 12, 30, 00),
+      //         date: DateTime.parse('2022-04-23 13:20:00'), //iso
+      //         distance: 60,
+      //         done: false,
+      //         startPoint: '自宅',
+      //         wayPoint: 'サウスビレッジ',
+      //         finishPoint: '自宅',
+      //         couseURL:
+      //             'https://connect.garmin.com/modern/course/embed/105823680',
+      //         prefacture: ['岡山'],
+      //         rideType: 'TtrainingShort',
+      //       ), //'training','event'
+      //       actual: ActualRide(
+      //         rideURL: '',
+      //         // 'https://connect.garmin.com/modern/activity/embed/8763155713',
+      //         ridePhotos: [],
+      //       ),
+      //       menber: Menber(rider: []),
+      //       shared: true,
+      //       tags: [],
+      //       createdAt: DateTime.now(),
+      //       updateAt: DateTime.now(),
+      //       status: 'active',
+      //     ),
+      //   ];
+      print(_activities);
+      // getActivities();
+      final ref = FirebaseFirestore.instance
+          .collection("activities")
+          .orderBy('plan.date', descending: false)
+          .withConverter<Activities>(
+            fromFirestore: Activities.fromFirestore,
+            toFirestore: (Activities selectedActivity, _) =>
+                selectedActivity.toFirestore(),
+          );
+      await ref
+          .get()
+          .then((QuerySnapshot querySnapshot) => {
+                // debugPrint("Activities Geted docSnap: $querySnapshot")
+
+                querySnapshot.docs.forEach((doc) {
+                  // print(
+                  //     "-++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+");
+                  // print(doc["plan.uid"]);
+                  // print(doc["plan.activityTitle"]);
+                  // print(doc["plan.date"]);
+                  // print(doc["plan.distance"]);
+                  // print(doc["plan.done"]);
+                  // print(doc["plan.startPoint"]);
+                  // print(doc["plan.wayPoint"]);
+                  // print(doc["plan.finishPoint"]);
+                  // print(doc["plan.couseURL"]);
+                  // print(doc["plan.prefacture"]);
+                  // print(doc["plan.rideType"]);
+
+                  // print(doc["actual.rideURL"]);
+                  // print(doc["actual.ridePhotos"]);
+                  // print(doc["menber.rider"]);
+                  // print(doc["shared"]);
+                  // print(doc["tags"]);
+                  // print(doc["createdAt"]);
+                  // print(doc["createdAt"]);
+                  // print(doc["status"]);
+                  // List<QueryDocumentSnapshot<Activities>> selectedActivity1 =
+                  //     querySnapshot.docs.toList();
+                  // List<Activities> selectedActivity1 =
+                  //     querySnapshot.docs.toList();
+
+                  Activities _selectedActivity = Activities(
+                    plan: RiderActivities(
+                      uid: doc["plan.uid"],
+                      activityTitle: doc["plan.activityTitle"],
+                      date: doc["plan.date"].toDate(),
+                      distance: doc["plan.distance"],
+                      done: doc["plan.done"],
+                      startPoint: doc["plan.startPoint"],
+                      wayPoint: doc["plan.wayPoint"],
+                      finishPoint: doc["plan.finishPoint"],
+                      couseURL: doc["plan.couseURL"],
+                      prefacture: List<String>.from(doc['plan.prefacture']),
+                      //FirestoreはList<String>（フラッター）の代わりにList<dynamic>を返します
+                      //型変換を処理する
+                      // imageUrls: List<String>.from(map['imageUrls']),
+                      // (map['imageUrls'] as List)?.map((item) => item as String)?.toList();
+                      //imageUrls: <String>[...map['imageUrls']],
+                      rideType: doc["plan.rideType"],
+                    ),
+                    actual: ActualRide(
+                      rideURL: doc["actual.rideURL"],
+                      ridePhotos: List<String>.from(doc['actual.ridePhotos']),
+                    ),
+                    menber: Menber(
+                      rider: List<String>.from(doc['menber.rider']),
+                    ),
+                    shared: doc["shared"],
+                    tags: List<String>.from(doc['tags']),
+                    createdAt: doc["createdAt"].toDate(),
+                    updateAt: doc["updateAt"].toDate(),
+                    status: doc["status"],
+                  );
+
+                  print(
+                      '_selectedActivity----add: ${doc["plan.activityTitle"]}');
+                  print(_selectedActivity);
+                  _activities.add(_selectedActivity);
+                  print(_activities);
+                })
+                // _activities = docSnap;
+                // for (var doc in value.docs) {
+                // debugPrint("firestore get activities ${doc.id} => ${doc.data()}");
+                //   }
+              })
+          .catchError(
+              (error) => debugPrint("Failed to add Activities: $error"));
+      print(_activities);
+      notifyListeners();
     });
+
+    // FirebaseFirestore.instance.collection('activities')
+    //       .orderBy('createdAt', descending: true)
+    //       .snapshots()
+    //       .listen(
+    //         (snapshot) {
+    //         for (final document in snapshot.docs) {
+    //         _activities.add(
+    //           Activities(
+    //             plan: RiderActivities(
+    //               uid: document.data()['uid'] as String,
+    //               activityTitle: document.data()['plan.activityTitle'] as String,
+    //               date: document.data()['date'] as DateTime,
+    //               distance: document.data()['plan.distance'] as int,
+    //               done: document.data()['plan.done'] as bool,
+    //               startPoint: document.data()['plan.startPoint'] as String,
+    //               wayPoint: document.data()['plan.wayPoint'] as String,
+    //               finishPoint: document.data()['plan.finishPoint'] as String,
+    //               couseURL: document.data()['plan.couseURL'] as String,
+    //               prefacture: document.data()['plan.prefacture'] as List<String>,
+    //               rideType: document.data()['plan.rideType'] as String,
+    //             ),
+
+    //             actual: ActualRide(
+    //               rideURL: document.data()['actual.rideURL'] as String,
+    //               ridePhotos: document.data()['actual.ridePhotos'] as List<String>,
+    //             ),
+
+    //             menber: Menber(
+    //               rider:document.data()['menber.rider'] as List<String>
+    //             ),
+    //             shared: document.data()['shared'] as bool,
+    //             tags: document.data()['tags'] as List<String>,
+    //             createdAt: document.data()['createAt'] as DateTime,
+    //             updateAt: document.data()['updateAt'] as DateTime,
+    //             status: document.data()['status'] as String,
+    //           )
+    //         );
+    //         }
+    //       })
+    // .then((value) => debugPrint("geted Activities"))
+    // .catchError((error) => debugPrint("Failed to get Activities: $error"));
+
+    // GuestBookMessage(
+    //     name: document.data()['name'] as String,
+    //     message: document.data()['text'] as String),
+    // );
+    // })
+    // .then((value) => debugPrint("geted Activities"))
+    // .catchError((error) => debugPrint("Failed to get Activities: $error"));
   }
+
   // void init() {
   //   if (_user != "") {
   //     _loginState = ApplicationLoginState.loggedIn;
@@ -555,123 +715,228 @@ class ApplicationState extends ChangeNotifier {
     _loginState = ApplicationLoginState.loggedOut;
     notifyListeners();
   }
-  //firestore-----------------------------------------------
 
+  //firestore get -----------------------------------------------
+  Future<void> getActivities() async {
+    print('getActivities()----start');
+    // コレクションから複数のドキュメントを取得する
+    // FirebaseFirestore.instance
+    //     .collection("activities")
+    //     .where("done", isEqualTo: true)
+    //     .get()
+    //     .then(
+    //       (res) => print("Successfully completed %%%%%%%%%"),
+    //       onError: (e) => print("Error completing: $e"),
+    //     );
+    //コレクションのすべてのドキュメントを取得する
+    // firestore get ----------------------------------
+    // print('firestore get activities-------------------------');
+    // FirebaseFirestore.instance.collection('activities').get().then((value) {
+    //   for (var doc in value.docs) {
+    //     debugPrint("firestore get activities ${doc.id} => ${doc.data()}");
+    //   }
+    // }).catchError((error) => debugPrint("Failed to get Activities: $error"));
+    //カスタム オブジェクト
+    final ref = FirebaseFirestore.instance
+        .collection("activities")
+        .withConverter<Activities>(
+          fromFirestore: Activities.fromFirestore,
+          toFirestore: (Activities selectedActivity, _) =>
+              selectedActivity.toFirestore(),
+        );
+    // final docSnap = await ref.get();
+    // final docSnap = await ref.get();
+    // final List<Activities> data =
+    //     docSnap.docs.cast<Activities>().toList(); // Convert to City object
+    // if (data != null) {
+    //   print(data);
+    // } else {
+    //   print("No such document.");
+    // }
+    // List<Activities> data;
+    await ref
+        .get()
+        .then((querySnapshot) => {
+              // debugPrint("Activities Geted docSnap: $querySnapshot")
+
+              querySnapshot.docs.forEach((doc) {
+                // print(doc["plan.activityTitle"]);
+                // print(doc["plan"]);
+
+                // List<QueryDocumentSnapshot<Activities>> selectedActivity1 =
+                //     querySnapshot.docs.toList();
+                // List<Activities> selectedActivity1 =
+                //     querySnapshot.docs.toList();
+                // print(selectedActivity1[0]);
+                // print(selectedActivity1);
+                // const _selectedActivity = doc.data();
+
+                // print(doc as Activities);
+
+                print(
+                    "-++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+");
+                print(doc["plan.uid"]);
+                print(doc["plan.activityTitle"]);
+                print(doc["plan.date"]);
+                print(doc["plan.distance"]);
+                print(doc["plan.done"]);
+                print(doc["plan.startPoint"]);
+                print(doc["plan.wayPoint"]);
+                print(doc["plan.finishPoint"]);
+                print(doc["plan.couseURL"]);
+                print(doc["plan.prefacture"]);
+                print(doc["plan.rideType"]);
+
+                print(doc["actual.rideURL"]);
+                print(doc["actual.ridePhotos"]);
+                print(doc["menber.rider"]);
+                print(doc["shared"]);
+                print(doc["tags"]);
+                print(doc["createdAt"]);
+                print(doc["createdAt"]);
+                print(doc["status"]);
+
+                Activities _selectedActivity = Activities(
+                  plan: RiderActivities(
+                    uid: doc["plan.uid"],
+                    activityTitle: doc["plan.activityTitle"],
+                    date: doc["plan.date"].toDate(),
+                    distance: doc["plan.distance"],
+                    done: doc["plan.done"],
+                    startPoint: doc["plan.startPoint"],
+                    wayPoint: doc["plan.wayPoint"],
+                    finishPoint: doc["plan.finishPoint"],
+                    couseURL: doc["plan.couseURL"],
+                    // prefacture: doc["plan.prefacture"] as List<String>,
+                    prefacture: ['a', 'b'],
+                    rideType: doc["plan.rideType"],
+                  ),
+                  actual: ActualRide(
+                    rideURL: doc["actual.rideURL"],
+                    // ridePhotos: doc["actual.ridePhotos"] as List<String>,
+                    ridePhotos: ['a', 'b'],
+                  ),
+                  // menber: Menber(rider: doc["menber.rider"] as List<String>),
+                  menber: Menber(
+                    rider: ['a', 'b'],
+                  ),
+                  shared: doc["shared"],
+                  // tags: doc["tags"] as List<String>,
+                  tags: ['a', 'b'],
+                  createdAt: doc["createdAt"].toDate(),
+                  updateAt: doc["createdAt"].toDate(),
+                  status: doc["status"],
+                );
+
+                print('_selectedActivity----add: ${doc["plan.activityTitle"]}');
+                print(_selectedActivity);
+                _activities.add(_selectedActivity);
+                print(_activities);
+              })
+              // _activities = docSnap;
+              // for (var doc in value.docs) {
+              // debugPrint("firestore get activities ${doc.id} => ${doc.data()}");
+              //   }
+            })
+        .catchError((error) => debugPrint("Failed to add Activities: $error"));
+
+    // final activity = docSnap.data(); // Convert to Activites object
+    // if (activity != null) {
+    //   print(activity);
+    // } else {
+    //   print("No such document.");
+    // }
+  }
+
+  //firestore add withconverter -----------------------------------------------
   Future<void> addActivityFiresore(Activities activity) {
-    print('addActivityFiresore');
+    print('addActivityFiresore----------------');
     if (_loginState != ApplicationLoginState.loggedIn) {
       throw Exception('Must be logged in');
     }
-
-    print('addActivityFiresore----------------');
     print('activity:$activity');
-
-    final docData = {
-      "shared": true,
-      "tags": <String>[],
-      "createdAt": Timestamp.now(),
-      "updateAt": Timestamp.now(),
-      "status": "active"
-    };
-    final plan = {
-      "uid": '',
-      "activityTitle": 'Activity Title',
-      "date": DateTime.parse('2022-01-01 01:00:00'), //iso
-      "distance": 0,
-      "done": false,
-      "startPoint": 'Start point',
-      "wayPoint": 'Way point',
-      "finishPoint": 'Finish Point',
-      "couseURL": 'https://connect.garmin.com/modern/course/embed/105823680',
-      "prefacture": ['岡山'],
-      "rideType": 'event',
-    };
-    final actual = {
-      "rideURL": 'https://connect.garmin.com/modern/course/embed/105823680',
-      "ridePhotos": ['img001', 'img002', 'img003'],
-    };
-    final menber = {
-      "rider": <String>['中野', '土屋', '檜尾'],
-    };
-    docData["plan"] = plan;
-    docData["actual"] = actual;
-    docData["member"] = menber;
     print('docData activities data------');
+
+    // firestore nested object- - - - - - - - - - - -
+    //ネストされたカスタムオブジェクトを追加する場合
+    // withConverter, fromFirestore, toFirestoreを使用する方法
+    Activities docData = Activities(
+      plan: RiderActivities(
+        uid: _riderInfo.uid,
+        activityTitle: activity.plan.activityTitle,
+        date: activity.plan.date,
+        distance: activity.plan.distance,
+        done: activity.plan.done,
+        startPoint: activity.plan.startPoint,
+        wayPoint: activity.plan.wayPoint,
+        finishPoint: activity.plan.finishPoint,
+        couseURL: activity.plan.couseURL,
+        prefacture: activity.plan.prefacture,
+        rideType: activity.plan.rideType,
+      ),
+      actual: ActualRide(
+        rideURL: activity.actual.rideURL,
+        ridePhotos: activity.actual.ridePhotos,
+      ),
+      menber: Menber(rider: activity.menber.rider),
+      shared: activity.shared,
+      tags: activity.tags,
+      createdAt: activity.createdAt,
+      updateAt: activity.updateAt,
+      status: activity.status,
+    );
     print(docData);
     return FirebaseFirestore.instance
-        .collection('activities')
-        .doc("one")
-        .set(docData)
-        .then((value) => print("Activities Added"))
-        .catchError((error) => print("Failed to add Activities: $error"));
+        .collection("activities")
+        .withConverter(
+          fromFirestore: Activities.fromFirestore,
+          toFirestore: (Activities docData, options) => docData.toFirestore(),
+        )
+        .add(docData)
+        .then((value) => debugPrint("Activities Added"))
+        .catchError((error) => debugPrint("Failed to add Activities: $error"));
 
-    //   final city = City(
-    // name: "Los Angeles",
-    // state: "CA",
-    // country: "USA",
-    // capital: false,
-    // population: 5000000,
-    // regions: ["west_coast", "socal"],
-    // );
-    // final docRef = db
-    //     .collection("cities")
-    //     .withConverter(
-    //       fromFirestore: City.fromFirestore,
-    //       toFirestore: (City city, options) => city.toFirestore(),
-    //     )
-    //     .doc("LA");
-    //  await docRef.set(city);
-
-    // return FirebaseFirestore.instance.collection('activities').add(<String, dynamic>{
-    //   'text': 'test message',
-    //   'timestamp': DateTime.now().millisecondsSinceEpoch,
-    //   'name': FirebaseAuth.instance.currentUser!.displayName,
-    //   'uesrId': FirebaseAuth.instance.currentUser!.uid,
-    // });
-
-    // CollectionReference firestore =
-    //     FirebaseFirestore.instance.collection('activities');
-    // return firestore
-    //     .add(_selectedActivity = Activities(
-    //       plan: RiderActivities(
-    //         uid: '',
-    //         activityTitle: 'Activity Title',
-    //         // date: DateTime.utc(2022, 03, 03, 12, 30, 00),
-    //         date: DateTime.parse('2022-01-01 01:00:00'), //iso
-    //         distance: 0,
-    //         done: false,
-    //         startPoint: 'Start point',
-    //         wayPoint: 'Way point',
-    //         finishPoint: 'Finish Point',
-    //         couseURL:
-    //             'https://connect.garmin.com/modern/course/embed/105823680',
-    //         prefacture: ['岡山'],
-    //         rideType: 'event',
-    //       ),
-    //       actual: ActualRide(
-    //         rideURL: '',
-    //         ridePhotos: [],
-    //       ),
-    //       menber: Menber(rider: []),
-    //       shared: true,
-    //       tags: ['トレーニング'],
-    //       createdAt: DateTime.now(),
-    //       updateAt: DateTime.now(),
-    //       status: 'active',
-    //     ))
-    //     .then((value) => print("Activities Added"))
-    //     .catchError((error) => print("Failed to add Activities: $error"));
-    // CollectionReference firestore =
-    //     FirebaseFirestore.instance.collection('activities');
-    // return firestore
-    //     .add({activity)
-    //     .then((value) => print("Activities Added"))
-    // CollectionReference firestore =
-    //     FirebaseFirestore.instance.collection('activities');
-    //     .catchError((error) => print("Failed to add Activities: $error"));
+    // firestore add object--------------------------
+    //ネストされたカスタムオブジェクトを追加する場合
+    // final docData = {
+    //   "shared": true,
+    //   "tags": activity.tags,
+    //   "createdAt": Timestamp.now(),
+    //   "updateAt": Timestamp.now(),
+    //   "status": "active"
+    // };
+    // final plan = {
+    //   "uid": _riderInfo.uid,
+    //   "activityTitle": activity.plan.activityTitle,
+    //   // "date": DateTime.parse('2022-01-01 01:00:00'), //iso
+    //   "date": activity.plan.date, //iso
+    //   "distance": activity.plan.distance,
+    //   "done": false,
+    //   "startPoint": activity.plan.startPoint,
+    //   "wayPoint": activity.plan.wayPoint,
+    //   "finishPoint": activity.plan.finishPoint,
+    //   // "couseURL": 'https://connect.garmin.com/modern/course/embed/105823680',
+    //   "couseURL": activity.plan.couseURL,
+    //   "prefacture": activity.plan.prefacture,
+    //   "rideType": activity.plan.rideType,
+    // };
+    // final actual = {
+    //   // "rideURL": 'https://connect.garmin.com/modern/course/embed/105823680',
+    //   "rideURL": activity.actual.rideURL,
+    //   "ridePhotos": activity.actual.ridePhotos,
+    // };
+    // final menber = {
+    //   "rider": activity.menber.rider,
+    // };
+    // docData["plan"] = plan;
+    // docData["actual"] = actual;
+    // docData["menber"] = menber;
+    // print(docData);
     // return FirebaseFirestore.instance
     //     .collection('activities')
-    //     .doc('user').set(activity);
+    //     .add(docData)
+    //     .then((value) => debugPrint("Activities Added"))
+    //     .catchError((error) => debugPrint("Failed to add Activities: $error"));
   }
 
   //strage--------------------------------------------------
@@ -688,6 +953,9 @@ class ApplicationState extends ChangeNotifier {
 
   void addActivity(Activities selectedActivity) {
     print('addActivity-----------------------------');
+    //firestore add-------------------------------------------------
+    addActivityFiresore(selectedActivity);
+
     _activities.add(selectedActivity);
     _selectedActivity = Activities(
       plan: RiderActivities(
@@ -715,8 +983,7 @@ class ApplicationState extends ChangeNotifier {
       updateAt: DateTime.now(),
       status: 'active',
     );
-    //firestore add-------------------------------------------------
-    addActivityFiresore(_selectedActivity);
+
     _activityState = ActivityState.display;
     notifyListeners();
   }
@@ -821,7 +1088,7 @@ class ApplicationState extends ChangeNotifier {
 
     notifyListeners();
   }
-} 
+}
 
 // Future<DocumentReference> addMessageToGuestBook(String message) {
 //   if (_loginState != ApplicationLoginState.loggedIn) {

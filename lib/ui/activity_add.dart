@@ -104,18 +104,19 @@ class _ActivityAddState extends State<ActivityAdd> {
                   ElevatedButton(
                     child: const Text('登録'),
                     onPressed: () {
-                      print('add onPress button');
+                      // print('add onPress button');
                       widget.addActivity(Activities(
                         plan: RiderActivities(
                           uid: widget.selectedActivity.plan.uid,
                           activityTitle:
                               widget.selectedActivity.plan.activityTitle,
-                          date: DateTime.utc(2022, 03, 03, 12, 30, 00),
+                          date: widget.selectedActivity.plan.date,
+                          // date: DateTime.utc(2022, 03, 03, 12, 30, 00),
                           // date: widget.selectedActivity.plan.date, //iso
                           //iso
                           // distance: int.parse(
                           //     widget.selectedActivity.plan.startPoint),
-                          distance: 250,
+                          distance: widget.selectedActivity.plan.distance,
                           done: false,
                           startPoint: widget.selectedActivity.plan.startPoint,
                           wayPoint: widget.selectedActivity.plan.wayPoint,
@@ -125,10 +126,11 @@ class _ActivityAddState extends State<ActivityAdd> {
                           rideType: widget.selectedActivity.plan.rideType,
                         ),
                         actual: ActualRide(
-                          rideURL: '',
-                          ridePhotos: [],
+                          rideURL: widget.selectedActivity.actual.rideURL,
+                          ridePhotos: widget.selectedActivity.actual.ridePhotos,
                         ),
-                        menber: Menber(rider: []),
+                        menber:
+                            Menber(rider: widget.selectedActivity.menber.rider),
                         shared: true,
                         tags: widget.selectedActivity.tags,
                         createdAt: DateTime.now(),
