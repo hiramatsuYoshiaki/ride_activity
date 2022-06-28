@@ -896,7 +896,7 @@ await ref
                 // debugPrint("Activities Geted docSnap: $querySnapshot")
 
                 querySnapshot.docs.forEach((doc) {
-                  Activities _selectedActivity = Activities(
+                 Activities _selectedActivity = Activities(
                     plan: RiderActivities(
                       uid: doc["plan.uid"],
                       activityTitle: doc["plan.activityTitle"],
@@ -907,18 +907,23 @@ await ref
                       wayPoint: doc["plan.wayPoint"],
                       finishPoint: doc["plan.finishPoint"],
                       couseURL: doc["plan.couseURL"],
-                      prefacture: doc['plan.prefacture'],
+                      prefacture: List<String>.from(doc['plan.prefacture']),
+                      //FirestoreはList<String>（フラッター）の代わりにList<dynamic>を返します
+                      //型変換を処理する
+                      // imageUrls: List<String>.from(map['imageUrls']),
+                      // (map['imageUrls'] as List)?.map((item) => item as String)?.toList();
+                      //imageUrls: <String>[...map['imageUrls']],
                       rideType: doc["plan.rideType"],
                     ),
                     actual: ActualRide(
                       rideURL: doc["actual.rideURL"],
-                      ridePhotos: doc['actual.ridePhotos'],
+                      ridePhotos: List<String>.from(doc['actual.ridePhotos']),
                     ),
                     menber: Menber(
-                      rider: doc['menber.rider'],
+                      rider: List<String>.from(doc['menber.rider']),
                     ),
                     shared: doc["shared"],
-                    tags: doc['tags'],
+                    tags: List<String>.from(doc['tags']),
                     createdAt: doc["createdAt"].toDate(),
                     updateAt: doc["updateAt"].toDate(),
                     status: doc["status"],
