@@ -934,3 +934,10 @@ await ref
           .catchError(
               (error) => debugPrint("Failed to add Activities: $error"));
 ```
+
+# FirestoreはList<String>（フラッター）の代わりにList<dynamic>を返します 
+https://stackoverflow.com/questions/67990075/firestore-returns-listdynamic-instead-of-liststring-flutter
+型変換を処理するには、次のいずれかの方法を試すことができます。
+1. `imageUrls: List<String>.from(map['imageUrls']),`
+2. `imageUrls: (map['imageUrls'] as List).map((element) => element as String).toList(),`
+3. `imageUrls: <String>[...map['imageUrls']],`
