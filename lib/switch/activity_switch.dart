@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -43,6 +45,8 @@ class ActivitySwitch extends StatelessWidget {
   final Activities selectedActivity;
   final void Function(String rideLinkURL, DateTime rideDate,
       List<Image> ridePhotos, bool rideDone) setActual;
+  // final void Function(String rideLinkURL, DateTime rideDate,
+  //     List<Uint8List> ridePhotos, bool rideDone) setActual;
   final void Function(Activities selectedActivity) addPlan;
 
   @override

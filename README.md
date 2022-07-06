@@ -938,6 +938,75 @@ await ref
 # FirestoreはList<String>（フラッター）の代わりにList<dynamic>を返します 
 https://stackoverflow.com/questions/67990075/firestore-returns-listdynamic-instead-of-liststring-flutter
 型変換を処理するには、次のいずれかの方法を試すことができます。
-1. `imageUrls: List<String>.from(map['imageUrls']),`
-2. `imageUrls: (map['imageUrls'] as List).map((element) => element as String).toList(),`
-3. `imageUrls: <String>[...map['imageUrls']],`
+1. `imageUrls: List<String>.from(map['imageUrls']),`  
+2. `imageUrls: (map['imageUrls'] as List).map((element) => element as String).toList(),`  
+3. `imageUrls: <String>[...map['imageUrls']],`  
+  
+# FirestoreへのFlutterWebアップロード
+https://stackoverflow.com/questions/60719724/flutter-web-upload-to-firestore  
+```
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:image_picker_web/image_picker_web.dart';
+
+class ImagePickerDemo extends StatefulWidget {
+  const ImagePickerDemo({Key? key}) : super(key: key);
+
+  @override
+  _ImagePickerDemoState createState() => _ImagePickerDemoState();
+}
+class _ImagePickerDemoState extends State<ImagePickerDemo> {
+  MediaInfo? _imageInfo;
+
+  Future<void> _pickImage() async {
+    var fileInfo = await ImagePickerWeb.getImageInfo; //get image
+    if (fileInfo.data == null) return; // user did not choose image.
+    setState(() {
+      _imageInfo = fileInfo; // save image
+    });
+  }
+  Future<void> _uploadImage() async {
+    if (_imageInfo == null) return;
+    final firebaseStorageLocation =
+        FirebaseStorage.instance.ref().child('product_images');
+    final imageInfo = _imageInfo as MediaInfo;
+    _imageInfo as MediaInfo;
+    final firebasefileLocation = firebaseStorageLocation
+        .child('${DateTime.now()}_${imageInfo.fileName!}');
+
+    //await firebasefileLocation.putData(imageInfo.data!);
+    //ここ修正
+    await firebasefileLocation.putData(
+        imageInfo.data!,
+        SettableMetadata(
+          contentType: "image/jpeg", 
+        ));
+    final urlToUseLater = await firebasefileLocation.getDownloadURL();
+  }
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        ElevatedButton(onPressed: _pickImage, child: Text('Choose Image')),
+        ElevatedButton(
+            onPressed: _imageInfo == null ? null : _uploadImage,
+            child: Text('Upload Image')),
+        //Image.memory(
+        //  _imageInfo!.data!,
+        //  width: 180,
+        //)
+        //ここ修正
+        Container(
+          child: _imageInfo != null
+              ? Image.memory(
+                  _imageInfo!.data!,
+                  width: 180,
+                )
+              : const Text('画像が選択されていません'),
+        ),
+      ],
+    );
+  }
+}
+```

@@ -1,8 +1,12 @@
+import 'dart:io';
+import 'dart:typed_data';
+
 import 'package:flutter/foundation.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/material.dart';
 import 'firebase_options.dart';
 
 import 'model/rider_activity.dart';
@@ -23,6 +27,7 @@ class ApplicationState extends ChangeNotifier {
     FirebaseAuth.instance.userChanges().listen((user) async {
       print('ApplicationState init userChanges------ start ');
       if (user != null) {
+        print('userChanges logged in');
         _currentUser = user;
         if (user.emailVerified == false) {
           _loginState = ApplicationLoginState.welcom;
@@ -61,13 +66,14 @@ class ApplicationState extends ChangeNotifier {
         //Rider情報----------------------------------------------------
         // _riderInfo = RiderInfo(
         //     uid: user.uid, riderName: user.displayName, email: user.email);
-        print('RiderInfo------$_riderInfo ');
+
         _riderInfo = RiderInfo(
             uid: user.uid.toString(),
             riderName: user.displayName.toString(),
             email: user.email.toString(),
             photoURL: user.photoURL ?? '');
-
+        print('RiderInfo------${_riderInfo.uid} ');
+        print('RiderInfo------${_riderInfo.riderName} ');
         //Activity情報-------------------------------------------------
         // getActivities();
         // final ref = FirebaseFirestore.instance.collection("activities").withConverter(
@@ -237,8 +243,10 @@ class ApplicationState extends ChangeNotifier {
       //       status: 'active',
       //     ),
       //   ];
-      print(_activities);
+      // print(_activities);
       // getActivities();
+      // _activities = [];
+      _activities.clear();
       final ref = FirebaseFirestore.instance
           .collection("activities")
           .orderBy('plan.date', descending: false)
@@ -313,11 +321,11 @@ class ApplicationState extends ChangeNotifier {
                     status: doc["status"],
                   );
 
-                  print(
-                      '_selectedActivity----add: ${doc["plan.activityTitle"]}');
-                  print(_selectedActivity);
+                  // print(
+                  //     '_selectedActivity----add: ${doc["plan.activityTitle"]}');
+                  // print(_selectedActivity);
                   _activities.add(_selectedActivity);
-                  print(_activities);
+                  // print(_activities);
                 })
                 // _activities = docSnap;
                 // for (var doc in value.docs) {
@@ -326,7 +334,7 @@ class ApplicationState extends ChangeNotifier {
               })
           .catchError(
               (error) => debugPrint("Failed to add Activities: $error"));
-      print(_activities);
+      // print(_activities);
       notifyListeners();
     });
 
@@ -849,13 +857,13 @@ class ApplicationState extends ChangeNotifier {
   }
 
   //firestore add withconverter -----------------------------------------------
-  Future<void> addActivityFiresore(Activities activity) {
-    print('addActivityFiresore----------------');
+  Future<void> addActivityFiresore(Activities activity) async {
+    // print('addActivityFiresore----------------');
     if (_loginState != ApplicationLoginState.loggedIn) {
       throw Exception('Must be logged in');
     }
-    print('activity:$activity');
-    print('docData activities data------');
+    // print('activity:$activity');
+    // print('docData activities data------');
 
     // firestore nested object- - - - - - - - - - - -
     //ネストされたカスタムオブジェクトを追加する場合
@@ -885,7 +893,7 @@ class ApplicationState extends ChangeNotifier {
       updateAt: activity.updateAt,
       status: activity.status,
     );
-    print(docData);
+    // print(docData);
     return FirebaseFirestore.instance
         .collection("activities")
         .withConverter(
@@ -941,8 +949,8 @@ class ApplicationState extends ChangeNotifier {
 
   //strage--------------------------------------------------
 
-  // void addRiderActivity(RiderActivities activities) {
-  //   _riderActivities.add(activities);
+  // void addActivityStrage(Activities selectedActivity) {
+  //   print('addActivityStrage');
   // }
 
   void addPlan(Activities selectedActivity) {
@@ -956,33 +964,33 @@ class ApplicationState extends ChangeNotifier {
     //firestore add-------------------------------------------------
     addActivityFiresore(selectedActivity);
 
-    _activities.add(selectedActivity);
-    _selectedActivity = Activities(
-      plan: RiderActivities(
-        uid: '',
-        activityTitle: 'Activity Title',
-        // date: DateTime.utc(2022, 03, 03, 12, 30, 00),
-        date: DateTime.parse('2022-01-01 01:00:00'), //iso
-        distance: 0,
-        done: false,
-        startPoint: 'Start point',
-        wayPoint: 'Way point',
-        finishPoint: 'Finish Point',
-        couseURL: 'https://connect.garmin.com/modern/course/embed/105823680',
-        prefacture: ['岡山'],
-        rideType: 'event',
-      ),
-      actual: ActualRide(
-        rideURL: '',
-        ridePhotos: [],
-      ),
-      menber: Menber(rider: []),
-      shared: true,
-      tags: ['トレーニング'],
-      createdAt: DateTime.now(),
-      updateAt: DateTime.now(),
-      status: 'active',
-    );
+    // _activities.add(selectedActivity);
+    // _selectedActivity = Activities(
+    //   plan: RiderActivities(
+    //     uid: '',
+    //     activityTitle: 'Activity Title',
+    //     // date: DateTime.utc(2022, 03, 03, 12, 30, 00),
+    //     date: DateTime.parse('2022-01-01 01:00:00'), //iso
+    //     distance: 0,
+    //     done: false,
+    //     startPoint: 'Start point',
+    //     wayPoint: 'Way point',
+    //     finishPoint: 'Finish Point',
+    //     couseURL: 'https://connect.garmin.com/modern/course/embed/105823680',
+    //     prefacture: ['岡山'],
+    //     rideType: 'event',
+    //   ),
+    //   actual: ActualRide(
+    //     rideURL: '',
+    //     ridePhotos: [],
+    //   ),
+    //   menber: Menber(rider: []),
+    //   shared: true,
+    //   tags: ['トレーニング'],
+    //   createdAt: DateTime.now(),
+    //   updateAt: DateTime.now(),
+    //   status: 'active',
+    // );
 
     _activityState = ActivityState.display;
     notifyListeners();
@@ -1040,53 +1048,128 @@ class ApplicationState extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setActual(
-      String RideLinkURL, DateTime rideDate, List pickedImages, bool rideDone) {
-    print('setActual');
-    print('pickedImages');
-    print(pickedImages);
-    List<String> _ridePhotos = [
-      'img8360.jpg',
-      'img8372.jpg',
-      // 'img8414.jpg',
-      // 'img8426.jpg',
-      // 'img8438.jpg',
-      // 'img8447.jpg',
-    ];
-    // print(_activities[selectedIndex].plan.activityTitle);
-    // _activities[selectedIndex].plan.done ? print('Done') : print('not done');
+  // Future<void> addActivityPhotos(List pickedImages) async {
+  //   print('addActivityPhotos');
+  //   pickedImages.forEach((element) {
+  //     print(element);
+  //   });
+  // }
 
-    _activities[selectedIndex] = Activities(
-      plan: RiderActivities(
-        uid: _activities[selectedIndex].plan.uid,
-        activityTitle: _activities[selectedIndex].plan.activityTitle,
-        // date: _activities[selectedIndex].plan.date, //iso
-        date: rideDate,
-        distance: _activities[selectedIndex].plan.distance,
-        done: rideDone,
-        startPoint: _activities[selectedIndex].plan.startPoint,
-        wayPoint: _activities[selectedIndex].plan.wayPoint,
-        finishPoint: _activities[selectedIndex].plan.finishPoint,
-        couseURL: _activities[selectedIndex].plan.couseURL,
-        prefacture: _activities[selectedIndex].plan.prefacture,
-        rideType: _activities[selectedIndex].plan.rideType,
-      ),
-      actual: ActualRide(
-        // rideURL: _activities[selectedIndex].actual.rideURL,
-        rideURL: RideLinkURL,
-        // ridePhotos: _activities[selectedIndex].actual.ridePhotos,
-        ridePhotos: _ridePhotos,
-      ),
-      menber: Menber(rider: _activities[selectedIndex].menber.rider),
-      shared: true,
-      tags: _activities[selectedIndex].tags,
-      createdAt: DateTime.now(),
-      updateAt: DateTime.now(),
-      status: 'active',
-    );
-    _activityState = ActivityState.display;
+  // FirebaseStorage _storage = FirebaseStorage.instance;
 
-    notifyListeners();
+  Future setActual(String RideLinkURL, DateTime rideDate,
+      List<Image> pickedImages, bool rideDone) async {
+    // Future setActual(String RideLinkURL, DateTime rideDate,
+    //     List<Uint8List> pickedbytes, bool rideDone) async {
+    print('setActual-start');
+    // <iframe src='https://connect.garmin.com/modern/activity/embed/8763156143' title='来島海峡大橋～佐田岬ライド2日目' width='465' height='500' frameborder='0'></iframe>
+    // print('setActual pickedbytes: $pickedbytes');
+    // print(pickedImages[0].image);
+    // pickedImages.map((img) => print('img.image'));
+    pickedImages.forEach(((img) {
+      print(img.image);
+    }));
+
+    // Uint8List? _unit8list = MemoryImage(pickedImages[0].image) as Uint8List?;
+
+    // File.fromRawPath(Uint8List uint8List);
+
+    // try {
+    //   // Upload raw data.
+    //   await FirebaseStorage.instance.ref().child("/").putData(pickedImages[0]);
+    //   debugPrint("Photos add Strage");
+    // } on FirebaseException catch (error) {
+    //   debugPrint("Failed to Photos add Strage: $error");
+    // }
+
+    // File file = File.fromRawPath(pickedImages[0].image);
+    // Uint8List? _unit8list = MemoryImage(pickedImages[0].image) as Uint8List?;
+    // print(_unit8list);
+    // File file = File.fromRawPath(pickedImages[0].image);
+    // File file = File.fromRawPath(_unit8list!);
+    // print(file);
+    // FirebaseStorage.instance.ref("test/").putFile(file);
+
+    //[Image(image: MemoryImage(Uint8List#08fa3, scale: 1), frameBuilder: null, loadingBuilder: null, alignment: Alignment.center, this.excludeFromSemantics: false, filterQuality: low)]
+    // addActivityPhotos(pickedImages);
+    //     try {
+    //   // Upload raw data.
+    //   await mountainsRef.putData(data);
+    // } on firebase_core.FirebaseException catch (e) {
+    //   // ...
+    // }
+    // final storage = FirebaseStorage.instance;
+    // final storageRef = FirebaseStorage.instance.ref();
+    // final imagesRef = storageRef.child("/");
+    // print(storageRef);
+    // print(imagesRef);
+
+    // try {
+    //   await imagesRef.putData(pickedImages[0].image);
+    //   print('putData');
+    // } on FirebaseAuthException catch (e) {
+    //   print('Failed add strage : ${e.code}');
+    //   print(e.message);
+    //   print('putData error');
+    // }
+    // print('putData error');
+    // print('setActual-finish');
+
+    // try {
+    //   // Upload raw data.
+    //   FirebaseStorage.instance.ref().child("/").putFile(pickedImages[0].image)
+    //   await imagesRef.putData(pickedImages[0].image);
+    // // ignore: nullable_type_in_catch_clause
+    // } on firebase_core.FirebaseException catch (e) {
+    //   // ...
+    // }
+    // pickedImages.map((img) => {
+    //       imagesRef
+    //           .putFile(pickedImages[0].image)
+    //           // .putData(img.image)
+    //           .then((value) => debugPrint("Photos add Strage"))
+    //           .catchError(
+    //               (error) => debugPrint("Failed to Photos add Strage: $error"))
+    //     });
+// } on firebase_core.FirebaseException catch (e) {
+//   // ...
+// }
+    // List<String> _ridePhotos = [
+    //   'img8360.jpg',
+    //   'img8372.jpg',
+    // ];
+    // _activities[selectedIndex] = Activities(
+    //   plan: RiderActivities(
+    //     uid: _activities[selectedIndex].plan.uid,
+    //     activityTitle: _activities[selectedIndex].plan.activityTitle,
+    //     // date: _activities[selectedIndex].plan.date, //iso
+    //     date: rideDate,
+    //     distance: _activities[selectedIndex].plan.distance,
+    //     done: rideDone,
+    //     startPoint: _activities[selectedIndex].plan.startPoint,
+    //     wayPoint: _activities[selectedIndex].plan.wayPoint,
+    //     finishPoint: _activities[selectedIndex].plan.finishPoint,
+    //     couseURL: _activities[selectedIndex].plan.couseURL,
+    //     prefacture: _activities[selectedIndex].plan.prefacture,
+    //     rideType: _activities[selectedIndex].plan.rideType,
+    //   ),
+    //   actual: ActualRide(
+    //     // rideURL: _activities[selectedIndex].actual.rideURL,
+    //     rideURL: RideLinkURL,
+    //     // ridePhotos: _activities[selectedIndex].actual.ridePhotos,
+    //     ridePhotos: _ridePhotos,
+    //   ),
+    //   menber: Menber(rider: _activities[selectedIndex].menber.rider),
+    //   shared: true,
+    //   tags: _activities[selectedIndex].tags,
+    //   createdAt: DateTime.now(),
+    //   updateAt: DateTime.now(),
+    //   status: 'active',
+    // );
+    //
+    // _activityState = ActivityState.display;
+    // notifyListeners();
+    print('setActual-end');
   }
 }
 

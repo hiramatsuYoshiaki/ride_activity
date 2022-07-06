@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 // import 'package:ride_activity/model/status.dart';
@@ -8,6 +10,15 @@ import '../application_state.dart';
 import '../model/status.dart';
 import 'package:intl/intl.dart';
 import 'package:image_picker_web/image_picker_web.dart';
+import 'dart:html' as html;
+
+import 'package:mime_type/mime_type.dart';
+import 'package:path/path.dart' as Path;
+// import 'package:path/path.dart';
+
+//del
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 class ActivityDone extends StatefulWidget {
   const ActivityDone({
@@ -20,11 +31,20 @@ class ActivityDone extends StatefulWidget {
   final Activities selectedActivity;
   final void Function(String rideLinkURL, DateTime rideDate,
       List<Image> ridePhotos, bool rideDone) setActual;
+  // final void Function(String rideLinkURL, DateTime rideDate,
+  //     List<Uint8List> ridePhotos, bool rideDone) setActual;
+  //
+  //imagePickerWeb
+  // html.File _cloudFile;
+  // var _fileBytes;
+  // Image _imageWidget;
+
   @override
   _ActivityDoneState createState() => _ActivityDoneState();
 }
 
 class _ActivityDoneState extends State<ActivityDone> {
+  MediaInfo? _imageInfo;
   late WebViewXController webviewController;
   final _formKey = GlobalKey<FormState>(debugLabel: '_ActivityDoneState');
   // final _distanceController = TextEditingController();
@@ -98,27 +118,121 @@ class _ActivityDoneState extends State<ActivityDone> {
   }
 
   final _pickedImages = <Image>[];
+  final _pickedImagesInfo = <MediaInfo>[];
+  // final _pickedbytes = <Uint8List>[];
   // final _pickedVideos = <dynamic>[];
   // String _imageInfo = '';
-  Future<void> _pickImage() async {
-    final fromPicker = await ImagePickerWeb.getImageAsWidget();
-    if (fromPicker != null) {
-      setState(() {
-        _pickedImages.clear();
-        _pickedImages.add(fromPicker);
-        // print(fromPicker);
-      });
-    }
-  }
+  // Future<void> _pickImage() async {
+  //   final fromPicker = await ImagePickerWeb.getImageAsWidget();
+  //   if (fromPicker != null) {
+  //     setState(() {
+  //       _pickedImages.clear();
+  //       _pickedImages.add(fromPicker);
+  //     });
+  //   }
+  // }
 
   Future<void> _pickMultiImages() async {
     final images = await ImagePickerWeb.getMultiImagesAsWidget();
+    // final uint8List = await ImagePickerWeb.getMultiImagesAsBytes();
     setState(() {
       _pickedImages.clear();
       if (images != null) _pickedImages.addAll(images);
+      // if (uint8List != null) _pickedbytes.addAll(uint8List);
       // print('_pickedImages');
       // print(_pickedImages);
     });
+  }
+
+  uploadFile(MediaInfo mediaInfo, String ref, String fileName) {
+    print('uploadFile');
+    // try {
+    //   String mimeType = mime(basename(mediaInfo.fileName));
+    //   var metaData = UploadMetadata(contentType: mimeType);
+    //   StorageReference storageReference = storage().ref(ref).child(fileName);
+
+    //   UploadTask uploadTask = storageReference.put(mediaInfo.data, metaData);
+    //   var imageUri;
+    //   uploadTask.future.then((snapshot) => {
+    //         Future.delayed(Duration(seconds: 1)).then((value) => {
+    //               snapshot.ref.getDownloadURL().then((dynamic uri) {
+    //                 imageUri = uri;
+    //                 print('Download URL: ${imageUri.toString()}');
+    //               })
+    //             })
+    //       });
+    // } catch (e) {
+    //   print('File Upload Error: $e');
+    // }
+  }
+
+  imagePicker() {
+    print('imagePicker');
+    // return ImagePickerWeb.getImageInfo.then((MediaInfo mediaInfo) {
+    //   uploadFile(mediaInfo, 'images', mediaInfo.fileName);
+    // });
+  }
+
+  Future<void> _pickImage() async {
+    var fileInfo = await ImagePickerWeb.getImageInfo; //get image
+    if (fileInfo?.data == null) return; // user did not choose image.
+    setState(() {
+      _imageInfo = fileInfo; // save image
+      print('fileName: ${fileInfo!.fileName}');
+    });
+  }
+
+  Future<void> _uploadImage() async {
+    print('uploadImage');
+    if (_imageInfo == null) return;
+    final firebaseStorageLocation =
+        FirebaseStorage.instance.ref().child('images');
+    final imageInfo = _imageInfo as MediaInfo;
+    _imageInfo as MediaInfo;
+    final firebasefileLocation = firebaseStorageLocation
+        .child('${DateTime.now()}_${imageInfo.fileName!}');
+
+    // await firebasefileLocation.putData(imageInfo.data!);
+    await firebasefileLocation.putData(
+        imageInfo.data!,
+        SettableMetadata(
+          contentType: "image/jpeg",
+        ));
+    final urlToUseLater = await firebasefileLocation.getDownloadURL();
+    print('urlToUseLater $urlToUseLater');
+  }
+
+  Future<void> _getMultipleImageInfos() async {
+    print('getMultipleImageInfos');
+    final mediaData = await ImagePickerWeb.getImageInfo;
+    print('mediaData runtimeType: ${mediaData.runtimeType}');
+    print(mediaData.toString());
+    print('fileName: ${mediaData!.fileName}');
+    String? mimeType = mime(Path.basename(mediaData.fileName.toString()));
+    print('mimeType: $mimeType');
+    // convert List<int> to Uint8List.
+    // uint8List = Uint8List.fromList(list);
+    // convert Uint8List to List<int>
+    // list = List<int>.from(uint8List);
+    print('mediaData runtimeType: ${mediaData.data.runtimeType}');
+    print('mediaData: ${mediaData.data}');
+    // html.File mediaFile = html.File(
+    //     mediaData.data, mediaData.fileName.toString(), {'type': mimeType});
+    // if (mediaFile != null) {
+    //   setState(() {
+    //     _cloudFile = mediaFile;
+    //     _fileBytes = mediaData.data;
+    //     _imageWidget = Image.memory(mediaData.data);
+    //   });
+
+    // setState(() {
+    //   _pickedImagesInfo.clear();
+    //   if (images != null) _pickedImagesInfo.addAll(images);
+    //   // if (uint8List != null) _pickedbytes.addAll(uint8List);
+    //   // print('_pickedImages');
+    //   // print(_pickedImages);
+    // });
+    // imagePicker();
   }
 
   @override
@@ -340,11 +454,29 @@ class _ActivityDoneState extends State<ActivityDone> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   ElevatedButton(
-                                    onPressed:
-                                        //() {},
-                                        _pickImage,
-                                    child: const Text('Select Image'),
-                                  ),
+                                      onPressed: _pickImage,
+                                      child: Text('Choose Image')),
+                                  const SizedBox(width: 16),
+                                  ElevatedButton(
+                                      onPressed: _imageInfo == null
+                                          ? null
+                                          : _uploadImage,
+                                      // onPressed: () {},
+                                      child: Text('Upload Image')),
+
+                                  // ElevatedButton(
+                                  //   onPressed:
+                                  //       //() {},
+                                  //       _getMultipleImageInfos,
+                                  //   child: const Text(
+                                  //       'Select Multi Images with Infos'),
+                                  // ),
+                                  // ElevatedButton(
+                                  //   onPressed:
+                                  //       //() {},
+                                  //       _pickImage,
+                                  //   child: const Text('Select Image'),
+                                  // ),
                                   const SizedBox(width: 16),
                                   ElevatedButton(
                                     onPressed:
@@ -354,6 +486,15 @@ class _ActivityDoneState extends State<ActivityDone> {
                                   ),
                                   const SizedBox(width: 16),
                                 ])),
+                        const SizedBox(height: 32),
+                        Container(
+                          child: _imageInfo != null
+                              ? Image.memory(
+                                  _imageInfo!.data!,
+                                  width: 180,
+                                )
+                              : const Text('画像が選択されていません'),
+                        ),
                         const SizedBox(height: 32),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 32),
@@ -405,8 +546,11 @@ class _ActivityDoneState extends State<ActivityDone> {
                                       print('_pickedImages');
                                       // print('_pickedImages');
                                       print(_pickedImages);
+                                      // print('_pickedbytes: $_pickedbytes');
                                       widget.setActual(rideLinkURL[1], rideDate,
                                           _pickedImages, true);
+                                      // widget.setActual(rideLinkURL[1], rideDate,
+                                      //     _pickedbytes, true);
                                     }
                                   },
                                   child: const Text('実走済み')),
