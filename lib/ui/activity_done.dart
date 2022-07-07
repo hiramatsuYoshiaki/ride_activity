@@ -45,6 +45,12 @@ class ActivityDone extends StatefulWidget {
 
 class _ActivityDoneState extends State<ActivityDone> {
   MediaInfo? _imageInfo;
+  // html.File? _cloudFile;
+  // var _fileBytes;
+  // Image? _imageWidget;
+  // late html.File _cloudFile;
+  // var _fileBytes;
+  // late Image _imageWidget;
   late WebViewXController webviewController;
   final _formKey = GlobalKey<FormState>(debugLabel: '_ActivityDoneState');
   // final _distanceController = TextEditingController();
@@ -132,18 +138,6 @@ class _ActivityDoneState extends State<ActivityDone> {
   //   }
   // }
 
-  Future<void> _pickMultiImages() async {
-    final images = await ImagePickerWeb.getMultiImagesAsWidget();
-    // final uint8List = await ImagePickerWeb.getMultiImagesAsBytes();
-    setState(() {
-      _pickedImages.clear();
-      if (images != null) _pickedImages.addAll(images);
-      // if (uint8List != null) _pickedbytes.addAll(uint8List);
-      // print('_pickedImages');
-      // print(_pickedImages);
-    });
-  }
-
   uploadFile(MediaInfo mediaInfo, String ref, String fileName) {
     print('uploadFile');
     // try {
@@ -174,16 +168,26 @@ class _ActivityDoneState extends State<ActivityDone> {
   }
 
   Future<void> _pickImage() async {
+    //MediaInfo type
     var fileInfo = await ImagePickerWeb.getImageInfo; //get image
     if (fileInfo?.data == null) return; // user did not choose image.
     setState(() {
       _imageInfo = fileInfo; // save image
-      print('fileName: ${fileInfo!.fileName}');
+      // print('fileName: ${fileInfo!.fileName}');
+      _pickedImagesInfo.add(fileInfo!);
+    });
+  }
+
+  Future<void> _pickMultiImages() async {
+    final images = await ImagePickerWeb.getMultiImagesAsWidget();
+    setState(() {
+      _pickedImages.clear();
+      if (images != null) _pickedImages.addAll(images);
     });
   }
 
   Future<void> _uploadImage() async {
-    print('uploadImage');
+    // print('uploadImage');
     if (_imageInfo == null) return;
     final firebaseStorageLocation =
         FirebaseStorage.instance.ref().child('images');
@@ -191,49 +195,51 @@ class _ActivityDoneState extends State<ActivityDone> {
     _imageInfo as MediaInfo;
     final firebasefileLocation = firebaseStorageLocation
         .child('${DateTime.now()}_${imageInfo.fileName!}');
-
-    // await firebasefileLocation.putData(imageInfo.data!);
     await firebasefileLocation.putData(
         imageInfo.data!,
         SettableMetadata(
           contentType: "image/jpeg",
+          customMetadata: {
+            "location": "Yosemite, CA, USA",
+            "activity": "Hiking",
+          },
         ));
     final urlToUseLater = await firebasefileLocation.getDownloadURL();
     print('urlToUseLater $urlToUseLater');
   }
 
-  Future<void> _getMultipleImageInfos() async {
-    print('getMultipleImageInfos');
-    final mediaData = await ImagePickerWeb.getImageInfo;
-    print('mediaData runtimeType: ${mediaData.runtimeType}');
-    print(mediaData.toString());
-    print('fileName: ${mediaData!.fileName}');
-    String? mimeType = mime(Path.basename(mediaData.fileName.toString()));
-    print('mimeType: $mimeType');
-    // convert List<int> to Uint8List.
-    // uint8List = Uint8List.fromList(list);
-    // convert Uint8List to List<int>
-    // list = List<int>.from(uint8List);
-    print('mediaData runtimeType: ${mediaData.data.runtimeType}');
-    print('mediaData: ${mediaData.data}');
-    // html.File mediaFile = html.File(
-    //     mediaData.data, mediaData.fileName.toString(), {'type': mimeType});
-    // if (mediaFile != null) {
-    //   setState(() {
-    //     _cloudFile = mediaFile;
-    //     _fileBytes = mediaData.data;
-    //     _imageWidget = Image.memory(mediaData.data);
-    //   });
+  // Future<void> _getMultipleImageInfos() async {
+  //   print('getMultipleImageInfos');
+  //   var mediaData = await ImagePickerWeb.getImageInfo;
+  //   print('mediaData runtimeType: ${mediaData.runtimeType}');
+  //   print(mediaData.toString());
+  //   print('fileName: ${mediaData!.fileName}');
+  //   String? mimeType = mime(Path.basename(mediaData.fileName.toString()));
+  //   print('mimeType: $mimeType');
 
-    // setState(() {
-    //   _pickedImagesInfo.clear();
-    //   if (images != null) _pickedImagesInfo.addAll(images);
-    //   // if (uint8List != null) _pickedbytes.addAll(uint8List);
-    //   // print('_pickedImages');
-    //   // print(_pickedImages);
-    // });
-    // imagePicker();
-  }
+  //   print('mediaData runtimeType: ${mediaData.data.runtimeType}');
+  //   print('mediaData: ${mediaData.data}');
+  //   List<int> imageBytes = [];
+  //   imageBytes.addAll(mediaData.data!.toList());
+
+  //   html.File mediaFile = html.File(
+  //       imageBytes, mediaData.fileName.toString(), {'type': mimeType});
+  //   print(mediaFile.lastModified);
+  //   print(mediaFile.lastModifiedDate);
+  //   print(mediaFile.name);
+  //   print(mediaFile.relativePath);
+
+  //   if (mediaFile != null) {
+  //     setState(() {
+  //       _cloudFile = mediaFile;
+  //       _fileBytes = mediaData.data;
+  //       _imageWidget = Image.memory(mediaData.data!);
+  //     });
+  //   }
+  //   print('_cloudFile:  $_cloudFile');
+  //   print('_fileBytes:  $_fileBytes');
+  //   print('_imageWidget:  $_imageWidget');
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -370,82 +376,109 @@ class _ActivityDoneState extends State<ActivityDone> {
                           //             _pickedImages[index]),
                           // )])),
 
-                          child: Container(
-                              padding: const EdgeInsets.all(4),
-                              decoration: BoxDecoration(
-                                border: Border.all(color: Colors.grey),
-                                borderRadius: BorderRadius.circular(4),
-                              ),
-                              width: double.infinity,
-                              child: Wrap(
-                                alignment: WrapAlignment.center,
-                                direction: Axis.horizontal,
-                                runSpacing: 8,
-                                spacing: 8,
-                                // children: _pickedImages
-                                //     .map((img) => SizedBox(
-                                //         width: 300,
-                                //         height: 200,
-                                //         child: Container(
-                                //             decoration: BoxDecoration(
-                                //               border: Border.all(
-                                //                   color: Colors.grey),
-                                //               borderRadius:
-                                //                   BorderRadius.circular(4),
-                                //             ),
-                                //             child: img)))
-                                //     .toList(),
-                                children: _pickedImages
-                                    .map(
-                                      (img) => CircleAvatar(
-                                        // backgroundImage: NetworkImage('$img'),
-                                        // backgroundImage: NetworkImage('$img'),
-                                        backgroundImage: img.image,
-                                        minRadius: 50,
-                                        maxRadius: 50,
-                                        // child: img,
-                                      ),
-                                    )
-                                    .toList(),
-                                // children: _pickedImages
-                                //     .map(
-                                //       (img) => CircleAvatar(
-                                //         radius: 50.0,
-                                //         child: ClipRRect(
-                                //           // child: Image.asset('profile-generic.png'),
-                                //           child: img,
-                                //           // Image(image: MemoryImage(Uint8List#a9e19, scale: 1), frameBuilder: null, loadingBuilder: null, alignment: Alignment.center, this.excludeFromSemantics: false, filterQuality: low)
-                                //           borderRadius:
-                                //               BorderRadius.circular(100.100),
-                                //         ),
-                                //       ),
-                                //     )
-                                //     .toList(),
-                                // children: _pickedImages
-                                //     .map((img) =>
-                                //         // ClipOval(
-                                //         //       child: SizedBox.fromSize(
-                                //         //         size: Size.fromRadius(
-                                //         //             48), // Image radius
-                                //         //         child: img,
-                                //         //       ),
-                                //         //     )
-                                //         Container(
-                                //           padding:
-                                //               EdgeInsets.all(8), // Border width
-                                //           // decoration: BoxDecoration(
-                                //           //     color: Colors.red,
-                                //           //     shape: BoxShape.circle),
-                                //           child: ClipOval(
-                                //             child: SizedBox.fromSize(
-                                //               size: Size.fromRadius(
-                                //                   48), // Image radius
-                                //               child: img,
-                                //             ),
-                                //           ),
-                                //         ))
-                                //     .toList(),
-                              )),
+                          child: _pickedImagesInfo.isNotEmpty
+                              ? Container(
+                                  padding: const EdgeInsets.all(4),
+                                  decoration: BoxDecoration(
+                                    border: Border.all(color: Colors.grey),
+                                    borderRadius: BorderRadius.circular(4),
+                                  ),
+                                  width: double.infinity,
+                                  child: Wrap(
+                                    alignment: WrapAlignment.center,
+                                    direction: Axis.horizontal,
+                                    runSpacing: 8,
+                                    spacing: 8,
+                                    // children: _pickedImages
+                                    //     .map((img) => SizedBox(
+                                    //         width: 300,
+                                    //         height: 200,
+                                    //         child: Container(
+                                    //             decoration: BoxDecoration(
+                                    //               border: Border.all(
+                                    //                   color: Colors.grey),
+                                    //               borderRadius:
+                                    //                   BorderRadius.circular(4),
+                                    //             ),
+                                    //             child: img)))
+                                    //     .toList(),
+                                    // children: _pickedImages
+                                    //     .map(
+                                    //       (img) => CircleAvatar(
+                                    //         // backgroundImage: NetworkImage('$img'),
+                                    //         // backgroundImage: NetworkImage('$img'),
+                                    //         backgroundImage: img.image,
+                                    //         minRadius: 50,
+                                    //         maxRadius: 50,
+                                    //         // child: img,
+                                    //       ),
+                                    //     )
+                                    //     .toList(),
+
+                                    children: _pickedImagesInfo
+                                        .map(
+                                          (img) => CircleAvatar(
+                                            backgroundImage:
+                                                MemoryImage(img.data!),
+                                            minRadius: 50,
+                                            maxRadius: 50,
+                                          ),
+                                        )
+                                        .toList(),
+                                    // children: [
+                                    //   Container(
+                                    //     child: _pickedImagesInfo.isNotEmpty
+                                    //         ?
+                                    //         : Text('画像が選択されていません'),
+                                    //     // _pickedImagesInfo
+                                    //     //     .map((img) => Image.memory(
+                                    //     //           img.data!,
+                                    //     //           width: 180,
+                                    //     //         ))
+                                    //     //     .toList(),
+                                    //   )
+                                    // ],
+
+                                    // children: _pickedImages
+                                    //     .map(
+                                    //       (img) => CircleAvatar(
+                                    //         radius: 50.0,
+                                    //         child: ClipRRect(
+                                    //           // child: Image.asset('profile-generic.png'),
+                                    //           child: img,
+                                    //           // Image(image: MemoryImage(Uint8List#a9e19, scale: 1), frameBuilder: null, loadingBuilder: null, alignment: Alignment.center, this.excludeFromSemantics: false, filterQuality: low)
+                                    //           borderRadius:
+                                    //               BorderRadius.circular(100.100),
+                                    //         ),
+                                    //       ),
+                                    //     )
+                                    //     .toList(),
+                                    // children: _pickedImages
+                                    //     .map((img) =>
+                                    //         // ClipOval(
+                                    //         //       child: SizedBox.fromSize(
+                                    //         //         size: Size.fromRadius(
+                                    //         //             48), // Image radius
+                                    //         //         child: img,
+                                    //         //       ),
+                                    //         //     )
+                                    //         Container(
+                                    //           padding:
+                                    //               EdgeInsets.all(8), // Border width
+                                    //           // decoration: BoxDecoration(
+                                    //           //     color: Colors.red,
+                                    //           //     shape: BoxShape.circle),
+                                    //           child: ClipOval(
+                                    //             child: SizedBox.fromSize(
+                                    //               size: Size.fromRadius(
+                                    //                   48), // Image radius
+                                    //               child: img,
+                                    //             ),
+                                    //           ),
+                                    //         ))
+                                    //     .toList(),
+                                  ))
+                              : const Text('画像を選択してください'),
                         ),
                         const SizedBox(height: 8),
                         Padding(
@@ -455,15 +488,15 @@ class _ActivityDoneState extends State<ActivityDone> {
                                 children: [
                                   ElevatedButton(
                                       onPressed: _pickImage,
-                                      child: Text('Choose Image')),
+                                      child: Text('画像を選択')),
                                   const SizedBox(width: 16),
                                   ElevatedButton(
                                       onPressed: _imageInfo == null
                                           ? null
                                           : _uploadImage,
                                       // onPressed: () {},
-                                      child: Text('Upload Image')),
-
+                                      child: Text('画像を追加')),
+                                  const SizedBox(width: 16),
                                   // ElevatedButton(
                                   //   onPressed:
                                   //       //() {},
@@ -471,31 +504,29 @@ class _ActivityDoneState extends State<ActivityDone> {
                                   //   child: const Text(
                                   //       'Select Multi Images with Infos'),
                                   // ),
+
+                                  const SizedBox(width: 16),
+                                  //ImagePickerWeb.getMultiImagesAsWidget useing
                                   // ElevatedButton(
                                   //   onPressed:
-                                  //       //() {},
-                                  //       _pickImage,
-                                  //   child: const Text('Select Image'),
+                                  //       // () {},
+                                  //       _pickMultiImages,
+                                  //   child: const Text('Select Multi Images'),
                                   // ),
-                                  const SizedBox(width: 16),
-                                  ElevatedButton(
-                                    onPressed:
-                                        // () {},
-                                        _pickMultiImages,
-                                    child: const Text('Select Multi Images'),
-                                  ),
-                                  const SizedBox(width: 16),
+                                  // const SizedBox(width: 16),
                                 ])),
                         const SizedBox(height: 32),
-                        Container(
-                          child: _imageInfo != null
-                              ? Image.memory(
-                                  _imageInfo!.data!,
-                                  width: 180,
-                                )
-                              : const Text('画像が選択されていません'),
-                        ),
-                        const SizedBox(height: 32),
+                        // Container(
+                        //   child: _imageInfo != null
+                        //       ? Image.memory(
+                        //           _imageInfo!.data!,
+                        //           width: 180,
+                        //         )
+                        //       : const Text('画像が選択されていません'),
+                        // ),
+                        // Container(
+                        //     child: _imageWidget ?? const Text('画像が選択されていません')),
+                        // const SizedBox(height: 32),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 32),
                           child: Row(
