@@ -1114,3 +1114,19 @@ final ref = FirebaseFirestore.instance
           .catchError(
               (error) => debugPrint("Failed to add Activities: $error"));
 ```
+
+
+# github アクセストークン設定方法
+yoshiakiHiramatsu token  
+```
+$ git remote set-url origin https://<githubのユーザー名>:<トークン>@github.com/リポジトリ.git  
+$ git remote set-url origin https://hiramatsuYoshiaki:ghp_xxxxxxxxxxxxxxxxxxx@github.com/hiramatsuYoshiaki/react-start.git  
+  
+  
+git remote -v   
+origin  https://hiramatsuYoshiaki:ghp_xxxxxxxxxxxxxxxxxxx@github.com/hiramatsuYoshiaki/react-start.git (fetch)  
+origin  https://hiramatsuYoshiaki:ghp_xxxxxxxxxxxxxxxxxxx@github.com/hiramatsuYoshiaki/react-start.git (push)  
+```
+
+github トークンの有効期限確認  
+https://github.com/settings/tokens  
