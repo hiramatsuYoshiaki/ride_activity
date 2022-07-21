@@ -1010,3 +1010,107 @@ class _ImagePickerDemoState extends State<ImagePickerDemo> {
   }
 }
 ```
+# List.forEachでasync, awaitしたいならFuture.forEachを使おう
+https://patorash.hatenablog.com/entry/2017/12/15/024453 
+```
+main() { // 上の関数にasync必要なし！
+  // foosを作る処理は省略
+  Future.forEach(foos, (foo) async { // こちらにasyncをつける。
+    await new Future.delayed(new Duration(seconds: 1));
+    foo.bar();
+  });
+}
+```
+# Firestoreでidのわからないdocumentを取得したいときはどうすればいいのか 
+https://qiita.com/KOBA-RYOTA/items/eaa1c7d78cf6f2375256  
+
+`doc.idで取得できる。`
+```
+final ref = FirebaseFirestore.instance
+          .collection("activities")
+          .orderBy('plan.date', descending: false)
+          .withConverter<Activities>(
+            fromFirestore: Activities.fromFirestore,
+            toFirestore: (Activities selectedActivity, _) =>
+                selectedActivity.toFirestore(),
+          );
+      await ref
+          .get()
+          .then((QuerySnapshot querySnapshot) => {
+                // debugPrint("Activities Geted docSnap: $querySnapshot")
+
+                querySnapshot.docs.forEach((doc) {
+                  print(
+                      "get -++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+");
+                  print(doc.id);
+                  // print(doc["plan.uid"]);
+                  // print(doc["plan.activityTitle"]);
+                  // print(doc["plan.date"]);
+                  // print(doc["plan.distance"]);
+                  // print(doc["plan.done"]);
+                  // print(doc["plan.startPoint"]);
+                  // print(doc["plan.wayPoint"]);
+                  // print(doc["plan.finishPoint"]);
+                  // print(doc["plan.couseURL"]);
+                  // print(doc["plan.prefacture"]);
+                  // print(doc["plan.rideType"]);
+                  // print(doc["actual.rideURL"]);
+                  // print(doc["actual.ridePhotos"]);
+                  // print(doc["menber.rider"]);
+                  // print(doc["shared"]);
+                  // print(doc["tags"]);
+                  // print(doc["createdAt"]);
+                  // print(doc["createdAt"]);
+                  // print(doc["status"]);
+                  // List<QueryDocumentSnapshot<Activities>> selectedActivity1 =
+                  //     querySnapshot.docs.toList();
+                  // List<Activities> selectedActivity1 =
+                  //     querySnapshot.docs.toList();
+
+                  Activities _selectedActivity = Activities(
+                    plan: RiderActivities(
+                      uid: doc["plan.uid"],
+                      activityTitle: doc["plan.activityTitle"],
+                      date: doc["plan.date"].toDate(),
+                      distance: doc["plan.distance"],
+                      done: doc["plan.done"],
+                      startPoint: doc["plan.startPoint"],
+                      wayPoint: doc["plan.wayPoint"],
+                      finishPoint: doc["plan.finishPoint"],
+                      couseURL: doc["plan.couseURL"],
+                      prefacture: List<String>.from(doc['plan.prefacture']),
+                      //FirestoreはList<String>（フラッター）の代わりにList<dynamic>を返します
+                      //型変換を処理する
+                      // imageUrls: List<String>.from(map['imageUrls']),
+                      // (map['imageUrls'] as List)?.map((item) => item as String)?.toList();
+                      //imageUrls: <String>[...map['imageUrls']],
+                      rideType: doc["plan.rideType"],
+                    ),
+                    actual: ActualRide(
+                      rideURL: doc["actual.rideURL"],
+                      ridePhotos: List<String>.from(doc['actual.ridePhotos']),
+                    ),
+                    menber: Menber(
+                      rider: List<String>.from(doc['menber.rider']),
+                    ),
+                    shared: doc["shared"],
+                    tags: List<String>.from(doc['tags']),
+                    createdAt: doc["createdAt"].toDate(),
+                    updateAt: doc["updateAt"].toDate(),
+                    status: doc["status"],
+                  );
+
+                  // print(
+                  //     '_selectedActivity----add: ${doc["plan.activityTitle"]}');
+                  // print(_selectedActivity);
+                  _activities.add(_selectedActivity);
+                  // print(_activities);
+                })
+                // _activities = docSnap;
+                // for (var doc in value.docs) {
+                // debugPrint("firestore get activities ${doc.id} => ${doc.data()}");
+                //   }
+              })
+          .catchError(
+              (error) => debugPrint("Failed to add Activities: $error"));
+```

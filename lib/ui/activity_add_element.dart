@@ -637,6 +637,7 @@ class _ActivityAddElementState extends State<ActivityAddElement> {
                               createdAt: DateTime.now(),
                               updateAt: DateTime.now(),
                               status: 'active',
+                              id: '',
                             ));
                             // widget.registerAccount(
                             //   _emailController.text,

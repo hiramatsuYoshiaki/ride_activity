@@ -136,6 +136,7 @@ class _ActivityAddState extends State<ActivityAdd> {
                         createdAt: DateTime.now(),
                         updateAt: DateTime.now(),
                         status: 'active',
+                        id: '',
                       ));
                     },
                   ),

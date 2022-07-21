@@ -30,7 +30,9 @@ class ActivityDone extends StatefulWidget {
   final void Function(ActivityState status) setActivityState;
   final Activities selectedActivity;
   final void Function(String rideLinkURL, DateTime rideDate,
-      List<Image> ridePhotos, bool rideDone) setActual;
+      List<MediaInfo> ridePhotos, bool rideDone, String id) setActual;
+  // final void Function(String rideLinkURL, DateTime rideDate,
+  //     List<Image> ridePhotos, bool rideDone) setActual;
   // final void Function(String rideLinkURL, DateTime rideDate,
   //     List<Uint8List> ridePhotos, bool rideDone) setActual;
   //
@@ -185,28 +187,28 @@ class _ActivityDoneState extends State<ActivityDone> {
       if (images != null) _pickedImages.addAll(images);
     });
   }
-
-  Future<void> _uploadImage() async {
-    // print('uploadImage');
-    if (_imageInfo == null) return;
-    final firebaseStorageLocation =
-        FirebaseStorage.instance.ref().child('images');
-    final imageInfo = _imageInfo as MediaInfo;
-    _imageInfo as MediaInfo;
-    final firebasefileLocation = firebaseStorageLocation
-        .child('${DateTime.now()}_${imageInfo.fileName!}');
-    await firebasefileLocation.putData(
-        imageInfo.data!,
-        SettableMetadata(
-          contentType: "image/jpeg",
-          customMetadata: {
-            "location": "Yosemite, CA, USA",
-            "activity": "Hiking",
-          },
-        ));
-    final urlToUseLater = await firebasefileLocation.getDownloadURL();
-    print('urlToUseLater $urlToUseLater');
-  }
+  // firebase strage upload putData---------------------------------------
+  // Future<void> _uploadImage() async {
+  //   // print('uploadImage');
+  //   if (_imageInfo == null) return;
+  //   final firebaseStorageLocation =
+  //       FirebaseStorage.instance.ref().child('images');
+  //   final imageInfo = _imageInfo as MediaInfo;
+  //   _imageInfo as MediaInfo;
+  //   final firebasefileLocation = firebaseStorageLocation
+  //       .child('${DateTime.now()}_${imageInfo.fileName!}');
+  //   await firebasefileLocation.putData(
+  //       imageInfo.data!,
+  //       SettableMetadata(
+  //         contentType: "image/jpeg",
+  //         customMetadata: {
+  //           "location": "Yosemite, CA, USA",
+  //           "activity": "Hiking",
+  //         },
+  //       ));
+  //   final urlToUseLater = await firebasefileLocation.getDownloadURL();
+  //   print('urlToUseLater $urlToUseLater');
+  // }
 
   // Future<void> _getMultipleImageInfos() async {
   //   print('getMultipleImageInfos');
@@ -486,26 +488,6 @@ class _ActivityDoneState extends State<ActivityDone> {
                             child: Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
-                                  ElevatedButton(
-                                      onPressed: _pickImage,
-                                      child: Text('画像を選択')),
-                                  const SizedBox(width: 16),
-                                  ElevatedButton(
-                                      onPressed: _imageInfo == null
-                                          ? null
-                                          : _uploadImage,
-                                      // onPressed: () {},
-                                      child: Text('画像を追加')),
-                                  const SizedBox(width: 16),
-                                  // ElevatedButton(
-                                  //   onPressed:
-                                  //       //() {},
-                                  //       _getMultipleImageInfos,
-                                  //   child: const Text(
-                                  //       'Select Multi Images with Infos'),
-                                  // ),
-
-                                  const SizedBox(width: 16),
                                   //ImagePickerWeb.getMultiImagesAsWidget useing
                                   // ElevatedButton(
                                   //   onPressed:
@@ -514,6 +496,27 @@ class _ActivityDoneState extends State<ActivityDone> {
                                   //   child: const Text('Select Multi Images'),
                                   // ),
                                   // const SizedBox(width: 16),
+                                  ElevatedButton(
+                                      onPressed: _pickImage,
+                                      child: Text('画像を選択')),
+                                  const SizedBox(width: 16),
+                                  // ElevatedButton(
+                                  //     onPressed: _imageInfo == null
+                                  //         ? null
+                                  //         : _uploadImage,
+                                  //     // onPressed: () {},
+                                  //     child: Text('画像を追加')),
+                                  // const SizedBox(width: 16),
+
+                                  // const SizedBox(width: 16),
+                                  // ElevatedButton(
+                                  //   onPressed:
+                                  //       //() {},
+                                  //       _getMultipleImageInfos,
+                                  //   child: const Text(
+                                  //       'Select Multi Images with Infos'),
+                                  // ),
+                                  const SizedBox(width: 16),
                                 ])),
                         const SizedBox(height: 32),
                         // Container(
@@ -574,12 +577,26 @@ class _ActivityDoneState extends State<ActivityDone> {
                                           _date.day,
                                           _time.hour,
                                           _time.minute);
-                                      print('_pickedImages');
                                       // print('_pickedImages');
-                                      print(_pickedImages);
+                                      // print('_pickedImages');
+                                      // print(_pickedImages);
                                       // print('_pickedbytes: $_pickedbytes');
-                                      widget.setActual(rideLinkURL[1], rideDate,
-                                          _pickedImages, true);
+                                      print(
+                                          'done id------------------------------------------');
+                                      print(
+                                          'widget.selectedActivity: ${widget.selectedActivity.id}');
+                                      print(
+                                          'setActual step1 async await--------');
+                                      widget.setActual(
+                                          rideLinkURL[1],
+                                          rideDate,
+                                          _pickedImagesInfo,
+                                          true,
+                                          widget.selectedActivity.id);
+                                      print(
+                                          'setActual step3 async await--------');
+                                      // widget.setActual(rideLinkURL[1], rideDate,
+                                      //     _pickedImages, true);
                                       // widget.setActual(rideLinkURL[1], rideDate,
                                       //     _pickedbytes, true);
                                     }

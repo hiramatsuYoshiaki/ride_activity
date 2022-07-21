@@ -11,6 +11,7 @@ class Activities {
   final DateTime createdAt;
   final DateTime updateAt;
   final String status; //  push,  visible,  active,  inactive,  invisible,  pop,
+  final String id;
   Activities({
     required this.plan,
     required this.actual,
@@ -20,6 +21,7 @@ class Activities {
     required this.createdAt,
     required this.updateAt,
     required this.status,
+    required this.id,
   });
   factory Activities.fromFirestore(
     DocumentSnapshot<Map<String, dynamic>> snapshot,
@@ -69,6 +71,7 @@ class Activities {
       createdAt: data?['createdAt'],
       updateAt: data?['updateAt'],
       status: data?['status'],
+      id: data?['id'],
     );
   }
 
@@ -102,6 +105,7 @@ class Activities {
       'createdAt': createdAt,
       'updateAt': updateAt,
       'status': status,
+      'id': id,
     };
   }
 }
