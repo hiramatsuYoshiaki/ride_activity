@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:ride_activity/model/rider_activity.dart';
 import 'package:webviewx/webviewx.dart';
@@ -257,14 +258,18 @@ class _ActivityDetailState extends State<ActivityDetail> {
           runSpacing: 8,
           spacing: 8,
           children: widget.selectedActivity.actual.ridePhotos
-              .map(
-                (photoUrl) => CircleAvatar(
-                  backgroundImage: NetworkImage("assets/images/$photoUrl"),
-                  minRadius: 50,
-                  maxRadius: 50,
-                ),
-              )
+              .map((photoUrl) =>
+                  Image(image: CachedNetworkImageProvider(photoUrl.toString())))
               .toList(),
+          // children: widget.selectedActivity.actual.ridePhotos
+          //     .map(
+          //       (photoUrl) => CircleAvatar(
+          //         backgroundImage: NetworkImage("assets/images/$photoUrl"),
+          //         minRadius: 50,
+          //         maxRadius: 50,
+          //       ),
+          //     )
+          //     .toList(),
         ),
         const Padding(padding: EdgeInsets.symmetric(vertical: 8.0)),
         Container(

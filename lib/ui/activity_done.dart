@@ -62,14 +62,14 @@ class _ActivityDoneState extends State<ActivityDone> {
   // final _elevationController = TextEditingController();
   final _rideURLController = TextEditingController();
   // final _ridePhotosController = TextEditingController();
-  List<String> _ridePhotos = [
-    'img8360.jpg',
-    'img8372.jpg',
-    'img8414.jpg',
-    'img8426.jpg',
-    'img8438.jpg',
-    'img8447.jpg',
-  ];
+  // List<String> _ridePhotos = [
+  //   'img8360.jpg',
+  //   'img8372.jpg',
+  //   'img8414.jpg',
+  //   'img8426.jpg',
+  //   'img8438.jpg',
+  //   'img8447.jpg',
+  // ];
   @override
   void dispose() {
     webviewController.dispose();
@@ -263,8 +263,8 @@ class _ActivityDoneState extends State<ActivityDone> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 32),
+                        const Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 32),
                           child: Text('実走データ'),
                         ),
                         Padding(
@@ -294,8 +294,8 @@ class _ActivityDoneState extends State<ActivityDone> {
                               },
                             )),
                         const SizedBox(height: 16),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 32),
+                        const Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 32),
                           child: Text('実走スタート時間'),
                         ),
                         Padding(
@@ -581,24 +581,16 @@ class _ActivityDoneState extends State<ActivityDone> {
                                       // print('_pickedImages');
                                       // print(_pickedImages);
                                       // print('_pickedbytes: $_pickedbytes');
-                                      print(
-                                          'done id------------------------------------------');
-                                      print(
-                                          'widget.selectedActivity: ${widget.selectedActivity.id}');
-                                      print(
-                                          'setActual step1 async await--------');
+
+                                      // print(
+                                      //     'widget.selectedActivity: ${widget.selectedActivity.id}');
+
                                       widget.setActual(
                                           rideLinkURL[1],
                                           rideDate,
                                           _pickedImagesInfo,
                                           true,
                                           widget.selectedActivity.id);
-                                      print(
-                                          'setActual step3 async await--------');
-                                      // widget.setActual(rideLinkURL[1], rideDate,
-                                      //     _pickedImages, true);
-                                      // widget.setActual(rideLinkURL[1], rideDate,
-                                      //     _pickedbytes, true);
                                     }
                                   },
                                   child: const Text('実走済み')),

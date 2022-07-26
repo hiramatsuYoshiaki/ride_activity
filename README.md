@@ -1116,6 +1116,58 @@ final ref = FirebaseFirestore.instance
 ```
 
 
+
+
+
+
+
+# Webレンダラー
+https://docs.flutter.dev/development/platform-integration/web/renderers 
+Web用のアプリを実行および構築する場合、2つの異なるレンダラーから選択できます。このページでは、両方のレンダラーと、ニーズに最適なレンダラーを選択する方法について説明します。2つのレンダラーは次のとおりです。
+
+HTMLレンダラー
+HTML要素、CSS、Canvas要素、およびSVG要素の組み合わせを使用します。このレンダラーのダウンロードサイズは小さくなっています。
+CanvasKitレンダラー
+このレンダラーは、Flutterモバイルおよびデスクトップと完全に整合性があり、ウィジェット密度が高く、パフォーマンスが高速ですが、ダウンロードサイズが約2MB追加されます。  
+
+1. デフォルトのレンダラーオプション（auto）を使用してChromeで実行します。
+`flutter run -d chrome`
+2. デフォルトの（自動）オプションを使用して、リリースモードでアプリをビルドします。
+`flutter build web --release`
+3. CanvasKitレンダラーのみを使用して、リリースモードでアプリをビルドします。
+`flutter build web --web-renderer canvaskit --release`
+4. HTMLレンダラーを使用して、プロファイルモードでアプリを実行します。 
+`flutter run -d chrome --web-renderer html --profile`
+
+# HTMLレンダラーを指定する 
+`flutter run -d chrome --web-renderer html`
+`flutter build web --release --web-renderer html`
+
+1. FlutterWebは別のドメインからネットワークイメージを読み込めません
+https://stackoverflow.com/questions/65653801/flutter-web-cant-load-network-image-from-another-domain  
+
+2. CanvasKitのレンダリング方法だと、読み込み時に日本語が豆腐（□）になることを回避。
+
+# 他のドメインまたはFirebaseStorageの画像をFlutterWebページに表示できるようにするには、CORS用にデータを構成する必要があります。
+https://stackoverflow.com/questions/65653801/flutter-web-cant-load-network-image-from-another-domain 
+  
+# FlutterでFirebase Storageから画像を落として表示するまで 
+https://qiita.com/sh-tatsuno/items/6ea1ce0b7e8e4fb36bca  
+
+```
+Wrap(
+      alignment: WrapAlignment.center,
+      runSpacing: 8,
+      spacing: 8,
+      children: selectedActivity.actual.ridePhotos
+          .map((photoUrl) => Image(
+              image: CachedNetworkImageProvider(photoUrl.toString())))
+          .toList(), 
+    ),
+```
+  
+  
+  
 # github アクセストークン設定方法
 yoshiakiHiramatsu token  
 ```
@@ -1130,3 +1182,4 @@ origin  https://hiramatsuYoshiaki:ghp_xxxxxxxxxxxxxxxxxxx@github.com/hiramatsuYo
 
 github トークンの有効期限確認  
 https://github.com/settings/tokens  
+

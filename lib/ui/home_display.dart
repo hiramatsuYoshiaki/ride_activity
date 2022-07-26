@@ -17,7 +17,7 @@ class HomeDisplay extends StatelessWidget {
               // Text(appState.activities[index].plan.activityTitle),
               ActivityList(
                   selectedActivity: appState.activities[index],
-                  setHomeSelectedActivity: appState.setHomeSelectedActivity),
+                  setSelectedActivity: appState.setHomeSelectedActivity),
             ]);
           });
     });

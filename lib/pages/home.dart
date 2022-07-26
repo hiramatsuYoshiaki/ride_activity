@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:ride_activity/model/status.dart';
+// import 'package:ride_activity/model/status.dart';
 import 'package:ride_activity/switch/home_switch.dart';
 import 'package:ride_activity/ui/app_bar_bottom.dart';
-import 'package:ride_activity/ui/home_display.dart';
+// import 'package:ride_activity/ui/home_display.dart';
 import '../ui/app_bar_auth.dart';
-import '../ui/home_display.dart';
+// import '../ui/home_display.dart';
 import '../ui/app_bar_bottom.dart';
 import '../application_state.dart';
 
@@ -30,7 +30,6 @@ class HomePage extends StatelessWidget {
                 builder: (BuildContext context, appState, _) => HomeSwitch(
                   homeState: appState.homeState,
                   setHomeState: appState.setHomeState,
-                  // setHomeSelectedActivity: appState.setHomeSelectedActivity,
                 ),
               ))
             ]),

@@ -41,7 +41,9 @@ class ActivitySwitch extends StatelessWidget {
   final RiderInfo riderInfo;
   // final void Function(RiderActivities activities) addRiderActivity;
   final void Function(Activities selectedActivity) addActivity;
-  final void Function(Activities activity, ActivityState status, int index)
+  // final void Function(Activities activity, ActivityState status, int index)
+  //     setSelectedActivity;
+  final void Function(Activities activity, ActivityState status)
       setSelectedActivity;
   final Activities selectedActivity;
   final void Function(String rideLinkURL, DateTime rideDate,

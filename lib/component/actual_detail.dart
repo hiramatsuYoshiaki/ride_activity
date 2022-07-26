@@ -1,14 +1,22 @@
+import 'dart:typed_data';
+
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:ride_activity/model/rider_activity.dart';
 import 'package:intl/intl.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class ActualDetail extends StatelessWidget {
   const ActualDetail({Key? key, required this.selectedActivity})
       : super(key: key);
   final Activities selectedActivity;
+
   @override
   Widget build(BuildContext context) {
     // return Container(child: Text('Actual detail'));
+    print('ActualDetail-----');
+    print(selectedActivity.actual.ridePhotos);
+
     return Container(
       alignment: Alignment.topLeft,
       child: Column(
@@ -37,19 +45,27 @@ class ActualDetail extends StatelessWidget {
           const Padding(padding: EdgeInsets.symmetric(vertical: 2.0)),
           Text(selectedActivity.plan.rideType),
           const Padding(padding: EdgeInsets.symmetric(vertical: 8.0)),
+          // _ridePhotos(selectedActivity.actual.ridePhotos),
           Wrap(
             alignment: WrapAlignment.center,
             runSpacing: 8,
             spacing: 8,
+
             children: selectedActivity.actual.ridePhotos
-                .map(
-                  (photoUrl) => CircleAvatar(
-                    backgroundImage: NetworkImage("assets/images/$photoUrl"),
-                    minRadius: 50,
-                    maxRadius: 50,
-                  ),
-                )
+                .map((photoUrl) => Image(
+                    image: CachedNetworkImageProvider(photoUrl.toString())))
                 .toList(),
+
+            // children: selectedActivity.actual.ridePhotos
+            //     .map(
+            //       (photoUrl) =>
+            //       CircleAvatar(
+            //         backgroundImage: NetworkImage("assets/images/$photoUrl"),
+            //         minRadius: 50,
+            //         maxRadius: 50,
+            //       ),
+            //     )
+            //     .toList(),
           ),
           const Padding(padding: EdgeInsets.symmetric(vertical: 8.0)),
           Container(
@@ -82,4 +98,35 @@ class ActualDetail extends StatelessWidget {
       ),
     );
   }
+}
+
+Future<void> _downloadPhotos(List<String> ridePhotoUrls) async {
+  print('downloadPhotos1');
+  await Future.delayed(Duration(seconds: 5));
+  List<Image> images = <Image>[];
+
+  await Future.forEach(ridePhotoUrls, (String ridePhotoUrl) async {
+    final httpsReference = FirebaseStorage.instance.refFromURL(ridePhotoUrl
+        // "https://firebasestorage.googleapis.com/b/YOUR_BUCKET/o/images%20stars.jpg"
+        );
+    try {
+      const oneMegabyte = 1024 * 1024;
+      final Uint8List? data = await httpsReference.getData(oneMegabyte);
+      // Data for "images/island.jpg" is returned, use this as needed.
+    } on FirebaseException catch (e) {
+      debugPrint('firebase store download Error: $e');
+    }
+
+    // final downloadURL = await uploadImage(imageInfo);
+    // url.add(downloadURL);
+    // await Future.delayed(Duration(seconds: 5));
+    // print('strageUpload2 +++ imageInfo.fileName:${imageInfo.fileName!}');
+  });
+}
+
+Widget _ridePhotos(List<String> ridePhotoUrls) {
+  print('ridePhotos');
+  _downloadPhotos(ridePhotoUrls);
+
+  return Container(child: Text('ridePhotos'));
 }

@@ -245,102 +245,59 @@ class ApplicationState extends ChangeNotifier {
       //     ),
       //   ];
       // print(_activities);
-      // getActivities();
-      // _activities = [];
-      _activities.clear();
-      final ref = FirebaseFirestore.instance
-          .collection("activities")
-          .orderBy('plan.date', descending: false)
-          .withConverter<Activities>(
-            fromFirestore: Activities.fromFirestore,
-            toFirestore: (Activities selectedActivity, _) =>
-                selectedActivity.toFirestore(),
-          );
-      await ref
-          .get()
-          .then((QuerySnapshot querySnapshot) => {
-                // debugPrint("Activities Geted docSnap: $querySnapshot")
+      getActivities();
+      //   _activities.clear();
+      //   final ref = FirebaseFirestore.instance
+      //       .collection("activities")
+      //       .orderBy('plan.date', descending: false)
+      //       .withConverter<Activities>(
+      //         fromFirestore: Activities.fromFirestore,
+      //         toFirestore: (Activities selectedActivity, _) =>
+      //             selectedActivity.toFirestore(),
+      //       );
+      //   await ref
+      //       .get()
+      //       .then((QuerySnapshot querySnapshot) => {
+      //             querySnapshot.docs.forEach((doc) {
+      //               print(
+      //                   "get -++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+");
+      //               print(doc.id);
+      //               print(doc["plan.uid"]);
+      //               Activities _selectedActivity = Activities(
+      //                 plan: RiderActivities(
+      //                   uid: doc["plan.uid"],
+      //                   activityTitle: doc["plan.activityTitle"],
+      //                   date: doc["plan.date"].toDate(),
+      //                   distance: doc["plan.distance"],
+      //                   done: doc["plan.done"],
+      //                   startPoint: doc["plan.startPoint"],
+      //                   wayPoint: doc["plan.wayPoint"],
+      //                   finishPoint: doc["plan.finishPoint"],
+      //                   couseURL: doc["plan.couseURL"],
+      //                   prefacture: List<String>.from(doc['plan.prefacture']),
+      //                   rideType: doc["plan.rideType"],
+      //                 ),
+      //                 actual: ActualRide(
+      //                   rideURL: doc["actual.rideURL"],
+      //                   ridePhotos: List<String>.from(doc['actual.ridePhotos']),
+      //                 ),
+      //                 menber: Menber(
+      //                   rider: List<String>.from(doc['menber.rider']),
+      //                 ),
+      //                 shared: doc["shared"],
+      //                 tags: List<String>.from(doc['tags']),
+      //                 createdAt: doc["createdAt"].toDate(),
+      //                 updateAt: doc["updateAt"].toDate(),
+      //                 status: doc["status"],
+      //                 id: doc.id,
+      //               );
 
-                querySnapshot.docs.forEach((doc) {
-                  print(
-                      "get -++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+");
-                  print(doc.id);
-                  // print(
-                  //     "-get ++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+");
-                  // print(doc["plan.uid"]);
-                  // print(doc["plan.activityTitle"]);
-                  // print(doc["plan.date"]);
-                  // print(doc["plan.distance"]);
-                  // print(doc["plan.done"]);
-                  // print(doc["plan.startPoint"]);
-                  // print(doc["plan.wayPoint"]);
-                  // print(doc["plan.finishPoint"]);
-                  // print(doc["plan.couseURL"]);
-                  // print(doc["plan.prefacture"]);
-                  // print(doc["plan.rideType"]);
-
-                  // print(doc["actual.rideURL"]);
-                  // print(doc["actual.ridePhotos"]);
-                  // print(doc["menber.rider"]);
-                  // print(doc["shared"]);
-                  // print(doc["tags"]);
-                  // print(doc["createdAt"]);
-                  // print(doc["createdAt"]);
-                  // print(doc["status"]);
-                  // List<QueryDocumentSnapshot<Activities>> selectedActivity1 =
-                  //     querySnapshot.docs.toList();
-                  // List<Activities> selectedActivity1 =
-                  //     querySnapshot.docs.toList();
-
-                  Activities _selectedActivity = Activities(
-                    plan: RiderActivities(
-                      uid: doc["plan.uid"],
-                      activityTitle: doc["plan.activityTitle"],
-                      date: doc["plan.date"].toDate(),
-                      distance: doc["plan.distance"],
-                      done: doc["plan.done"],
-                      startPoint: doc["plan.startPoint"],
-                      wayPoint: doc["plan.wayPoint"],
-                      finishPoint: doc["plan.finishPoint"],
-                      couseURL: doc["plan.couseURL"],
-                      prefacture: List<String>.from(doc['plan.prefacture']),
-                      //FirestoreはList<String>（フラッター）の代わりにList<dynamic>を返します
-                      //型変換を処理する
-                      // imageUrls: List<String>.from(map['imageUrls']),
-                      // (map['imageUrls'] as List)?.map((item) => item as String)?.toList();
-                      //imageUrls: <String>[...map['imageUrls']],
-                      rideType: doc["plan.rideType"],
-                    ),
-                    actual: ActualRide(
-                      rideURL: doc["actual.rideURL"],
-                      ridePhotos: List<String>.from(doc['actual.ridePhotos']),
-                    ),
-                    menber: Menber(
-                      rider: List<String>.from(doc['menber.rider']),
-                    ),
-                    shared: doc["shared"],
-                    tags: List<String>.from(doc['tags']),
-                    createdAt: doc["createdAt"].toDate(),
-                    updateAt: doc["updateAt"].toDate(),
-                    status: doc["status"],
-                    id: doc.id,
-                  );
-
-                  // print(
-                  //     '_selectedActivity----add: ${doc["plan.activityTitle"]}');
-                  // print(_selectedActivity);
-                  _activities.add(_selectedActivity);
-                  // print(_activities);
-                })
-                // _activities = docSnap;
-                // for (var doc in value.docs) {
-                // debugPrint("firestore get activities ${doc.id} => ${doc.data()}");
-                //   }
-              })
-          .catchError(
-              (error) => debugPrint("Failed to add Activities: $error"));
-      // print(_activities);
-      notifyListeners();
+      //               _activities.add(_selectedActivity);
+      //             })
+      //           })
+      //       .catchError(
+      //           (error) => debugPrint("Failed to add Activities: $error"));
+      //   notifyListeners();
     });
 
     // FirebaseFirestore.instance.collection('activities')
@@ -753,69 +710,48 @@ class ApplicationState extends ChangeNotifier {
     //   }
     // }).catchError((error) => debugPrint("Failed to get Activities: $error"));
     //カスタム オブジェクト
+    _activities.clear();
     final ref = FirebaseFirestore.instance
         .collection("activities")
+        .orderBy('plan.date', descending: false)
         .withConverter<Activities>(
           fromFirestore: Activities.fromFirestore,
           toFirestore: (Activities selectedActivity, _) =>
               selectedActivity.toFirestore(),
         );
-    // final docSnap = await ref.get();
-    // final docSnap = await ref.get();
-    // final List<Activities> data =
-    //     docSnap.docs.cast<Activities>().toList(); // Convert to City object
-    // if (data != null) {
-    //   print(data);
-    // } else {
-    //   print("No such document.");
-    // }
-    // List<Activities> data;
     await ref
         .get()
-        .then((querySnapshot) => {
-              // debugPrint("Activities Geted docSnap: $querySnapshot")
-
+        .then((QuerySnapshot querySnapshot) => {
               querySnapshot.docs.forEach((doc) {
+                debugPrint(
+                    "get -++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+");
+                debugPrint('dic:id:${doc.id}');
+                // print(
+                //     "-get ++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+");
+                // print(doc["plan.uid"]);
                 // print(doc["plan.activityTitle"]);
-                // print(doc["plan"]);
+                // print(doc["plan.date"]);
+                // print(doc["plan.distance"]);
+                // print(doc["plan.done"]);
+                // print(doc["plan.startPoint"]);
+                // print(doc["plan.wayPoint"]);
+                // print(doc["plan.finishPoint"]);
+                // print(doc["plan.couseURL"]);
+                // print(doc["plan.prefacture"]);
+                // print(doc["plan.rideType"]);
 
+                // print(doc["actual.rideURL"]);
+                // print(doc["actual.ridePhotos"]);
+                // print(doc["menber.rider"]);
+                // print(doc["shared"]);
+                // print(doc["tags"]);
+                // print(doc["createdAt"]);
+                // print(doc["createdAt"]);
+                // print(doc["status"]);
                 // List<QueryDocumentSnapshot<Activities>> selectedActivity1 =
                 //     querySnapshot.docs.toList();
                 // List<Activities> selectedActivity1 =
                 //     querySnapshot.docs.toList();
-                // print(selectedActivity1[0]);
-                // print(selectedActivity1);
-                // const _selectedActivity = doc.data();
-
-                // print(doc as Activities);
-                print(
-                    "get doc all-++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+");
-                print(
-                    "-++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+");
-                print('id: doc["doc.id"]');
-                print(
-                    "-++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+");
-                print(doc["plan.uid"]);
-                print(doc["plan.activityTitle"]);
-                print(doc["plan.date"]);
-                print(doc["plan.distance"]);
-                print(doc["plan.done"]);
-                print(doc["plan.startPoint"]);
-                print(doc["plan.wayPoint"]);
-                print(doc["plan.finishPoint"]);
-                print(doc["plan.couseURL"]);
-                print(doc["plan.prefacture"]);
-                print(doc["plan.rideType"]);
-
-                print(doc["actual.rideURL"]);
-                print(doc["actual.ridePhotos"]);
-                print(doc["menber.rider"]);
-                print(doc["shared"]);
-                print(doc["tags"]);
-                print(doc["createdAt"]);
-                print(doc["createdAt"]);
-                print(doc["status"]);
-                print(doc.id);
 
                 Activities _selectedActivity = Activities(
                   plan: RiderActivities(
@@ -828,46 +764,33 @@ class ApplicationState extends ChangeNotifier {
                     wayPoint: doc["plan.wayPoint"],
                     finishPoint: doc["plan.finishPoint"],
                     couseURL: doc["plan.couseURL"],
-                    // prefacture: doc["plan.prefacture"] as List<String>,
-                    prefacture: ['a', 'b'],
+                    prefacture: List<String>.from(doc['plan.prefacture']),
+                    //FirestoreはList<String>（フラッター）の代わりにList<dynamic>を返します
+                    //型変換を処理する
+                    // imageUrls: List<String>.from(map['imageUrls']),
+                    // (map['imageUrls'] as List)?.map((item) => item as String)?.toList();
+                    //imageUrls: <String>[...map['imageUrls']],
                     rideType: doc["plan.rideType"],
                   ),
                   actual: ActualRide(
                     rideURL: doc["actual.rideURL"],
-                    // ridePhotos: doc["actual.ridePhotos"] as List<String>,
-                    ridePhotos: ['a', 'b'],
+                    ridePhotos: List<String>.from(doc['actual.ridePhotos']),
                   ),
-                  // menber: Menber(rider: doc["menber.rider"] as List<String>),
                   menber: Menber(
-                    rider: ['a', 'b'],
+                    rider: List<String>.from(doc['menber.rider']),
                   ),
                   shared: doc["shared"],
-                  // tags: doc["tags"] as List<String>,
-                  tags: ['a', 'b'],
+                  tags: List<String>.from(doc['tags']),
                   createdAt: doc["createdAt"].toDate(),
-                  updateAt: doc["createdAt"].toDate(),
+                  updateAt: doc["updateAt"].toDate(),
                   status: doc["status"],
                   id: doc.id,
                 );
-
-                print('_selectedActivity----add: ${doc["plan.activityTitle"]}');
-                print(_selectedActivity);
                 _activities.add(_selectedActivity);
-                print(_activities);
               })
-              // _activities = docSnap;
-              // for (var doc in value.docs) {
-              // debugPrint("firestore get activities ${doc.id} => ${doc.data()}");
-              //   }
             })
         .catchError((error) => debugPrint("Failed to add Activities: $error"));
-
-    // final activity = docSnap.data(); // Convert to Activites object
-    // if (activity != null) {
-    //   print(activity);
-    // } else {
-    //   print("No such document.");
-    // }
+    notifyListeners();
   }
 
   //firestore add withconverter -----------------------------------------------
@@ -978,35 +901,7 @@ class ApplicationState extends ChangeNotifier {
     print('addActivity-----------------------------');
     //firestore add-------------------------------------------------
     addActivityFiresore(selectedActivity);
-
-    // _activities.add(selectedActivity);
-    // _selectedActivity = Activities(
-    //   plan: RiderActivities(
-    //     uid: '',
-    //     activityTitle: 'Activity Title',
-    //     // date: DateTime.utc(2022, 03, 03, 12, 30, 00),
-    //     date: DateTime.parse('2022-01-01 01:00:00'), //iso
-    //     distance: 0,
-    //     done: false,
-    //     startPoint: 'Start point',
-    //     wayPoint: 'Way point',
-    //     finishPoint: 'Finish Point',
-    //     couseURL: 'https://connect.garmin.com/modern/course/embed/105823680',
-    //     prefacture: ['岡山'],
-    //     rideType: 'event',
-    //   ),
-    //   actual: ActualRide(
-    //     rideURL: '',
-    //     ridePhotos: [],
-    //   ),
-    //   menber: Menber(rider: []),
-    //   shared: true,
-    //   tags: ['トレーニング'],
-    //   createdAt: DateTime.now(),
-    //   updateAt: DateTime.now(),
-    //   status: 'active',
-    // );
-
+    _activities.add(selectedActivity);
     _activityState = ActivityState.display;
     notifyListeners();
   }
@@ -1017,13 +912,19 @@ class ApplicationState extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setSelectedActivity(
-      Activities activity, ActivityState status, int index) {
+  void setSelectedActivity(Activities activity, ActivityState status) {
     _selectedActivity = activity;
-    _selectedIndex = index;
     _activityState = status;
     notifyListeners();
   }
+
+  // void setSelectedActivity(
+  //     Activities activity, ActivityState status, int index) {
+  //   _selectedActivity = activity;
+  //   _selectedIndex = index;
+  //   _activityState = status;
+  //   notifyListeners();
+  // }
 
 // Activities _selectedActivity = Activities(
 //       plan: RiderActivities(
@@ -1091,7 +992,7 @@ class ApplicationState extends ChangeNotifier {
           ));
       final downloadURL = await firebasefileLocation.getDownloadURL();
       // print('urlToUseLater.runtimeType: ${urlToUseLater.runtimeType}');
-      print('downloadURL: $downloadURL');
+      // print('downloadURL: $downloadURL');
       // downloadUrls.add(urlToUseLater);
       // print('downloadUrls1: $downloadUrls');
       return downloadURL;
@@ -1108,12 +1009,12 @@ class ApplicationState extends ChangeNotifier {
   Future<void> storeUpdate(
       String RideLinkURL,
       DateTime rideDate,
-      List<MediaInfo> pickedImagesInfo,
+      // List<MediaInfo> pickedImagesInfo,
       bool rideDone,
       String id,
       List<String> url) async {
-    print('storeUpdate #########');
-    print(id);
+    // print('storeUpdate #########');
+    // print(id);
     try {
       await FirebaseFirestore.instance.collection("activities").doc(id)
           // .withConverter(
@@ -1121,8 +1022,15 @@ class ApplicationState extends ChangeNotifier {
           //   toFirestore: (Activities docData, options) => docData.toFirestore(),
           // )
           // .update({"plan.done": true,"actual.rideURL":RideLinkURL});
-          .update({"plan.done": true});
-      print('update ok');
+          .update({
+        "plan.done": rideDone,
+        "plan.date": rideDate,
+        "actual.rideURL": RideLinkURL,
+        // "actual.rideURL": 'https://aaa',
+        "actual.ridePhotos": url,
+        "updateAt": DateTime.now(),
+      });
+      // print('update ok');
     } on FirebaseException catch (e) {
       debugPrint('firebase store upload Error: $e');
     }
@@ -1141,24 +1049,26 @@ class ApplicationState extends ChangeNotifier {
   // setActual <MediaInfo>[] ---------------------------------------------
   Future<void> setActual(String RideLinkURL, DateTime rideDate,
       List<MediaInfo> pickedImagesInfo, bool rideDone, String id) async {
-    print('setActual id:$id');
-    print('setActual 2-1 async await--------');
-    print('strageUpload1 +++');
+    // print('setActual id:$id');
+    // print('setActual 2-1 async await--------');
+    // print('strageUpload1 +++');
 
+    //Frebase strageにアップロード
     List<String> url = <String>[];
     await Future.forEach(pickedImagesInfo, (MediaInfo imageInfo) async {
       final downloadURL = await uploadImage(imageInfo);
       url.add(downloadURL);
       // await Future.delayed(Duration(seconds: 5));
-      print('strageUpload2 +++ imageInfo.fileName:${imageInfo.fileName!}');
+      // print('strageUpload2 +++ imageInfo.fileName:${imageInfo.fileName!}');
     });
-    print('strageUpload3 +++');
+    // print('strageUpload3 +++');
     // url = await strageUpload(pickedImagesInfo);
-    print('setActual 2-2 async await--------');
-    print('setActual 2-3 url: $url');
-    await storeUpdate(
-        RideLinkURL, rideDate, pickedImagesInfo, rideDone, id, url);
-    print('setActual 2-4 async await--------');
+    // print('setActual 2-2 async await--------');
+    // print('setActual 2-3 url: $url');
+
+    //Frebase storeを更新
+    await storeUpdate(RideLinkURL, rideDate, rideDone, id, url);
+    // print('setActual 2-4 async await--------');
     // downloadUrls = <String>[];
     // print('strageUpload');
     // pickedImagesInfo.forEach((imageInfo) async {
@@ -1189,6 +1099,42 @@ class ApplicationState extends ChangeNotifier {
     //       ));
     //   final urlToUseLater = await firebasefileLocation.getDownloadURL();
     //   print('urlToUseLater $urlToUseLater');
+
+    // Activities _selectedActivity = Activities(
+    //   plan: RiderActivities(
+    //     uid: '',
+    //     activityTitle: '',
+    //     date: DateTime.now(),
+    //     distance: 0,
+    //     done: false,
+    //     startPoint: '',
+    //     wayPoint: '',
+    //     finishPoint: '',
+    //     couseURL: '',
+    //     prefacture: [],
+    //     rideType: '',
+    //   ),
+    //   actual: ActualRide(
+    //     rideURL: '',
+    //     ridePhotos: [],
+    //   ),
+    //   menber: Menber(rider: []),
+    //   shared: true,
+    //   tags: [],
+    //   createdAt: DateTime.now(),
+    //   updateAt: DateTime.now(),
+    //   status: 'active',
+    //   id: '',
+    // );
+    //------------------------------------------
+    //selected activity 更新する
+    // _selectedActivity.actual.ridePhotos = [];
+    // _selectedActivity.actual.ridePhotos = [];
+    //---------------------------------------------------------------
+    await getActivities();
+    _activityState = ActivityState.display;
+    print('setActual end---------');
+    notifyListeners();
   }
 
   //setActual pickedImage <Image>[]-----------------------------------------

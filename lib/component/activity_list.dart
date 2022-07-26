@@ -7,12 +7,12 @@ import '../model/status.dart';
 class ActivityList extends StatefulWidget {
   const ActivityList(
       {required this.selectedActivity,
-      required this.setHomeSelectedActivity,
+      required this.setSelectedActivity,
       Key? key})
       : super(key: key);
   final Activities selectedActivity;
   final void Function(Activities activity, HomeState status)
-      setHomeSelectedActivity;
+      setSelectedActivity;
 
   @override
   _ActivityListState createState() => _ActivityListState();
@@ -188,7 +188,7 @@ class _ActivityListState extends State<ActivityList> {
                         child: const Text('詳細を見る'),
                         onPressed: () {
                           // print('onPressd button activity list');
-                          widget.setHomeSelectedActivity(
+                          widget.setSelectedActivity(
                               widget.selectedActivity, HomeState.homeDetail);
                         },
                       ),

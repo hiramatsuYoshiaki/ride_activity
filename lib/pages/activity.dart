@@ -34,8 +34,6 @@ class ActivityPage extends StatelessWidget {
                             //rideActivities--->activities
                             // riderActivities: appState.riderActivities,
                             activities: appState.activities,
-
-                            //
                             riderInfo: appState.riderInfo,
                             //addRiderActivity-->addActivity
                             // addRiderActivity: appState.addRiderActivity,

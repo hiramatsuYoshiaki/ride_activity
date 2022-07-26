@@ -10,19 +10,18 @@ class ActivityDisplay extends StatefulWidget {
   const ActivityDisplay({
     Key? key,
     required this.setActivityState,
-    // required this.riderActivities,
     required this.activities,
     required this.riderInfo,
     required this.setSelectedActivity,
   }) : super(key: key);
   final void Function(ActivityState status) setActivityState;
 
-  // final List<RiderActivities> riderActivities;
   final List<Activities> activities;
   final RiderInfo riderInfo;
-  final void Function(Activities activity, ActivityState status, int index)
+  // final void Function(Activities activity, ActivityState status, int index)
+  //     setSelectedActivity;
+  final void Function(Activities activity, ActivityState status)
       setSelectedActivity;
-
   @override
   _ActivityDisplayState createState() => _ActivityDisplayState();
 }
@@ -30,16 +29,6 @@ class ActivityDisplay extends StatefulWidget {
 class _ActivityDisplayState extends State<ActivityDisplay> {
   @override
   Widget build(BuildContext context) {
-    // var list = [
-    //   "メッセージ",
-    //   "メッセージ",
-    //   "メッセージ",
-    //   "メッセージ",
-    //   "メッセージ",
-    // ];
-    // print(widget.riderInfo.photoURL);
-    // print(widget.riderInfo.riderName);
-    // widget.riderInfo.photoURL != '' ? print('nothing') : print('photoURL');
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Container(
           child: Row(
@@ -316,8 +305,10 @@ class _ActivityDisplayState extends State<ActivityDisplay> {
                   : TextButton(
                       child: const Text('実走済にする'),
                       onPressed: () {
+                        // widget.setSelectedActivity(
+                        //     activity, ActivityState.activityDone, index);
                         widget.setSelectedActivity(
-                            activity, ActivityState.activityDone, index);
+                            activity, ActivityState.activityDone);
                         // widget.setActivityState(ActivityState.activityEdit);
                       },
                     ),
@@ -326,8 +317,10 @@ class _ActivityDisplayState extends State<ActivityDisplay> {
               TextButton(
                 child: const Text('見る'),
                 onPressed: () {
+                  // widget.setSelectedActivity(
+                  //     activity, ActivityState.activityDetail, index);
                   widget.setSelectedActivity(
-                      activity, ActivityState.activityDetail, index);
+                      activity, ActivityState.activityDetail);
                   // widget.setActivityState(ActivityState.activityDetail);
                 },
               ),
